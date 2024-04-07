@@ -18,10 +18,6 @@ export const theme = extendTheme({
     radii: {
       md: '4px', 
     },
-    fonts: {
-      body: "Inter",
-      heading: "Inter",
-    },
     space: {
       1: '4px',
       2: '8px', 
