@@ -1,10 +1,13 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const colors = {
-  teal: '#1E757B',
+  teal: {
+    main: "#1E757B",
+    500: "#41aeb5",
+  },
   babyLime: '#F7FFF5', 
   black: "#1F2937",
-  white: "fff",
+  white: "#ffffff",
   gray: { 
     700: '#374151',
     500: '#6B7280',
@@ -17,10 +20,6 @@ const colors = {
 export const theme = extendTheme({
     radii: {
       md: '4px', 
-    },
-    fonts: {
-      body: "Inter",
-      heading: "Inter",
     },
     space: {
       1: '4px',
