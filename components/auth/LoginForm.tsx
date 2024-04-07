@@ -7,7 +7,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import CustomInput from "./Input";
-import CustomButton from "./Button";
+import CustomButton from "../Button";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
