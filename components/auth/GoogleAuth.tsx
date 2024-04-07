@@ -5,7 +5,7 @@ import {
   Flex,
   Button,
   VStack,
-  Image
+  Image,
 } from "@chakra-ui/react";
 
 export function GoogleAuth() {
@@ -26,7 +26,22 @@ export function GoogleAuth() {
             </AbsoluteCenter>
           </Flex>
         </Container>
-        <Button leftIcon={<Image src="https://cdn.iconscout.com/icon/free/png-256/free-google-1772223-1507807.png" boxSize="1rem" />} borderColor="gray.200" variant="outline" w="lg" bg="white" shadow="sm" mt={5}>Google</Button>
+        <Button
+          leftIcon={
+            <Image
+              src="https://cdn.iconscout.com/icon/free/png-256/free-google-1772223-1507807.png"
+              boxSize="1rem"
+            />
+          }
+          borderColor="gray.200"
+          variant="outline"
+          w="lg"
+          bg="white"
+          shadow="sm"
+          mt={5}
+        >
+          Google
+        </Button>
       </VStack>
     </Container>
   );

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -6,27 +6,31 @@ import {
   VStack,
   Container,
   HStack,
-} from '@chakra-ui/react';
-import CustomInput from './Input';
-import CustomButton from './Button';
+} from "@chakra-ui/react";
+import CustomInput from "./Input";
+import CustomButton from "./Button";
 
 export const SignupForm = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  const isFormValid = () => firstName.length > 0 && lastName.length > 0 && email.length > 0 && password.length > 0;
+  const isFormValid = () =>
+    firstName.length > 0 &&
+    lastName.length > 0 &&
+    email.length > 0 &&
+    password.length > 0;
 
   const handleSignup = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (!isFormValid()) {
       toast({
-        title: 'Error',
-        description: 'Please fill in all fields',
-        status: 'error',
+        title: "Error",
+        description: "Please fill in all fields",
+        status: "error",
         duration: 9000,
         isClosable: true,
       });
@@ -36,17 +40,17 @@ export const SignupForm = () => {
     try {
       // await signup({ firstName, lastName, email, password });
       toast({
-        title: 'Success',
-        description: 'Check your email to verify your account',
-        status: 'success',
+        title: "Success",
+        description: "Check your email to verify your account",
+        status: "success",
         duration: 9000,
         isClosable: true,
       });
     } catch (err: any) {
       toast({
-        title: 'Error',
+        title: "Error",
         description: err.message,
-        status: 'error',
+        status: "error",
         duration: 9000,
         isClosable: true,
       });
@@ -58,7 +62,7 @@ export const SignupForm = () => {
   return (
     <Container centerContent w="lg">
       <VStack as="form" w="lg" spacing={4} marginTop={5}>
-        <HStack w="lg" spacing={4} >
+        <HStack w="lg" spacing={4}>
           <FormControl isRequired>
             <FormLabel htmlFor="first_name">First Name</FormLabel>
             <CustomInput
