@@ -11,10 +11,11 @@ import { SignupForm } from "./SignUpForm";
 export const CustomTabItemStyles = {
     _selected: {
         bg:"white",
-        color:"gray.800",
+        color:"black",
         shadow:"sm",
         rounded:"md",
         m: 1,
+        fontWeight: 600,
     },
     width: "50%",
     color:"gray.500"
@@ -23,7 +24,7 @@ export const CustomTabItemStyles = {
 
 export const CustomTab = () => {
   return (
-    <Tabs variant="soft-rounded" alignContent="center">
+    <Tabs alignContent="center">
       <TabList background="gray.200" justifyContent={"center"} rounded={"md"}>
         <Tab {...CustomTabItemStyles}>Sign up</Tab>
         <Tab {...CustomTabItemStyles}>Log in</Tab>
