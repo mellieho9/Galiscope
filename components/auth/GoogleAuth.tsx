@@ -20,6 +20,7 @@ export function GoogleAuth() {
               color="gray.500"
               w="3xs"
               textAlign={"center"}
+              fontSize={"sm"}
             >
               OR CONTINUE WITH
             </AbsoluteCenter>
