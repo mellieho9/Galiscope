@@ -36,7 +36,7 @@ export default function Index() {
     <Center bg="white" h="100vh" w="100vw">
       <VStack spacing="4rem">
         <VStack spacing="1rem">
-          <Heading>Unveiling clarity in research</Heading>
+          <Heading color="black">Unveiling clarity in research</Heading>
           <Link href="/auth" passHref>
           <CustomButton w="10rem" shadow="sm">
             Get started

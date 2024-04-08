@@ -64,7 +64,7 @@ export const SignupForm = () => {
       <VStack as="form" w="lg" spacing={4} marginTop={5}>
         <HStack w="lg" spacing={4}>
           <FormControl isRequired>
-            <FormLabel htmlFor="first_name">First Name</FormLabel>
+            <FormLabel color="black" htmlFor="first_name">First Name</FormLabel>
             <CustomInput
               id="first_name"
               placeholder="John"
@@ -75,7 +75,7 @@ export const SignupForm = () => {
             />
           </FormControl>
           <FormControl isRequired>
-            <FormLabel htmlFor="last_name">Last Name</FormLabel>
+            <FormLabel color="black" htmlFor="last_name">Last Name</FormLabel>
             <CustomInput
               id="last_name"
               placeholder="Doe"
@@ -87,7 +87,7 @@ export const SignupForm = () => {
           </FormControl>
         </HStack>
         <FormControl isRequired>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormLabel color="black" htmlFor="email">Email</FormLabel>
           <CustomInput
             id="email"
             placeholder="name@example.com"
@@ -98,7 +98,7 @@ export const SignupForm = () => {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel htmlFor="password">Password</FormLabel>
+          <FormLabel color="black" htmlFor="password">Password</FormLabel>
           <CustomInput
             id="password"
             placeholder="Must have at least 8 characters"
