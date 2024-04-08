@@ -19,10 +19,10 @@ export const CustomCard: React.FC<CustomCardProps> = ({ heading, bodyContent }) 
         <Stack divider={<StackDivider />} spacing='4'>
           {bodyContent.map((body, index) => (
             <Box key={index}>
-              <Heading size='xs' textTransform='uppercase'>
+              <Heading size='xs' color="gray.700" textTransform='uppercase'>
                 {body.title}
               </Heading>
-              <Text pt='2' fontSize='sm'>
+              <Text pt='2' color="gray.500" fontSize='sm'>
                 {body.description}
               </Text>
             </Box>
