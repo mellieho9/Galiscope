@@ -37,7 +37,7 @@ const createDocument = async ({
   const response =  await documentService.create({
     title,
     user_id,
-    folder_id,
+    folder_id: folder_id,
     filepath,
     is_deleted: false
   });
