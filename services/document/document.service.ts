@@ -1,10 +1,10 @@
 import { CreateDocumentParams, Document } from '../../types/document.types';
 import DbService from '../db.service';
 
-const service = new DbService<Document>('documents');
+const documentService = new DbService<Document>('documents');
 
 const getDocumentById = async (id: string) => {
-  const response = await service
+  const response = await documentService
     .select()
     .eq('id', id)
     .single();
@@ -13,9 +13,17 @@ const getDocumentById = async (id: string) => {
 }
 
 const getDocumentsByUserId = async (userId: string) => {
-  const response = await service
+  const response = await documentService
     .select()
     .eq('user_id', userId);
+
+  return response?.data?.[0];
+}
+
+const getDocumentsByFolderId = async (folderId: string) => {
+  const response = await documentService
+    .select()
+    .eq('folder_id', folderId);
 
   return response?.data?.[0];
 }
@@ -27,7 +35,7 @@ const createDocument = async ({
   folder_id,
   filepath
 }: CreateDocumentParams) => {
-  const response =  await service.create({
+  const response =  await documentService.create({
     title,
     description,
     user_id,
@@ -40,14 +48,15 @@ const createDocument = async ({
 };
 
 const updateDocument = async (documentData: any) => {
-  const { data } = await service.update({ id: documentData.id }, documentData);
+  const { data } = await documentService.update({ id: documentData.id }, documentData);
 
   return data && data[0];
 }
 
-export default Object.assign(service, {
+export default Object.assign(documentService, {
   getDocumentById,
   getDocumentsByUserId,
+  getDocumentsByFolderId,
   createDocument,
   updateDocument,
 });
