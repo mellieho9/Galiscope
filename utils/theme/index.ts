@@ -21,6 +21,9 @@ export const theme = extendTheme({
     radii: {
       md: '4px', 
     },
+    body: {
+      color: 'black',
+    },
     space: {
       1: '4px',
       2: '8px', 

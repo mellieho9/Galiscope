@@ -58,7 +58,7 @@ export function LoginForm() {
     <Container centerContent w="lg">
       <VStack as="form" w="lg" spacing={4} marginTop={5}>
         <FormControl isRequired>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormLabel color="black" htmlFor="email">Email</FormLabel>
           <CustomInput
             id="email"
             placeholder="name@example.com"
@@ -69,7 +69,7 @@ export function LoginForm() {
           />
         </FormControl>
         <FormControl isRequired>
-          <FormLabel htmlFor="email">Password</FormLabel>
+          <FormLabel color="black" htmlFor="email">Password</FormLabel>
           <CustomInput
             id="password"
             placeholder="Must have at least 8 characters"
