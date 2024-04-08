@@ -30,14 +30,12 @@ const getDocumentsByFolderId = async (folderId: string) => {
 
 const createDocument = async ({
   title,
-  description,
   user_id,
   folder_id,
   filepath
 }: CreateDocumentParams) => {
   const response =  await documentService.create({
     title,
-    description,
     user_id,
     folder_id,
     filepath,

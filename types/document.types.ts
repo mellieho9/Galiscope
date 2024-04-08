@@ -2,7 +2,6 @@ export type Document = {
   id: string;
   title: string;
   status: string;
-  description: string;
   user_id: string;
   folder_id?: string;
   filepath: string;
@@ -13,7 +12,6 @@ export type Document = {
 
 export type CreateDocumentParams = {
   title: string;
-  description: string;
   user_id: string;
   folder_id?: string;
   filepath: string;

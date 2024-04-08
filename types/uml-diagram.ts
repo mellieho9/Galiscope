@@ -2,7 +2,8 @@ export type UMLDiagram = {
   id: string;
   name: string;
   uml_code: string;
-  description: string;
+  summary: string;
+  original_text: string;
   document_id: string;
   filepath: string;
   is_deleted: boolean;
@@ -13,7 +14,8 @@ export type UMLDiagram = {
 export type CreateUMLDiagramParams = {
   name: string;
   uml_code: string;
-  description: string;
+  summary: string;
+  original_text: string;
   document_id: string;
   filepath: string;
 };

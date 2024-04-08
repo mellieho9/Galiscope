@@ -23,14 +23,16 @@ const getUMLDiagramsByDocumentId = async (documentId: string) => {
 const createUMLDiagram = async ({
   name,
   uml_code,
-  description,
+  summary,
+  original_text,
   document_id,
   filepath,
 }: CreateUMLDiagramParams) => {
   const response = await UMLDiagramService.create({
     name,
     uml_code,
-    description,
+    summary,
+    original_text,
     document_id,
     filepath,
   });
