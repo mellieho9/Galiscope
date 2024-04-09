@@ -10,6 +10,7 @@ const CustomButton: React.FC<ButtonProps> = ({ children, ...props }) => {
       _hover={{
         bg: 'teal.500', 
       }}
+      spinnerPlacement='start'
       {...props} 
     >
       {children}
