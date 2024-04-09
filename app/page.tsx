@@ -2,7 +2,10 @@
 import CustomButton from "@/components/Button";
 import { CustomCard } from "@/components/landing/Card";
 import { Center, Heading, VStack, HStack } from "@chakra-ui/react";
+import Image from "next/image";
 import Link from 'next/link';
+import logo from "./logo.svg"
+import { CustomModal } from "@/components/auth/CustomModal";
 
 export default function Index() {
 
@@ -34,14 +37,12 @@ export default function Index() {
 
   return (
     <Center bg="white" h="100vh" w="100vw">
+      <Image src={logo.src} width={50} height={50} className="absolute top-5 left-5" alt={""} />
       <VStack spacing="4rem">
         <VStack spacing="1rem">
-          <Heading color="black">Unveiling clarity in research</Heading>
-          <Link href="/auth" passHref>
-          <CustomButton w="10rem" shadow="sm">
-            Get started
-          </CustomButton>
-          </Link>
+          
+          <Heading color="black">Providing clarity in research</Heading>
+          <CustomModal />
         </VStack>
         <HStack spacing={4}>
           <CustomCard heading={"Simplify Complex Ideas"} bodyContent={c1} />
