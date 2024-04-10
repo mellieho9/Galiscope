@@ -28,11 +28,11 @@ export const CustomModal = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{modalView === 'signup' ? 'Sign up' : 'Log in'} to use Galiscope</ModalHeader>
-          <ModalCloseButton />
+          <ModalHeader color="black">{modalView === 'signup' ? 'Sign up' : 'Log in'} to use Galiscope</ModalHeader>
+          <ModalCloseButton color="black" />
           <ModalBody paddingBottom="6">
             <VStack spacing={9}>
-              <OAuthButtons />
+              <OAuthButtons  />
               {modalView === 'signup' ? (
                 <Text className="relative left-0" color="gray.500">Have an account? <Link color="teal" onClick={() => { toggleModalView(); }}>Log in</Link></Text>
               ) : (
