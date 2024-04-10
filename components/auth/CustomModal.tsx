@@ -32,7 +32,7 @@ export const CustomModal = () => {
           <ModalCloseButton />
           <ModalBody paddingBottom="6">
             <VStack spacing={9}>
-              <OAuthButtons />
+              <OAuthButtons  />
               {modalView === 'signup' ? (
                 <Text className="relative left-0" color="gray.500">Have an account? <Link color="teal" onClick={() => { toggleModalView(); }}>Log in</Link></Text>
               ) : (
