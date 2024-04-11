@@ -23,6 +23,9 @@ export default async function ProtectedPage() {
         <Heading size="sm">Home</Heading>
       </div>
       <ShortcutGroup />
+      <div className="w-full h-full bg-gray-50">
+
+      </div>
     </div>
   );
 }

@@ -7,8 +7,8 @@ export function ShortcutGroup(){
             <Heading size='md'>What do you want to do today?</Heading>
             <div className="flex flex-row mt-3 space-x-2">
                 <ShortcutButton>Read a paper</ShortcutButton>
-                <ShortcutButton>Read a paper</ShortcutButton>
-                <ShortcutButton>Read a paper</ShortcutButton>
+                <ShortcutButton>Bookmark a paper</ShortcutButton>
+                <ShortcutButton>Refresh previous findings</ShortcutButton>
             </div>
         </div>
     )
