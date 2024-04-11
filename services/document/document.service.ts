@@ -9,7 +9,7 @@ const getDocumentById = async (id: string) => {
     .eq('id', id)
     .single();
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getDocumentsByUserId = async (userId: string) => {
@@ -17,7 +17,7 @@ const getDocumentsByUserId = async (userId: string) => {
     .select()
     .eq('user_id', userId);
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getDocumentsByFolderId = async (folderId: string) => {
@@ -25,7 +25,7 @@ const getDocumentsByFolderId = async (folderId: string) => {
     .select()
     .eq('folder_id', folderId);
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const createDocument = async ({

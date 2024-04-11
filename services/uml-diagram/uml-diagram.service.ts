@@ -9,7 +9,7 @@ const getUMLDiagramById = async (id: string) => {
     .eq("id", id)
     .single();
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getUMLDiagramsByDocumentId = async (documentId: string) => {
@@ -17,7 +17,7 @@ const getUMLDiagramsByDocumentId = async (documentId: string) => {
     .select()
     .eq("document_id", documentId);
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const createUMLDiagram = async ({

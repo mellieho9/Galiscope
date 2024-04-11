@@ -10,7 +10,7 @@ const getFolderById = async (id: string) => {
     .eq("id", id)
     .single();
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getFoldersByUserId = async (userId: string) => {
@@ -18,7 +18,7 @@ const getFoldersByUserId = async (userId: string) => {
     .select()
     .eq("user_id", userId);
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const createFolder = async ({

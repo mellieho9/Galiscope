@@ -9,7 +9,7 @@ const getUserById = async (id: string) => {
     .eq("id", id)
     .single();
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getUserByAuthId = async (auth_id: string) => {
@@ -18,7 +18,7 @@ const getUserByAuthId = async (auth_id: string) => {
     .eq("auth_id", auth_id)
     .single();
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getUsersByEmail = async (email: string) => {
@@ -39,8 +39,6 @@ const createUser = async ({
     email,
     auth_id
   });
-
-  console.log('response', response);
 
   return response?.data?.[0];
 };

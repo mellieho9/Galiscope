@@ -19,9 +19,8 @@ class DbService<T> {
       updated_at: DateTime.now().toJSDate(),
     };
 
-    console.log('entity', entity);
-
-    const response = await this.getClient().insert(entity);
+    const response = await this.getClient().insert(entity).select();
+    console.log('response', response);
     return response;
   }
 
