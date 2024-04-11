@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, userId } = await request.json();
-    const response = await folderService.createFolder({ name, user_id: userId });
+    const { name, user_id } = await request.json();
+    const response = await folderService.createFolder({ name, user_id });
 
     if (!response) {
       return NextResponse.json({ error: 'Failed to create folder' }, { status: 400 });
