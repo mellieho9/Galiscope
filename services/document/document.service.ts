@@ -51,10 +51,17 @@ const updateDocument = async (documentData: any) => {
   return data && data[0];
 }
 
+const deleteDocument = async (id: string) => {
+  const { data } = await documentService.delete().filter('id', 'eq', id).select();
+
+  return data && data[0];
+}
+
 export default Object.assign(documentService, {
   getDocumentById,
   getDocumentsByUserId,
   getDocumentsByFolderId,
   createDocument,
   updateDocument,
+  deleteDocument,
 });
