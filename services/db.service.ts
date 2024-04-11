@@ -20,7 +20,6 @@ class DbService<T> {
     };
 
     const response = await this.getClient().insert(entity).select();
-    console.log('response', response);
     return response;
   }
 
@@ -43,10 +42,10 @@ class DbService<T> {
   ) {
     const update = {
       ...partialUpdate,
-      updated_on: DateTime.now().toJSDate(),
+      updated_at: DateTime.now().toJSDate(),
     };
 
-    return this.getClient().update(update).match(matchQuery);
+    return this.getClient().update(update).match(matchQuery).select();
   }
 
   select(
