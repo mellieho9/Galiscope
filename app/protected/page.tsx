@@ -1,4 +1,5 @@
-
+import { ShortcutGroup } from "@/components/dashboard/Home/ShortcutGroup";
+import { Divider, Heading } from "@chakra-ui/react";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedPage() {
@@ -13,22 +14,11 @@ export default async function ProtectedPage() {
   // }
 
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>
-          
-          Powered by{" "}
-          <a
-            href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-            target="_blank"
-            className="font-bold hover:underline"
-            rel="noreferrer"
-          >
-            Supabase
-          </a>
-        </p>
-      </footer>
+    <div className="flex-1 w-full flex flex-col items-center text-gray-800">
+      <div className="w-full justify-start p-6 border-b border-gray-200">
+        <Heading size="sm">Home</Heading>
+      </div>
+      <ShortcutGroup />
     </div>
   );
 }
