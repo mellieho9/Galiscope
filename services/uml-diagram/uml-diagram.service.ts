@@ -1,7 +1,7 @@
 import { CreateUMLDiagramParams } from "@/types/uml-diagram";
 import DbService from "../db.service";
 
-const UMLDiagramService = new DbService("uml-diagrams");
+const UMLDiagramService = new DbService("uml-diagram");
 
 const getUMLDiagramById = async (id: string) => {
   const response = await UMLDiagramService

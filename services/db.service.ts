@@ -15,9 +15,11 @@ class DbService<T> {
   async create(obj: Partial<T>) {
     const entity = {
       ...obj,
-      created_on: DateTime.now().toJSDate(),
-      updated_on: DateTime.now().toJSDate(),
+      created_at: DateTime.now().toJSDate(),
+      updated_at: DateTime.now().toJSDate(),
     };
+
+    console.log('entity', entity);
 
     const response = await this.getClient().insert(entity);
     return response;
@@ -28,8 +30,8 @@ class DbService<T> {
 
     const formattedEntities = entitiesToInsert.map((entity) => ({
       ...entity,
-      created_on: DateTime.now().toJSDate(),
-      updated_on: DateTime.now().toJSDate(),
+      created_at: DateTime.now().toJSDate(),
+      updated_at: DateTime.now().toJSDate(),
     }));
 
     const response = await this.getClient().insert(formattedEntities);

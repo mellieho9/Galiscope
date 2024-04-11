@@ -1,7 +1,7 @@
 import { CreateDocumentParams, Document } from '../../types/document.types';
 import DbService from '../db.service';
 
-const documentService = new DbService<Document>('documents');
+const documentService = new DbService<Document>('document');
 
 const getDocumentById = async (id: string) => {
   const response = await documentService

@@ -1,7 +1,7 @@
 import { CreateUserParams, User } from "@/types/user.types";
 import DbService from "../db.service";
 
-const userService = new DbService<User>("users");
+const userService = new DbService<User>("user");
 
 const getUserById = async (id: string) => {
   const response = await userService
@@ -29,7 +29,7 @@ const getUsersByEmail = async (email: string) => {
   return response?.data;
 }
 
-const createUserService = async ({
+const createUser = async ({
   name,
   email,
   auth_id,
@@ -39,6 +39,8 @@ const createUserService = async ({
     email,
     auth_id
   });
+
+  console.log('response', response);
 
   return response?.data?.[0];
 };
@@ -53,6 +55,6 @@ export default Object.assign(userService, {
   getUserById,
   getUserByAuthId,
   getUsersByEmail,
-  createUserService,
+  createUser,
   updateUser,
 });
