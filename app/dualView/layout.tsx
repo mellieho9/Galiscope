@@ -1,6 +1,6 @@
-import { BackButton } from "@/components/dual-view/BackButton";
-import { DiagramView } from "@/components/dual-view/DiagramView";
-import { PaperView } from "@/components/dual-view/PaperView";
+import { BackButton } from "@/components/dual_view/BackButton";
+import { DiagramView } from "@/components/dual_view/DiagramView";
+import { PaperView } from "@/components/dual_view/PaperView";
 
 export default function RootLayout({
     children,
