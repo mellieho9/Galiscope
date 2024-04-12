@@ -7,7 +7,7 @@ interface CustomCardProps {
   imageLink : string
 }
 
-const DiagramTypeCard: React.FC<CustomCardProps> = ({content, imageLink}) => {
+export const DiagramTypeCard: React.FC<CustomCardProps> = ({content, imageLink}) => {
   const [isActive, setIsActive] = useState(false)
   return (
       <>
@@ -18,7 +18,7 @@ const DiagramTypeCard: React.FC<CustomCardProps> = ({content, imageLink}) => {
           transform: "scale(1.05)",
           transition: "all 0.2s ease-in-out",
         }}
-        onClick={() => setIsActive(!isActive)}k
+        onClick={() => setIsActive(!isActive)}
         >
           <CardBody>
             <Image
@@ -35,6 +35,3 @@ const DiagramTypeCard: React.FC<CustomCardProps> = ({content, imageLink}) => {
       </>
   )
 }
-
-
-export default DiagramTypeCard;

@@ -1,6 +1,6 @@
 import {Card, Box, CardBody, Image, HStack, VStack, CardHeader, InputGroup, InputRightElement, Input, IconButton, Text, Button, useDisclosure, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Flex} from '@chakra-ui/react'
 import {DocumentArrowUpIcon, CheckCircleIcon} from "@heroicons/react/24/outline"
-import DiagramTypeCard from "@/components/modals/DiagramTypeCard";
+import {DiagramTypeCard} from "@/components/modals/DiagramTypeCard";
 import { useState } from 'react'
 
 const DiagramType = () => {
