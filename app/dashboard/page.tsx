@@ -20,9 +20,6 @@ export default async function ProtectedPage() {
 
   return (
     <div className="flex-1 w-full flex flex-col items-center text-gray-800">
-      <div className="w-full justify-start p-4 border-b border-gray-200">
-        <Heading size="sm">Home</Heading>
-      </div>
       <ShortcutGroup />
       <div className="w-full h-full flex flex-col bg-gray-50 space-y-12 p-6">
         <ReadingList />

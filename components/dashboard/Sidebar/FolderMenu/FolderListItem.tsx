@@ -17,7 +17,7 @@ const FolderListItem: React.FC<FolderListItemProps> = ({ folderTitle, numIncompl
         >
             <div className="flex flex-row items-center">
                 <span className="w-3 h-3 mr-2 bg-gray-200"></span>
-                <span className="text-sm font-normal">
+                <span className="truncate text-sm font-normal">
                     {folderTitle}
                 </span>
             </div>

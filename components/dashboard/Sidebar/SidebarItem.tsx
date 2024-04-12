@@ -14,7 +14,7 @@ export function SidebarItem({ icon, redirectTo, title }: SidebarItemProps) {
       tabIndex={0}
     >
       <span className="w-5 h-5 text-teal">{icon}</span>
-      <h3 className="text-sm font-medium">{title}</h3>
+      <h3 className="truncate text-sm font-medium">{title}</h3>
     </button>
   );
 }
