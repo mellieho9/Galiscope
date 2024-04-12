@@ -4,6 +4,7 @@ const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config, { isServer }) => {
+    config.externals = [...config.externals, { canvas: "canvas" }];
     if (!isServer) {
         config.externals.push(/\.node$/);
       } else {
