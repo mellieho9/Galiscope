@@ -1,14 +1,16 @@
 import { Circle } from '@chakra-ui/react';
 import { Squares2X2Icon } from '@heroicons/react/24/solid';
 import React from 'react'; 
+import { FolderItemAction } from './FolderItemAction';
 
 interface FolderListItemProps {
   folderTitle: string;
   numIncompleteReads: number;
   redirectTo?: () => void; 
+  handleDeleteFolder: () => void;
 }
 
-const FolderListItem: React.FC<FolderListItemProps> = ({ folderTitle, numIncompleteReads }) => {
+const FolderListItem: React.FC<FolderListItemProps> = ({ folderTitle, numIncompleteReads, handleDeleteFolder }) => {
     return (
         <span 
             className="group flex flex-row items-center justify-between cursor-pointer p-2" 
@@ -23,8 +25,7 @@ const FolderListItem: React.FC<FolderListItemProps> = ({ folderTitle, numIncompl
                 {numIncompleteReads > 0 && (
                     <Circle size='1.25rem' bg='orange' color='white'><p className="text-xs">{numIncompleteReads}</p></Circle>
                 )}
-                {/* TODO - handle delete and rename  */}
-                <Squares2X2Icon className="w-4 h-4 text-gray-500 group-hover:block hidden" />
+                <FolderItemAction handleDeleteFolder={handleDeleteFolder} className="group-hover:block group-active:block hidden" />
             </div>
         </span>
     );

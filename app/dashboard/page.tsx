@@ -1,6 +1,7 @@
+import { ReadingList } from "@/components/dashboard/Home/ReadingList";
+import { RecentlyRead } from "@/components/dashboard/Home/RecentlyRead";
 import { ShortcutGroup } from "@/components/dashboard/Home/ShortcutGroup";
-import { Divider, Heading } from "@chakra-ui/react";
-import { redirect } from "next/navigation";
+import { Heading } from "@chakra-ui/react";
 
 export default async function ProtectedPage() {
   // const supabase = createClient();
@@ -23,8 +24,9 @@ export default async function ProtectedPage() {
         <Heading size="sm">Home</Heading>
       </div>
       <ShortcutGroup />
-      <div className="w-full h-full bg-gray-50">
-
+      <div className="w-full h-full flex flex-col bg-gray-50 space-y-12 p-6">
+        <ReadingList />
+        <RecentlyRead />
       </div>
     </div>
   );
