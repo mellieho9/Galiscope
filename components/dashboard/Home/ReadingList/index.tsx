@@ -15,7 +15,7 @@ const [readingListItem, setReadingListItem] = useState(mockReadingListItems || [
         <p className="text-sm font-normal text-gray-500">
           Click on one to read them
         </p>
-        <div className="p-2">
+        <div>
         {
             readingListItem.map((item, index) => {
                 return(

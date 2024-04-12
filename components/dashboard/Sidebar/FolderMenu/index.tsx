@@ -43,7 +43,7 @@ export function FolderMenu() {
   return (
     <div className="border-t border-gray-200 p-4">
       <h3 className="font-medium text-sm">Folders</h3>
-      <div className="flex flex-col p-2">
+      <div className="flex flex-col p-1">
         {folders.map((item, index) => {
           return (
             <FolderListItem

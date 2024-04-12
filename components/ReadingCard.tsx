@@ -12,8 +12,8 @@ export const ReadingCard: React.FC<ReadingCardProps> = ({
   lastUpdatedTime,
 }) => {
   return (
-    <div className="hover:mix-blend-darken">
-      <Box overflow="hidden" borderWidth="1px" borderRadius="lg" maxWidth={225}>
+    <div className="transition ease-in-out delay-150 hover:border rounded-lg hover:border-teal">
+      <Box overflow="hidden"  borderWidth="1px" borderRadius="lg" maxWidth={225}>
         <Image src={blurredImage.src} width="full" display="fill" />
         <div className="p-2 space-y-1 border-t border-gray-200 bg-white cursor-pointer">
           <Heading isTruncated color="gray.600" size="xs">

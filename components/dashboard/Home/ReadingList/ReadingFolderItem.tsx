@@ -8,8 +8,8 @@ interface ReadingListItemProps {
 
 export function ReadingFolderItem({ paperTitle, folder, paperUrl }: ReadingListItemProps) {
   return (
-    <div className="flex flex-row items-center justify-between hover:bg-gray-100 p-1 rounded-md">
-      <Heading size="xs" color="gray.600" fontWeight="600" className="mr-2">{paperTitle}</Heading>
+    <div className="flex px-2 py-1 flex-row items-center justify-between rounded-md transition ease-in-out delay-150 hover:text-teal">
+      <Heading size="xs"  fontWeight="600" className="mr-2">{paperTitle}</Heading>
       <Text fontSize="xs" color="gray.500">{folder}</Text>
       <Link fontSize="xs" color="gray.500">
         {paperUrl}
