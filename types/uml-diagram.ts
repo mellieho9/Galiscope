@@ -3,7 +3,7 @@ export type UMLDiagram = {
   name: string;
   uml_code: string;
   summary: string;
-  original_text: string;
+  original_text: object;
   document_id: string;
   filepath: string;
   is_deleted: boolean;
@@ -15,7 +15,7 @@ export type CreateUMLDiagramParams = {
   name: string;
   uml_code: string;
   summary: string;
-  original_text: string;
+  original_text: object;
   document_id: string;
   filepath: string;
 };

@@ -1,7 +1,7 @@
 import { CreateUMLDiagramParams } from "@/types/uml-diagram";
 import DbService from "../db.service";
 
-const UMLDiagramService = new DbService("uml-diagrams");
+const UMLDiagramService = new DbService("uml_diagram");
 
 const getUMLDiagramById = async (id: string) => {
   const response = await UMLDiagramService
@@ -9,7 +9,7 @@ const getUMLDiagramById = async (id: string) => {
     .eq("id", id)
     .single();
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getUMLDiagramsByDocumentId = async (documentId: string) => {
@@ -17,7 +17,7 @@ const getUMLDiagramsByDocumentId = async (documentId: string) => {
     .select()
     .eq("document_id", documentId);
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const createUMLDiagram = async ({
@@ -46,9 +46,16 @@ const updateUMLDiagram = async (umlDiagramData: any) => {
   return data && data[0];
 }
 
+const deleteUMLDiagram = async (id: string) => {
+  const { data } = await UMLDiagramService.delete().filter("id", "eq", id).select();
+
+  return data && data[0];
+}
+
 export default Object.assign(UMLDiagramService, {
   getUMLDiagramById,
   getUMLDiagramsByDocumentId,
   createUMLDiagram,
   updateUMLDiagram,
+  deleteUMLDiagram,
 });

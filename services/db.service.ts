@@ -15,11 +15,11 @@ class DbService<T> {
   async create(obj: Partial<T>) {
     const entity = {
       ...obj,
-      created_on: DateTime.now().toJSDate(),
-      updated_on: DateTime.now().toJSDate(),
+      created_at: DateTime.now().toJSDate(),
+      updated_at: DateTime.now().toJSDate(),
     };
 
-    const response = await this.getClient().insert(entity);
+    const response = await this.getClient().insert(entity).select();
     return response;
   }
 
@@ -28,8 +28,8 @@ class DbService<T> {
 
     const formattedEntities = entitiesToInsert.map((entity) => ({
       ...entity,
-      created_on: DateTime.now().toJSDate(),
-      updated_on: DateTime.now().toJSDate(),
+      created_at: DateTime.now().toJSDate(),
+      updated_at: DateTime.now().toJSDate(),
     }));
 
     const response = await this.getClient().insert(formattedEntities);
@@ -42,10 +42,10 @@ class DbService<T> {
   ) {
     const update = {
       ...partialUpdate,
-      updated_on: DateTime.now().toJSDate(),
+      updated_at: DateTime.now().toJSDate(),
     };
 
-    return this.getClient().update(update).match(matchQuery);
+    return this.getClient().update(update).match(matchQuery).select();
   }
 
   select(

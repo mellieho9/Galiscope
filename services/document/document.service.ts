@@ -1,7 +1,7 @@
 import { CreateDocumentParams, Document } from '../../types/document.types';
 import DbService from '../db.service';
 
-const documentService = new DbService<Document>('documents');
+const documentService = new DbService<Document>('document');
 
 const getDocumentById = async (id: string) => {
   const response = await documentService
@@ -9,7 +9,7 @@ const getDocumentById = async (id: string) => {
     .eq('id', id)
     .single();
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getDocumentsByUserId = async (userId: string) => {
@@ -17,7 +17,7 @@ const getDocumentsByUserId = async (userId: string) => {
     .select()
     .eq('user_id', userId);
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const getDocumentsByFolderId = async (folderId: string) => {
@@ -25,7 +25,7 @@ const getDocumentsByFolderId = async (folderId: string) => {
     .select()
     .eq('folder_id', folderId);
 
-  return response?.data?.[0];
+  return response?.data;
 }
 
 const createDocument = async ({
@@ -51,10 +51,17 @@ const updateDocument = async (documentData: any) => {
   return data && data[0];
 }
 
+const deleteDocument = async (id: string) => {
+  const { data } = await documentService.delete().filter('id', 'eq', id).select();
+
+  return data && data[0];
+}
+
 export default Object.assign(documentService, {
   getDocumentById,
   getDocumentsByUserId,
   getDocumentsByFolderId,
   createDocument,
   updateDocument,
+  deleteDocument,
 });
