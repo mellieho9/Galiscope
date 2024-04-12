@@ -5,39 +5,64 @@ import {
   AccordionPanel,
   Box,
   Circle,
+  Heading,
 } from "@chakra-ui/react";
 import { FolderMinusIcon, FolderPlusIcon } from "@heroicons/react/24/solid";
+import { ReadingFolderItem } from "./ReadingFolderItem";
 
-export function ReadingFolder({ folder, numIncompleteReads }) {
+interface ReadingItem {
+  paperTitle: string;
+  folder: string;
+  paperUrl: string;
+}
+
+type ReadingFolderProps = {
+  folder: string;
+  incompleteReadList: ReadingItem[];
+};
+
+export function ReadingFolder({
+  folder,
+  incompleteReadList,
+}: ReadingFolderProps) {
+  const numIncompleteReads = incompleteReadList.length;
   return (
     <div>
-      {/* icon  */}
       <Accordion allowMultiple>
         <AccordionItem>
           {({ isExpanded }) => (
             <>
               <h2>
                 <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    {isExpanded ? (
-                      <FolderPlusIcon className="w-4 h-4" />
-                    ) : (
-                      <FolderMinusIcon className="w-4 h-4" />
-                    )}
-                    {folder}
-                  </Box>
-                  {numIncompleteReads > 0 && (
-                    <Circle size="1.25rem" bg="orange" color="white">
-                      <p className="text-xs">{numIncompleteReads}</p>
-                    </Circle>
-                  )}
+                  <div className="w-full flex flex-row items-center justify-between">
+                    <div className="flex flex-row items-center">
+                      {isExpanded ? (
+                        <FolderMinusIcon className="w-4 h-4 mr-2" />
+                      ) : (
+                        <FolderPlusIcon className="w-4 h-4 mr-2" />
+                      )}
+                      <Heading isTruncated size="xs" color="gray.700" fontWeight="600" className="mr-2">{folder}</Heading>
+                    </div>
+                    <div>
+                      {numIncompleteReads > 0 && (
+                        <Circle size="1.25rem" bg="orange" color="white">
+                          <p className="text-xs">{numIncompleteReads}</p>
+                        </Circle>
+                      )}
+                    </div>
+                  </div>
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                {incompleteReadList.map((item, index) => {
+                  return (
+                    <ReadingFolderItem
+                      key={index}
+                      paperTitle={item.paperTitle}
+                      paperUrl={item.paperUrl}
+                    />
+                  );
+                })}
               </AccordionPanel>
             </>
           )}
