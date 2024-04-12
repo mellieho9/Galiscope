@@ -7,6 +7,7 @@ import {
     Heading,
     Text,
   } from "@chakra-ui/react";
+import { ArrowLeftEndOnRectangleIcon, ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/solid";
   
   export function AvatarAction({ ...props }) {
     return (
@@ -35,6 +36,7 @@ import {
               fontSize="sm"
               fontWeight="normal"
               color="red"
+              icon={<ArrowLeftStartOnRectangleIcon className="h-4 w-4 text-red" />}
             >
               Log out
             </MenuItem>
