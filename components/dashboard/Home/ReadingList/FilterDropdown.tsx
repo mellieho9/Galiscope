@@ -1,7 +1,12 @@
+import { ChangeEventHandler } from "react";
 import { Heading, Select } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 
-export function FilterDropdown({ onChange }) {
+interface FilterDropdownProps {
+  onChange: ChangeEventHandler<HTMLSelectElement>;
+}
+
+export function FilterDropdown({ onChange }: FilterDropdownProps) {
   return (
     <div className="w-1/5 flex flex-row items-center space-x-2">
       <div className="w-3/5">
@@ -14,6 +19,7 @@ export function FilterDropdown({ onChange }) {
         variant="outline"
         size="sm"
         onChange={onChange}
+        icon={<ChevronDownIcon className="w-5 h-5 text-gray-500" />} 
       >
         <option value="default">default</option>
         <option value="folder">folder</option>

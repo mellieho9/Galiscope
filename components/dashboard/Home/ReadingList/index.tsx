@@ -14,7 +14,7 @@ export function ReadingList() {
 
   const [groupBy, setGroupBy] = useState("default");
 
-  const handleGroupByChange = (event) => {
+  const handleGroupByChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGroupBy(event.target.value);
   };
 

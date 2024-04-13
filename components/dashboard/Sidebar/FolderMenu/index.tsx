@@ -1,15 +1,8 @@
-"use client"
-
-import {mockFolderListItems} from "@/utils/mock";
+import React, { useState } from 'react'; 
+import { Folder, mockFolderListItems } from "@/utils/mock";
 import FolderListItem from "./FolderListItem";
 import { AddFolderButton } from "./AddFolderButton";
-import React, { useState } from 'react'; 
 
-interface Folder {
-  folderTitle: string;
-  numIncompleteReads: number;
-  redirectTo: string;
-}
 
 export function FolderMenu() {
   const [folders, setFolders] = useState<Folder[]>(mockFolderListItems);
@@ -18,7 +11,7 @@ export function FolderMenu() {
     const newFolder: Folder = {
       folderTitle: folderName,
       numIncompleteReads: 0,
-      redirectTo: "#"
+      redirectTo: () => console.log("New folder added") // Example functionality
     };
     setFolders(currentFolders => [...currentFolders, newFolder]);
   };
@@ -38,24 +31,19 @@ export function FolderMenu() {
     setFolders(updatedFolders);
   };
 
-  
-
   return (
     <div className="border-t border-gray-200 p-4">
       <h3 className="font-medium text-sm">Folders</h3>
       <div className="flex flex-col p-1">
-        {folders.map((item, index) => {
-          return (
-            <FolderListItem
-              key={index}
-              folderTitle={item.folderTitle}
-              numIncompleteReads={item.numIncompleteReads}
-              redirectTo={item.redirectTo}
-              handleDeleteFolder={() => handleDeleteFolder(index)}
-              handleRenameFolder={(newTitle) => handleRenameFolder(index, newTitle)}
-            />
-          );
-        })}
+        {folders.map((item, index) => (
+          <FolderListItem
+            key={index}
+            folderTitle={item.folderTitle}
+            numIncompleteReads={item.numIncompleteReads}
+            redirectTo={item.redirectTo}
+            handleDeleteFolder={() => handleDeleteFolder(index)}
+          />
+        ))}
         <AddFolderButton handleAddFolder={handleAddFolder} />
       </div>
     </div>
