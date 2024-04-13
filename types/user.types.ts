@@ -4,12 +4,16 @@ export type User = {
   email: string;
   auth_id: string;
   is_deactivated: boolean;
-  created_on: Date;
-  updated_on: Date;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export type CreateUserParams = {
   name: string;
   email: string;
   auth_id: string;
+}
+
+export type UpdateUserParams = {
+  name?: string;
 }

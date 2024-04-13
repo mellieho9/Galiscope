@@ -16,3 +16,9 @@ export type CreateDocumentParams = {
   folder_id?: string;
   filepath: string;
 };
+
+export type UpdateDocumentParams = {
+  title?: string;
+  folder_id?: string;
+  filepath?: string;
+}
