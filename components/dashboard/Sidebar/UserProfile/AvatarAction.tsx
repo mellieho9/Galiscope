@@ -18,7 +18,7 @@ export function AvatarAction({ user, ...props }: { user: User, [key: string]: an
     <div {...props}>
       <Menu>
         <MenuButton aria-label="Options">
-          <Avatar bg="teal" size="sm" name="Meliora Ho" />
+          <Avatar bg="teal" size="sm" name={user.name} />
         </MenuButton>
         <MenuList>
           {/* Uncomment and complete this if needed
