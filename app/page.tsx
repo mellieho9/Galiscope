@@ -1,14 +1,11 @@
-"use client"
+"use client";
 import CustomButton from "@/components/Button";
 import { CustomCard } from "@/components/landing/Card";
 import { Center, Heading, VStack, HStack } from "@chakra-ui/react";
 import Image from "next/image";
-import Link from 'next/link';
-import logo from "./logo.svg"
-import { CustomModal } from "@/components/auth/CustomModal";
+import logo from "./logo.svg";
 
 export default function Index() {
-
   const c1 = [
     {
       title: "Upload & Illuminate",
@@ -37,12 +34,21 @@ export default function Index() {
 
   return (
     <Center bg="white" h="100vh" w="100vw">
-      <Image src={logo.src} width={50} height={50} className="absolute top-5 left-5" alt={""} />
+      <Image
+        src={logo.src}
+        width={50}
+        height={50}
+        className="absolute top-5 left-5"
+        alt={""}
+      />
       <VStack spacing="4rem">
         <VStack spacing="1rem">
-          
           <Heading color="black">Providing clarity in research</Heading>
-          <CustomModal />
+          <a href="/auth">
+            <CustomButton w="3xs" shadow="md">
+              Get Started
+            </CustomButton>
+          </a>
         </VStack>
         <HStack spacing={4}>
           <CustomCard heading={"Simplify Complex Ideas"} bodyContent={c1} />

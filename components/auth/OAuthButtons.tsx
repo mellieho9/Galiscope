@@ -4,7 +4,7 @@ import { OAuthButton } from "./OAuthButton";
 
 export function OAuthButtons() {
   return (
-    <VStack spacing={2} marginTop={5}>
+    <VStack spacing={2}>
       <OAuthButton
         src="https://cdn.iconscout.com/icon/free/png-256/free-google-1772223-1507807.png"
         handleClick={LoginWithGoogle}
