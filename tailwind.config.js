@@ -13,9 +13,12 @@ module.exports = {
           background: "hsl(var(--btn-background))",
           "background-hover": "hsl(var(--btn-background-hover))",
         },
+        teal: "#1E757B",
+        "baby-lime": "#F7FFF5",
+        orange: '#ED6C02',
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ["Inter", "sans-serif"],
       },
     },
   },

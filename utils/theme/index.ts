@@ -5,6 +5,7 @@ const colors = {
     main: "#1E757B",
     500: "#41aeb5",
   },
+  orange: '#ED6C02',
   babyLime: '#F7FFF5', 
   black: "#1F2937",
   white: "#ffffff",
