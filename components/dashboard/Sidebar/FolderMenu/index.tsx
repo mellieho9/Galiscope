@@ -1,8 +1,8 @@
-import React, { useState } from 'react'; 
+"use client";
+import React, { useState } from "react";
 import { Folder, mockFolderListItems } from "@/utils/mock";
 import FolderListItem from "./FolderListItem";
 import { AddFolderButton } from "./AddFolderButton";
-
 
 export function FolderMenu() {
   const [folders, setFolders] = useState<Folder[]>(mockFolderListItems);
@@ -11,9 +11,9 @@ export function FolderMenu() {
     const newFolder: Folder = {
       folderTitle: folderName,
       numIncompleteReads: 0,
-      redirectTo: () => console.log("New folder added") // Example functionality
+      redirectTo: () => console.log("New folder added"), // Example functionality
     };
-    setFolders(currentFolders => [...currentFolders, newFolder]);
+    setFolders((currentFolders) => [...currentFolders, newFolder]);
   };
 
   const handleDeleteFolder = (index: number) => {
@@ -24,7 +24,7 @@ export function FolderMenu() {
   const handleRenameFolder = (index: number, newTitle: string) => {
     const updatedFolders = folders.map((folder, i) => {
       if (i === index) {
-        return {...folder, folderTitle: newTitle};
+        return { ...folder, folderTitle: newTitle };
       }
       return folder;
     });
