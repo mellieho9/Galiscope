@@ -3,14 +3,23 @@
 import { mockReadingListItems } from "@/utils/mock";
 import { Heading } from "@chakra-ui/react";
 import { ReadingFolderItem } from "./ReadingFolderItem";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ReadingFolder } from "./ReadingFolder";
 import { FilterDropdown } from "./FilterDropdown";
+import { useCurrentUser } from "@/contexts/UserContextProvider";
+import { useGetDocumentsByUserId } from "@/hooks/document.hooks";
+import { useGetFolderById, useGetFoldersByUserId } from "@/hooks/folder.hooks";
 
 export function ReadingList() {
-  const [readingListItem, setReadingListItem] = useState(
-    mockReadingListItems || []
-  );
+  const userData = useCurrentUser();
+  const { data: user } = userData ?? {};
+
+  const { data: documents = [] } = useGetDocumentsByUserId(user?.id ?? "");
+  const { data: folders = [] } = useGetFoldersByUserId(user?.id ?? "");
+
+  const readingList = useMemo(() => {
+    return documents.filter((doc) => doc.status === "unread");
+  }, [documents]);
 
   const [groupBy, setGroupBy] = useState("default");
 
@@ -32,17 +41,25 @@ export function ReadingList() {
         </div>
         <div className="p-2">
           {groupBy === "folder" ? (
-            <ReadingFolder
-              folder="Video captioning"
-              incompleteReadList={readingListItem}
-            />
+            folders.map((folder) => {
+              const incompleteReads = readingList.filter(
+                (doc) => doc.folder_id === folder.id
+              );
+              return (
+                <ReadingFolder
+                  key={folder.id}
+                  folder={folder.name}
+                  incompleteReadList={incompleteReads}
+                />
+              );
+            })
           ) : (
-            readingListItem.map((item, index) => (
+            readingList.map((doc) => (
               <ReadingFolderItem
-                key={index}
-                folder={item.folder}
-                paperTitle={item.paperTitle}
-                paperUrl={item.paperUrl}
+                key={doc.id}
+                folderId={doc.folder_id}
+                paperTitle={doc.title}
+                paperUrl={doc.filepath}
               />
             ))
           )}

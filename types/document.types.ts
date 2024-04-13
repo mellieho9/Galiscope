@@ -1,3 +1,5 @@
+import { Folder } from "./folder.types";
+
 export type Document = {
   id: string;
   title: string;
@@ -6,8 +8,12 @@ export type Document = {
   folder_id?: string;
   filepath: string;
   is_deleted: boolean;
-  created_on: Date;
-  updated_on: Date;
+  created_at: Date;
+  updated_at: Date;
+};
+
+export type DocumentWithFolder = Document & {
+  folder: Folder;
 };
 
 export type CreateDocumentParams = {
