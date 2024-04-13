@@ -50,11 +50,10 @@ export const useUpdateFolder = (
 })
 
 export const useDeleteFolder = (
-  id: string,
-  options?: UseMutationOptions<Folder, Error>
+  options?: UseMutationOptions<Folder, Error, string>
 ) => useMutation({
   mutationKey: ["delete-folder"],
-  mutationFn: async () => {
+  mutationFn: async (id: string) => {
     const { data } = await axios.delete<Folder>(`api/folder/${id}`);
     return data;
   },
