@@ -21,7 +21,7 @@ export const OAuthButton = ({
       }
       borderColor="gray.200"
       variant="outline"
-      w="sm"
+      w="lg"
       bg="white"
       shadow="sm"
       spinnerPlacement="start"

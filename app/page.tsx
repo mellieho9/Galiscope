@@ -42,7 +42,9 @@ export default function Index() {
         <VStack spacing="1rem">
           
           <Heading color="black">Providing clarity in research</Heading>
-          <CustomModal />
+          <a href="/auth">
+          <CustomButton w="3xs" shadow="md">Get Started</CustomButton>
+          </a>
         </VStack>
         <HStack spacing={4}>
           <CustomCard heading={"Simplify Complex Ideas"} bodyContent={c1} />
