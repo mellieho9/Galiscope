@@ -7,7 +7,7 @@ export const getUserById = (
   id: string,
   options?: UseQueryOptions<User, Error>
 ) => useQuery({
-  queryKey: ["get-user-by-id"],
+  queryKey: ["get-user-by-id", id],
   queryFn: async () => {
     const { data } = await axios.get<User>(`api/user/${id}`);
     return data;
@@ -19,7 +19,7 @@ export const getUserByAuthId = (
   authId: string,
   options?: UseQueryOptions<User, Error>
 ) => useQuery({
-  queryKey: ["get-user-by-auth-id"],
+  queryKey: ["get-user-by-auth-id", authId],
   queryFn: async () => {
     const { data } = await axios.get<User>("api/user", { params: { authId } });
     return data;

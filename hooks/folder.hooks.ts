@@ -6,7 +6,7 @@ export const useGetFolderById = (
   id: string,
   options?: UseQueryOptions<Folder, Error>
 ) => useQuery({
-  queryKey: ["get-folder-by-id"],
+  queryKey: ["get-folder-by-id", id],
   queryFn: async () => {
     const { data } = await axios.get<Folder>(`api/folder/${id}`);
     return data;
@@ -18,7 +18,7 @@ export const useGetFoldersByUserId = (
   userId: string,
   options?: UseQueryOptions<Folder[], Error>
 ) => useQuery({
-  queryKey: ["get-folders-by-user-id"],
+  queryKey: ["get-folders-by-user-id", userId],
   queryFn: async () => {
     const { data } = await axios.get<Folder[]>("api/folder", { params: { userId } });
     return data;

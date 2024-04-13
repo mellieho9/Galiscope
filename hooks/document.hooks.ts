@@ -6,7 +6,7 @@ export const useGetDocumentById = (
   id: string,
   options?: UseQueryOptions<Document, Error>
 ) => useQuery({
-  queryKey: ["get-document-by-id"],
+  queryKey: ["get-document-by-id", id],
   queryFn: async () => {
     const { data } = await axios.get<Document>(`api/document/${id}`);
     return data;
@@ -18,7 +18,7 @@ export const useGetDocumentsByUserId = (
   userId: string,
   options?: UseQueryOptions<Document[], Error>
 ) => useQuery({
-  queryKey: ["get-documents-by-user-id"],
+  queryKey: ["get-documents-by-user-id", userId],
   queryFn: async () => {
     const { data } = await axios.get<Document[]>("api/document", { params: { userId } });
     return data;
@@ -30,7 +30,7 @@ export const useGetDocumentsByFolderId = (
   folderId: string,
   options?: UseQueryOptions<Document[], Error>
 ) => useQuery({
-  queryKey: ["get-documents-by-folder-id"],
+  queryKey: ["get-documents-by-folder-id", folderId],
   queryFn: async () => {
     const { data } = await axios.get<Document[]>("api/document", { params: { folderId } });
     return data;
