@@ -1,6 +1,5 @@
 "use client";
 
-import { mockReadingListItems } from "@/utils/mock";
 import { Heading } from "@chakra-ui/react";
 import { ReadingFolderItem } from "./ReadingFolderItem";
 import { useMemo, useState } from "react";
@@ -8,7 +7,7 @@ import { ReadingFolder } from "./ReadingFolder";
 import { FilterDropdown } from "./FilterDropdown";
 import { useCurrentUser } from "@/contexts/UserContextProvider";
 import { useGetDocumentsByUserId } from "@/hooks/document.hooks";
-import { useGetFolderById, useGetFoldersByUserId } from "@/hooks/folder.hooks";
+import { useGetFoldersByUserId } from "@/hooks/folder.hooks";
 
 export function ReadingList() {
   const userData = useCurrentUser();
