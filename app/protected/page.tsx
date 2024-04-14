@@ -1,9 +1,9 @@
-"use client"
+"use client";
 import GreenThing from "@/components/modals/GreenThing";
 import PaperUpload from "@/components/modals/PaperUpload";
 import DiagramType from "@/components/modals/DiagramType";
 
-import { Center } from '@chakra-ui/react'
+import { Center } from "@chakra-ui/react";
 import { redirect } from "next/navigation";
 
 export default async function ProtectedPage() {
@@ -20,11 +20,10 @@ export default async function ProtectedPage() {
   return (
     // <GreenThing />
     // <PaperUpload />
-    
+    //<DiagramType />
+
     <div className="absolute top-1/2">
-      <DiagramType />
+      <PaperUpload />
     </div>
-
-
   );
 }
