@@ -5,7 +5,7 @@ import { BottomModal } from "./BottomModal";
 
 export function DiagramView() {
     return (
-        <div className="w-full p-5 min-h-screen justify-between flex flex-col justify-center items-center bg-gray-50">
+        <div className="w-full p-5 pb-8 min-h-screen justify-between flex flex-col justify-center items-center bg-gray-50">
             {/* name  */}
             <div className="w-full flex justify-end">
                 <TopModal />
