@@ -23,7 +23,7 @@ export default function Index() {
         <VStack spacing={9}>
           <Image src={logo.src} width={100} height={100} />
           <VStack spacing={2}>
-            <Heading>
+            <Heading color="gray.800">
               {pageView === "signup" ? "Sign up" : "Log in"}
             </Heading>
             <Text color="gray.500">To continue using Galiscope</Text>

@@ -1,6 +1,11 @@
-'use client';
+"use client";
 
-import { Heading, Skeleton, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import {
+  Heading,
+  Skeleton,
+  SkeletonCircle,
+  SkeletonText,
+} from "@chakra-ui/react";
 import { AvatarAction } from "./AvatarAction";
 import { useCurrentUser } from "@/contexts/UserContextProvider";
 
@@ -18,7 +23,12 @@ export function UserProfile() {
       ) : (
         <div className="flex flex-row items-center gap-2">
           <SkeletonCircle color="gray.500" size="8" />
-          <SkeletonText color="gray.500" noOfLines={3} skeletonHeight={1} flex={1}/>
+          <SkeletonText
+            color="gray.500"
+            noOfLines={1}
+            skeletonHeight={1}
+            flex={1}
+          />
         </div>
       )}
     </div>
