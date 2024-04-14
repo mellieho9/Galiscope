@@ -1,5 +1,5 @@
 import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import blurredImage from "../app/blurred_paper.png";
+import blurredImage from "../public/blurred_paper.png";
 import { useGetFolderById } from "@/hooks/folder.hooks";
 import { format } from "timeago.js";
 interface ReadingCardProps {

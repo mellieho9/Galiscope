@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { OAuthButtons } from "@/components/auth/OAuthButtons";
 import { Center, Heading, Link, Image, Text, VStack } from "@chakra-ui/react";
-import logo from "../logo.svg";
+import logo from "../../public/logo.svg";
 import { BackButton } from "@/components/BackButton";
 export default function Index() {
   const [pageView, setPageView] = useState("signup"); // 'signup' or 'login'
