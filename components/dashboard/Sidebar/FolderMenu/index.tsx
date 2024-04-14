@@ -25,7 +25,7 @@ export function FolderMenu() {
   };
 
   useEffect(() => {
-    console.log('Update folders')
+    console.log(folders);
   }, [folders]);
 
   return (
