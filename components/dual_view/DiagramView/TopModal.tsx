@@ -13,7 +13,7 @@ export function TopModal() {
   }
 
   return (
-    <div className="absolute text-sm text-white flex flex-row bg-gray-700 p-2 px-5 top-5 right-5 shadow place-items-center rounded-full">
+    <div className="text-sm text-white flex flex-row bg-gray-700 p-2 px-5 shadow place-items-center rounded-full">
       <div className="flex flex-row items-center opacity-80">
         Dataset curation
         <div className="mx-2 opacity-60 font-light text-md">/</div>

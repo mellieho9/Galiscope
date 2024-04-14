@@ -1,16 +1,19 @@
 import { Image } from "@chakra-ui/react";
 import diagram from "../../../app/diagram.svg"
 import { TopModal } from "./TopModal";
+import { BottomModal } from "./BottomModal";
 
 export function DiagramView() {
     return (
-        <div className="w-full min-h-screen flex flex-col justify-center items-center bg-gray-50">
+        <div className="w-full p-5 min-h-screen justify-between flex flex-col justify-center items-center bg-gray-50">
             {/* name  */}
-            <TopModal />
+            <div className="w-full flex justify-end">
+                <TopModal />
+            </div>
             {/* diagonal divider  */}
-            
             <Image src={diagram.src} />
             {/* modal  */}
+            <BottomModal />
         </div>
     )
 }
