@@ -12,7 +12,7 @@ export const useGetFolderById = (
     return data;
   },
   ...options,
-})
+});
 
 export const useGetFoldersByUserId = (
   userId: string,
@@ -24,7 +24,7 @@ export const useGetFoldersByUserId = (
     return data;
   },
   ...options,
-})
+});
 
 export const useCreateFolder = (
   options?: UseMutationOptions<Folder, Error, CreateFolderParams>
@@ -35,7 +35,7 @@ export const useCreateFolder = (
     return data;
   },
   ...options,
-})
+});
 
 export const useUpdateFolder = (
   id: string,
@@ -47,7 +47,7 @@ export const useUpdateFolder = (
     return data;
   },
   ...options,
-})
+});
 
 export const useDeleteFolder = (
   options?: UseMutationOptions<Folder, Error, string>
@@ -58,4 +58,4 @@ export const useDeleteFolder = (
     return data;
   },
   ...options,
-})
+});

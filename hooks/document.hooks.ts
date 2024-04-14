@@ -12,7 +12,7 @@ export const useGetDocumentById = (
     return data;
   },
   ...options,
-})
+});
 
 export const useGetDocumentsByUserId = (
   userId: string,
@@ -24,7 +24,7 @@ export const useGetDocumentsByUserId = (
     return data;
   },
   ...options,
-})
+});
 
 export const useGetDocumentsByFolderId = (
   folderId: string,
@@ -36,7 +36,7 @@ export const useGetDocumentsByFolderId = (
     return data;
   },
   ...options,
-})
+});
 
 export const useCreateDocument = (
   options?: UseMutationOptions<Document, Error, CreateDocumentParams>
@@ -47,7 +47,7 @@ export const useCreateDocument = (
     return data;
   },
   ...options,
-})
+});
 
 export const useUpdateDocument = (
   id: string,
@@ -59,7 +59,7 @@ export const useUpdateDocument = (
     return data;
   },
   ...options,
-})
+});
 
 export const useDeleteDocument = (
   id: string,
@@ -70,4 +70,4 @@ export const useDeleteDocument = (
     await axios.delete(`api/document/${id}`);
   },
   ...options,
-})
+});

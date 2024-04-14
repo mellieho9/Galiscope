@@ -13,7 +13,7 @@ export const getUserById = (
     return data;
   },
   ...options,
-})
+});
 
 export const getUserByAuthId = (
   authId: string,
@@ -25,7 +25,7 @@ export const getUserByAuthId = (
     return data;
   },
   ...options,
-})
+});
 
 export const updateUser = (
   id: string,
@@ -37,4 +37,4 @@ export const updateUser = (
     return data;
   },
   ...options,
-})
+});
