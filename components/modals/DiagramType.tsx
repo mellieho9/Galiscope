@@ -18,12 +18,9 @@ import { DiagramTypeCard } from "@/components/modals/DiagramTypeCard";
 const DiagramType = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const diagramLinkMap = {
-    "Sequence Diagram":
-      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-    Flowchart:
-      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-    "ER Diagram":
-      "https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaGoptoy1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+    "Sequence Diagram": "/diagram.svg",
+    Flowchart: "/diagram.svg",
+    "ER Diagram": "/diagram.svg",
   };
   return (
     <>
@@ -41,7 +38,7 @@ const DiagramType = () => {
             </ModalHeader>
             <ModalBody pb={6}>
               <VStack mt={3}>
-                <HStack spacing={4} className="w-full">
+                <HStack className="w-full justify-between">
                   <DiagramTypeCard
                     content="Sequence Diagram"
                     imageLink={diagramLinkMap["Sequence Diagram"]}
@@ -58,6 +55,7 @@ const DiagramType = () => {
 
                 <Box mt={4} className="w-full">
                   <Input
+                    focusBorderColor="teal.500"
                     className="w-full"
                     placeholder=" I want to use a different type of diagram"
                     _placeholder={{ textAlign: "center" }}
