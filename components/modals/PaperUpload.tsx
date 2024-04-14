@@ -79,9 +79,7 @@ const PaperUpload = () => {
             <ModalBody pb={6}>
               <div
                 className={`bg-gray-200 mt-2 flex justify-center rounded-lg border ${
-                  dragging
-                    ? "border-teal-500 border-2"
-                    : "border-dashed border-gray-900/25"
+                  dragging ? "bg-gray-200 border-2" : "border-dashed bg-gray-50"
                 } px-6 py-10`}
                 onDragEnter={handleDragIn}
                 onDragLeave={handleDragOut}
