@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { useCallback, useState } from "react";
 import { NormalizedSelection } from "react-pdf-selection"; // Only import types and other needed exports directly
+import { Spinner } from '@chakra-ui/react';
 
 const PdfViewer = dynamic(
   () => import("react-pdf-selection").then((mod) => mod.PdfViewer),
@@ -36,6 +37,7 @@ export function PaperView() {
   return (
     <div className="max-h-screen w-full overflow-auto">
       {/* paper  */}
+
       <PdfViewer
         url={paperUrl}
         scale={scale}

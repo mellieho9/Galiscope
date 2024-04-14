@@ -8,11 +8,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full min-h-screen">
-      <span className="absolute top-5 left-10 z-50">
+    <div className="w-full min-h-screen bg-gray-50">
+      <span className="absolute top-5 left-5 z-50">
         <BackButton />
       </span>
-      <div className="w-full flex flex-row h-full z-0">
+      <div className="w-full flex flex-row z-0">
         {/* paper view */}
         <div className="w-1/2">
           <PaperView />
