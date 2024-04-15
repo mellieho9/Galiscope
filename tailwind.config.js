@@ -15,6 +15,7 @@ module.exports = {
         },
         teal: "#1E757B",
         "baby-lime": "#F7FFF5",
+        "lime": "#DAFBD2",
         orange: '#ED6C02',
       },
       fontFamily: {
