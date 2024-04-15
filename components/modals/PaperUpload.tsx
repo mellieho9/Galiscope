@@ -33,35 +33,27 @@ const PaperUpload = () => {
   const [dragging, setDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  let [pdfUrl, setPdfUrl] = useState("");
-
-  useEffect(() => {
-    const fetchPdf = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(pdfUrl);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.blob();
-
-        console.log("PDF loaded:", data);
-        const file = new File([data], "document.pdf", {
-          type: "application/pdf",
-        });
-        console.log("PDF file:", file);
-        setPdf(file);
-      } catch (error) {
-        console.error("Error fetching PDF:", error);
-      } finally {
-        setIsLoading(false);
+  const fetchPdfPaper = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(paperPdfLink);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+      const data = await response.blob();
 
-    if (paperPdfLink) {
-      fetchPdf();
+      console.log("PDF loaded:", data);
+      const file = new File([data], "document.pdf", {
+        type: "application/pdf",
+      });
+      console.log("PDF file:", file);
+      setPdf(file);
+    } catch (error) {
+      console.error("Error fetching PDF:", error);
+    } finally {
+      setIsLoading(false);
     }
-  }, [paperPdfLink]);
+  };
 
   const handleDragIn = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -181,10 +173,7 @@ const PaperUpload = () => {
                         variant="ghost"
                         aria-label="Upload link"
                         h="1.75rem"
-                        onClick={(e) => {
-                          console.log(paperPdfLink);
-                          setPdfUrl(paperPdfLink);
-                        }}
+                        onClick={fetchPdfPaper}
                         icon={<ArrowUpOnSquareIcon className="w-6 h-6" />}
                       />
                     </InputRightElement>

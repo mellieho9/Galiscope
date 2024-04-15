@@ -23,7 +23,7 @@ export default async function ProtectedPage() {
     //<DiagramType />
 
     <div className="absolute top-1/2">
-      <DiagramType />
+      <PaperUpload />
     </div>
   );
 }
