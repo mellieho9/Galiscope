@@ -1,34 +1,38 @@
-"use client";
-import { useCallback, useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
+'use client';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import {
   NormalizedSelection,
   SelectionType,
   PageDimensions,
-} from "react-pdf-selection";
-import { Spinner, Button } from "@chakra-ui/react";
+} from 'react-pdf-selection';
+import { Spinner, Button } from '@chakra-ui/react';
 
 const PdfViewer = dynamic(
-  () => import("react-pdf-selection").then((mod) => mod.PdfViewer),
+  () => import('react-pdf-selection').then((mod) => mod.PdfViewer),
   { ssr: false }
 );
 
 export function PaperView() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1.2);
-  const [selection, setSelection] = useState<NormalizedSelection | undefined>();
-  const [areaSelectionActive, setAreaSelectionActive] = useState(false);
+  const [selection, setSelection] = useState<
+    NormalizedSelection | undefined
+  >();
+  const [areaSelectionActive, setAreaSelectionActive] = useState(
+    false
+  );
   const [selected, setSelected] = useState<SelectionType | undefined>(
     undefined
   );
   const [numPage, setNumPage] = useState<number>(1);
-  const paperUrl = "https://arxiv.org/pdf/1708.08021.pdf";
+  const paperUrl = 'https://arxiv.org/pdf/1708.08021.pdf';
 
   const handleClick = () => {
     if (!selected) {
       setSelected(mockSelection);
       const pdfViewwerContainer = document.getElementById(
-        "pdf-viewer-container"
+        'pdf-viewer-container'
       );
       console.log(pdfViewwerContainer);
       pdfViewwerContainer?.scrollTo({
@@ -36,7 +40,7 @@ export function PaperView() {
           pdfViewwerContainer.scrollHeight *
           ((mockSelection.position.pageNumber - 1) / numPage +
             mockSelection.position.boundingRect.top / numPage / 100),
-        behavior: "smooth",
+        behavior: 'smooth',
       });
     } else {
       setSelected(undefined);
@@ -47,8 +51,10 @@ export function PaperView() {
     (highlightTip?: NormalizedSelection) => {
       console.log(
         highlightTip
-          ? `New ${"image" in highlightTip ? "area" : "text"} selection`
-          : "Reset selection",
+          ? `New ${
+              'image' in highlightTip ? 'area' : 'text'
+            } selection`
+          : 'Reset selection',
         highlightTip?.position
       );
       setSelection(highlightTip);
@@ -57,7 +63,8 @@ export function PaperView() {
   );
 
   const mockSelection: SelectionType = {
-    text: " At the same time, we do not focus on reflection and legacy patterns that appear in a relatively small fraction (that is also usually stable and well-tested). Today, tools like Babel convert modern JavaScript to (the more low-level) ES5 executed on browsers. Flow focuses on analyzing the source, instead of the target, of such translations (unlike many previous efforts that address ES5, or the even more low-level, and therefore harder, ES3).",
+    text:
+      ' At the same time, we do not focus on reflection and legacy patterns that appear in a relatively small fraction (that is also usually stable and well-tested). Today, tools like Babel convert modern JavaScript to (the more low-level) ES5 executed on browsers. Flow focuses on analyzing the source, instead of the target, of such translations (unlike many previous efforts that address ES5, or the even more low-level, and therefore harder, ES3).',
     position: {
       pageNumber: 2,
       boundingRect: {
@@ -107,10 +114,9 @@ export function PaperView() {
     },
   };
 
-  const enableAreaSelection = useCallback(
-    () => areaSelectionActive,
-    [areaSelectionActive]
-  );
+  const enableAreaSelection = useCallback(() => areaSelectionActive, [
+    areaSelectionActive,
+  ]);
 
   const adjustScaleToFit = useCallback(() => {
     if (containerRef.current) {
@@ -121,20 +127,21 @@ export function PaperView() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", adjustScaleToFit);
+    window.addEventListener('resize', adjustScaleToFit);
     adjustScaleToFit(); // Initial scale adjustment on mount
 
     return () => {
-      window.removeEventListener("resize", adjustScaleToFit);
+      window.removeEventListener('resize', adjustScaleToFit);
     };
   }, [adjustScaleToFit]);
 
   return (
-    <div ref={containerRef} className="max-h-screen w-full overflow-y-auto">
-      <div
-        id="pdf-viewer-container"
-        style={{ width: "100%", boxShadow: "none" }}
-      >
+    <div
+      id="pdf-viewer-container"
+      ref={containerRef}
+      className="max-h-screen w-full overflow-y-auto"
+    >
+      <div style={{ width: '100%', boxShadow: 'none' }}>
         <PdfViewer
           url={paperUrl}
           scale={scale}
