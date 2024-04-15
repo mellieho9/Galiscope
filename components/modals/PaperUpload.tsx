@@ -22,6 +22,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import CustomButton from "@/components/Button";
+import { PDFDocument } from "pdf-lib";
 
 const PaperUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -48,6 +49,11 @@ const PaperUpload = () => {
       });
       console.log("PDF file:", file);
       setPdf(file);
+
+      const arrayBuffer = await data.arrayBuffer();
+      const pdf = await PDFDocument.load(arrayBuffer);
+      const getTitle = pdf.getTitle();
+      console.log(getTitle);
     } catch (error) {
       console.error("Error fetching PDF:", error);
     } finally {
