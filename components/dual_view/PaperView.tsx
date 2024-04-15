@@ -53,16 +53,17 @@ export function PaperView() {
 
   return (
     <div ref={containerRef} className="max-h-screen w-full overflow-y-auto">
-      <PdfViewer
-        url={paperUrl}
-        scale={scale}
-        enableAreaSelection={enableAreaSelection}
-        onTextSelection={setAndLogSelection}
-        onAreaSelection={setAndLogSelection}
-        onLoad={adjustScaleToFit}
-        overscanCount={0}
-        style={{ width: "100%", boxShadow: "none" }}
-      />
+      <div style={{ width: "100%", boxShadow: "none" }}>
+        <PdfViewer
+          url={paperUrl}
+          scale={scale}
+          enableAreaSelection={enableAreaSelection}
+          onTextSelection={setAndLogSelection}
+          onAreaSelection={setAndLogSelection}
+          onLoad={adjustScaleToFit}
+          overscanCount={0}
+        />
+      </div>
     </div>
   );
 }
