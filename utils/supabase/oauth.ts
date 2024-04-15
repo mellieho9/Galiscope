@@ -3,7 +3,6 @@ import { createClient } from './client';
 const supabase = createClient();
 
 export const LoginWithGoogle = () => {
-  console.log("Login with Google", window.location.origin)
   supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
