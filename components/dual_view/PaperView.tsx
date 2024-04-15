@@ -10,7 +10,7 @@ const PdfViewer = dynamic(
 );
 
 export function PaperView() {
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1.2);
   const [selection, setSelection] = useState<NormalizedSelection | undefined>();
   const [areaSelectionActive, setAreaSelectionActive] = useState(false);
