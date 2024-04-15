@@ -1,5 +1,5 @@
 "use client";
-import { ReadingCard } from "@/components/ReadingCard";
+import { HomeReadingCard } from "@/components/ReadingCard";
 import { mockRecentlyRead } from "@/utils/mock";
 import { Heading } from "@chakra-ui/react";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
@@ -17,7 +17,7 @@ export function RecentlyRead() {
       <div className="flex flex-wrap gap-2">
         {mockRecentlyRead.map((item, index) => {
           return (
-            <ReadingCard
+            <HomeReadingCard
               key={index}
               paperTitle={item.paperTitle}
               folder={item.folder}

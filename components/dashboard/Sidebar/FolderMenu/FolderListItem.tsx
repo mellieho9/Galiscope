@@ -21,7 +21,7 @@ const FolderListItem: React.FC<FolderListItemProps> = ({ folderTitle, numIncompl
                     {folderTitle}
                 </span>
             </div>
-            <div className="flex flex-row space-x-2 items-center">
+            <div className="flex flex-row space-x-1 items-center">
                 {numIncompleteReads > 0 && (
                     <Circle size='1.25rem' bg='orange' color='white'><p className="text-xs">{numIncompleteReads}</p></Circle>
                 )}
