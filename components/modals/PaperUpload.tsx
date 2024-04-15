@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   InputGroup,
@@ -25,9 +25,43 @@ import CustomButton from "@/components/Button";
 
 const PaperUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [fileName, setFileName] = useState(""); // State to store the file name
+  const [pdf, setPdf] = useState<File | null>(null); // State to store the file name
+
+  const [paperPdfLink, setPaperPdfLink] = React.useState("");
+  const handleChange = (event) => setPaperPdfLink(event.target.value);
 
   const [dragging, setDragging] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  let [pdfUrl, setPdfUrl] = useState("");
+
+  useEffect(() => {
+    const fetchPdf = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(pdfUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.blob();
+
+        console.log("PDF loaded:", data);
+        const file = new File([data], "document.pdf", {
+          type: "application/pdf",
+        });
+        console.log("PDF file:", file);
+        setPdf(file);
+      } catch (error) {
+        console.error("Error fetching PDF:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (paperPdfLink) {
+      fetchPdf();
+    }
+  }, [paperPdfLink]);
 
   const handleDragIn = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -55,8 +89,8 @@ const PaperUpload = () => {
     setDragging(false);
     const files = e.dataTransfer.files;
     if (files && files.length > 0) {
-      const file = files[0];
-      setFileName(file.name); // Update the state with the file name
+      const file: File = files[0];
+      setPdf(file); // Update the state with the file name
       // Process the file upload here...
       e.dataTransfer.clearData();
     }
@@ -103,7 +137,7 @@ const PaperUpload = () => {
                           const files = e.target.files;
                           if (files && files.length > 0) {
                             const file = files[0];
-                            setFileName(file.name); // Update the state with the file name
+                            setPdf(file); // Update the state with the file name
                             // Process the file upload here...
                           }
                         }}
@@ -114,17 +148,17 @@ const PaperUpload = () => {
                 </div>
               </div>
 
-              {fileName ? (
+              {pdf ? (
                 // The else branch returns a single element, no need for a fragment
                 <div className="border-2 mt-5 border-black rounded-lg p-2">
                   <div className="flex flex-row items-center justify-between">
-                    <p className="text-black">{fileName}</p>
+                    <p className="text-black">{pdf.name}</p>
                     <IconButton
                       aria-label="Call Segun"
                       size="xs"
                       icon={<XMarkIcon />}
                       variant="ghost"
-                      onClick={() => setFileName("")}
+                      onClick={() => setPdf(null)}
                     />
                   </div>
                 </div>
@@ -140,12 +174,17 @@ const PaperUpload = () => {
                       focusBorderColor="teal.500"
                       pr="4.5rem"
                       placeholder="Insert link from the web"
+                      onChange={handleChange}
                     />
                     <InputRightElement width="4.5rem">
                       <IconButton
                         variant="ghost"
                         aria-label="Upload link"
                         h="1.75rem"
+                        onClick={(e) => {
+                          console.log(paperPdfLink);
+                          setPdfUrl(paperPdfLink);
+                        }}
                         icon={<ArrowUpOnSquareIcon className="w-6 h-6" />}
                       />
                     </InputRightElement>
