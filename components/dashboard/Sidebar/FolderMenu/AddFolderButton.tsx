@@ -22,7 +22,7 @@ export const AddFolderButton: React.FC<AddFolderButtonProps> = ({
       <PlusIcon className="w-4 h-4 mr-4 text-teal" />
       <input
         type="text"
-        placeholder="Add new topic"
+        placeholder="Add new folder"
         className="text-sm text-gray-800 font-normal bg-transparent border-none focus:outline-none"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}

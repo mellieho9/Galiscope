@@ -1,6 +1,7 @@
-import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
-import { type CookieOptions, createServerClient } from "@supabase/ssr";
+import { cookies } from 'next/headers'
+import { NextResponse } from 'next/server'
+import { type CookieOptions, createServerClient } from '@supabase/ssr'
+import userService from '@/services/user/user.service'
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -27,10 +28,28 @@ export async function GET(request: Request) {
           },
         },
       }
-    );
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    )
+
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code)
+
     if (!error) {
-      return NextResponse.redirect(requestUrl.origin + "/protected");
+      const { user } = data;
+
+      const existingUser = await userService.getUserByAuthId(user.id);
+
+      if (!existingUser) {
+        const createdUser = await userService.createUser({
+          name: user.user_metadata.full_name,
+          email: user.email ?? 'N/A',
+          auth_id: user.id,
+        })
+
+        if (!createdUser) {
+          return NextResponse.redirect(`${origin}/auth/auth-code-error`)
+        }
+      }
+
+      return NextResponse.redirect(requestUrl.origin + '/protected')
     }
   }
 

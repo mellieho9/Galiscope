@@ -17,7 +17,7 @@ const FolderListItem: React.FC<FolderListItemProps> = ({ folderTitle, numIncompl
         >
             <div className="flex flex-row items-center">
                 <span className="w-3 h-3 mr-2 bg-gray-200"></span>
-                <span className="text-sm font-normal">
+                <span className="truncate text-sm font-normal">
                     {folderTitle}
                 </span>
             </div>
@@ -25,7 +25,7 @@ const FolderListItem: React.FC<FolderListItemProps> = ({ folderTitle, numIncompl
                 {numIncompleteReads > 0 && (
                     <Circle size='1.25rem' bg='orange' color='white'><p className="text-xs">{numIncompleteReads}</p></Circle>
                 )}
-                <FolderItemAction handleDeleteFolder={handleDeleteFolder} className="group-hover:block group-active:block hidden" />
+                <FolderItemAction handleDeleteFolder={handleDeleteFolder} className="transition ease-in-out delay-150 group-hover:block group-active:block hidden" />
             </div>
         </span>
     );

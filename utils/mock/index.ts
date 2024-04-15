@@ -1,4 +1,4 @@
-interface Folder {
+export interface Folder {
   folderTitle: string;
   numIncompleteReads: number;
   redirectTo: () => void;
@@ -21,6 +21,7 @@ export const mockFolderListItems: Folder[] = [
     redirectTo: () => console.log("Navigating to prompt engineering..."),
   },
 ];
+
 
 interface ReadingListItem {
   paperTitle: string,
