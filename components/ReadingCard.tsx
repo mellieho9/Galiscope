@@ -7,6 +7,7 @@ interface ReadingCardProps {
   paperTitle: string;
   lastUpdatedTime?: string;
   folder?: string;
+
 }
 
 // Base card component for reusability and consistency
@@ -40,7 +41,7 @@ const BaseCard: React.FC<
 
 export const HomeReadingCard: React.FC<ReadingCardProps> = ({
   paperTitle,
-  folder,
+  folderId,
   lastUpdatedTime,
 }) => (
   <BaseCard borderColor="teal" paperTitle={""}>

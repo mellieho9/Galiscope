@@ -3,7 +3,7 @@ import CustomButton from "@/components/Button";
 import { CustomCard } from "@/components/landing/Card";
 import { Center, Heading, VStack, HStack } from "@chakra-ui/react";
 import Image from "next/image";
-import logo from "./logo.svg";
+import logo from "../public/logo.svg";
 
 export default function Index() {
   const c1 = [

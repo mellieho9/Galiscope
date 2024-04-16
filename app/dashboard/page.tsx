@@ -1,23 +1,8 @@
 import { ReadingList } from "@/components/dashboard/Home/ReadingList";
 import { RecentlyRead } from "@/components/dashboard/Home/RecentlyRead";
 import { ShortcutGroup } from "@/components/dashboard/Home/ShortcutGroup";
-import { Heading } from "@chakra-ui/react";
 
 export default async function ProtectedPage() {
-  // const supabase = createClient();
-  // const supabase = createClient();
-
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
-
-  // if (!user) {
-  //   return redirect("/login");
-  // }
-
   return (
     <div className="flex min-h-screen w-full flex-col items-center text-gray-800">
       <ShortcutGroup />
