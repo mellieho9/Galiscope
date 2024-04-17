@@ -32,22 +32,14 @@ export function RecentlyRead() {
       <div className="flex flex-wrap gap-2">
         {recentlyRead.map((doc, index) => {
           return (
-<<<<<<<<< Temporary merge branch 1
-            <HomeReadingCard
-              key={index}
-              paperTitle={item.paperTitle}
-              folder={item.folder}
-              lastUpdatedTime={item.lastUpdatedTime}
-=========
             <ReadingCard
               key={doc.id}
               paperTitle={doc.title}
               folderId={doc.folder_id ?? ""}
               lastUpdatedTime={doc.updated_at}
->>>>>>>>> Temporary merge branch 2
             />
           )
-        )}
+        })}
       </div>
     </div>
   );
