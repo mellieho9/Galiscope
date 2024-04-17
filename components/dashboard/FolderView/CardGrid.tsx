@@ -7,7 +7,7 @@ import {
 } from "@/components/ReadingCard";
 import { mockReadFolder } from "@/utils/mock";
 import { FilterDropdown } from "./FilterDropdown";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 
 export function CardGrid() {
   const [groupBy, setGroupBy] = useState("default");

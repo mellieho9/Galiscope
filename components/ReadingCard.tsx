@@ -4,11 +4,12 @@ import { useGetFolderById } from "@/hooks/folder.hooks";
 import { format } from "timeago.js";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { data } from "autoprefixer";
 
 interface ReadingCardProps {
   paperTitle: string;
-  lastUpdatedTime?: string;
-  folder?: string;
+  lastUpdatedTime?: string | number | Date;
+  folderId: string;
 }
 
 // Base card component for reusability and consistency
@@ -40,36 +41,40 @@ const BaseCard: React.FC<
   </div>
 );
 
-export const HomeReadingCard: React.FC<ReadingCardProps> = ({
-  folderId: string;
-  lastUpdatedTime: Date;
-}
-
 export const ReadingCard: React.FC<ReadingCardProps> = ({
   paperTitle,
   folderId,
   lastUpdatedTime,
-}) => (
-  <BaseCard borderColor="teal" paperTitle={""}>
-    <Heading isTruncated color="gray.600" size="xs">
-      {paperTitle}
-    </Heading>
-    <div className="flex flex-row justify-between text-xs text-gray-500">
-      <Text isTruncated>{folder}</Text>
-      <Text isTruncated>{lastUpdatedTime}</Text>
-    </div>
-  </BaseCard>
-);
+  ...props
+}) => {
+  const { data: folder } = useGetFolderById(folderId);
+
+  return (
+    <BaseCard folderId={folderId} paperTitle={paperTitle} borderColor="teal">
+      <Heading isTruncated color="gray.600" size="xs">
+        {paperTitle}
+      </Heading>
+      <div className="flex flex-row justify-between text-xs text-gray-500">
+        <Text isTruncated>{folder?.name}</Text>
+        {lastUpdatedTime != undefined && (
+          <Text isTruncated>{format(lastUpdatedTime)}</Text>
+        )}
+      </div>
+    </BaseCard>
+  );
+};
 
 export const FolderCompleteCard: React.FC<
   Pick<ReadingCardProps, "paperTitle" | "lastUpdatedTime">
-> = ({ paperTitle, lastUpdatedTime }) => (
-  <BaseCard borderColor="teal" paperTitle={""}>
+> = ({ paperTitle, lastUpdatedTime, ...props }) => (
+  <BaseCard folderId={""} paperTitle={paperTitle} borderColor="teal" {...props}>
     <Heading isTruncated color="gray.600" size="xs">
       {paperTitle}
     </Heading>
     <div className="flex flex-row justify-end text-xs text-gray-500">
-      <Text isTruncated>{lastUpdatedTime}</Text>
+      {lastUpdatedTime != undefined && (
+        <Text isTruncated>{format(lastUpdatedTime)}</Text>
+      )}
     </div>
   </BaseCard>
 );
@@ -77,31 +82,11 @@ export const FolderCompleteCard: React.FC<
 export const IncompleteCard: React.FC<Pick<ReadingCardProps, "paperTitle">> = ({
   paperTitle,
 }) => (
-  <div
-    className={`transition ease-in-out delay-150 hover:border rounded-lg hover:border-orange`}
-  >
-    <Box
-      overflow="hidden"
-      borderWidth="1px"
-      borderRadius="lg"
-      width="200px"
-      height="200px"
-      display="flex"
-      flexDirection="column"
-    >
-      <Box
-        width="full"
-        height="70%"
-        bg="sunshine" // You can adjust the shade of orange as needed
-        objectFit="cover"
-      />
-      <div className="flex-grow p-2 space-y-1 border-t border-gray-200 bg-white cursor-pointer">
-        <Heading isTruncated color="gray.600" size="xs">
-          {paperTitle}
-        </Heading>
-      </div>
-    </Box>
-  </div>
+  <BaseCard folderId={""} paperTitle={paperTitle} borderColor="orange">
+    <Heading isTruncated color="gray.600" size="xs">
+      {paperTitle}
+    </Heading>
+  </BaseCard>
 );
 
 export const AddCard: React.FC = () => (
@@ -109,9 +94,9 @@ export const AddCard: React.FC = () => (
     className={`transition ease-in-out delay-150 hover:border rounded-lg hover:bg-gray-100 hover:border-gray-500`}
   >
     <Box
-      display="flex" // Enables flexbox layout
-      alignItems="center" // Vertically centers the content
-      justifyContent="center" // Horizontally centers the content
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
       overflow="hidden"
       borderWidth="1px"
       borderRadius="lg"
@@ -125,23 +110,3 @@ export const AddCard: React.FC = () => (
     </Box>
   </div>
 );
-}) => {
-  const { data: folder } = useGetFolderById(folderId);
-
-  return (
-    <div className="transition ease-in-out delay-150 hover:border rounded-lg hover:border-teal">
-      <Box overflow="hidden"  borderWidth="1px" borderRadius="lg" maxWidth={225}>
-        <Image src={blurredImage.src} width="full" display="fill" />
-        <div className="p-2 space-y-1 border-t border-gray-200 bg-white cursor-pointer">
-          <Heading isTruncated color="gray.600" size="xs">
-            {paperTitle}
-          </Heading>
-          <div className="flex flex-row justify-between text-xs text-gray-500">
-            <Text isTruncated>{folder?.name}</Text>
-            <Text isTruncated>{format(lastUpdatedTime)}</Text>
-          </div>
-        </div>
-      </Box>
-    </div>
-  );
-};
