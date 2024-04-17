@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
   Box,
   InputGroup,
   InputRightElement,
   Input,
   IconButton,
-  Text,
   Button,
   useDisclosure,
   Modal,
@@ -20,16 +19,28 @@ import {
   ArrowUpOnSquareIcon,
   CloudArrowUpIcon,
   XMarkIcon,
+  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
+import DropdownMenu from "@/components/modals/DropDownMenu";
+
 import CustomButton from "@/components/Button";
 import { PDFDocument } from "pdf-lib";
 
 const PaperUpload = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pdf, setPdf] = useState<File | null>(null); // State to store the file name
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handlePanelClick = () => {
+    fileInputRef.current?.click();
+  };
 
   const [paperPdfLink, setPaperPdfLink] = React.useState("");
-  const handleChange = (event) => setPaperPdfLink(event.target.value);
+  const handleChangeFromWebLinkInput = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPaperPdfLink(event.target.value);
+  };
 
   const [dragging, setDragging] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,16 +55,16 @@ const PaperUpload = () => {
       const data = await response.blob();
 
       console.log("PDF loaded:", data);
-      const file = new File([data], "document.pdf", {
+
+      const arrayBuffer = await data.arrayBuffer();
+      const pdf = await PDFDocument.load(arrayBuffer);
+      const pdfTitle = pdf.getTitle() || "document.pdf";
+      console.log(pdfTitle);
+      const file = new File([data], pdfTitle, {
         type: "application/pdf",
       });
       console.log("PDF file:", file);
       setPdf(file);
-
-      const arrayBuffer = await data.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
-      const getTitle = pdf.getTitle();
-      console.log(getTitle);
     } catch (error) {
       console.error("Error fetching PDF:", error);
     } finally {
@@ -94,6 +105,15 @@ const PaperUpload = () => {
     }
   };
 
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+      setPdf(file); // Assume setPdf updates state; replace with your state management
+      // Process the file as needed
+    }
+  };
+
   return (
     <>
       <Button onClick={onOpen}>Open Modal</Button>
@@ -112,20 +132,20 @@ const PaperUpload = () => {
             {pdf ? (
               <>
                 <ModalBody pb={6}>
-                  {
-                    // The else branch returns a single element, no need for fragment
-                  }
-                  <div className="border-2 mt-5 border-black rounded-lg p-2">
-                    <div className="flex flex-row items-center justify-between">
-                      <p className="text-black">{pdf.name}</p>
-                      <IconButton
-                        aria-label="Call Segun"
-                        size="xs"
-                        icon={<XMarkIcon />}
-                        variant="ghost"
-                        onClick={() => setPdf(null)}
-                      />
+                  <div className="flex flex-col gap-7">
+                    <div className="border mt-5 border-black rounded-lg p-2">
+                      <div className="flex flex-row items-center justify-between">
+                        <p className="text-black">{pdf.name}</p>
+                        <IconButton
+                          aria-label="Call Segun"
+                          size="xs"
+                          icon={<XMarkIcon />}
+                          variant="ghost"
+                          onClick={() => setPdf(null)}
+                        />
+                      </div>
                     </div>
+                    <DropdownMenu />
                   </div>
                 </ModalBody>
                 <ModalFooter>
@@ -145,37 +165,26 @@ const PaperUpload = () => {
                       dragging
                         ? "bg-gray-200 border-2"
                         : "border-dashed bg-gray-50"
-                    } px-6 py-10`}
+                    } px-6 py-10 cursor-pointer`}
+                    onClick={handlePanelClick}
                     onDragEnter={handleDragIn}
                     onDragLeave={handleDragOut}
                     onDragOver={handleDragOver}
                     onDrop={handleDrop}
                   >
-                    <div className="flex flex-col	items-center">
+                    <div className="flex flex-col items-center">
                       <CloudArrowUpIcon className="w-10 h-10 text-gray-600" />
-                      <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                        <label
-                          htmlFor="file-upload"
-                          className="relative cursor-pointer rounded-md font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                        >
-                          <span>Upload a file</span>
-                          <input
-                            id="file-upload"
-                            name="file-upload"
-                            type="file"
-                            className="sr-only"
-                            onChange={(e) => {
-                              const files = e.target.files;
-                              if (files && files.length > 0) {
-                                const file = files[0];
-                                setPdf(file); // Update the state with the file name
-                                // Process the file upload here...
-                              }
-                            }}
-                          />
-                        </label>
-                        <p className="pl-1">or drag and drop</p>
-                      </div>
+                      <p className="mt-4 text-sm leading-6 text-gray-600">
+                        Upload a file or drag and drop
+                      </p>
+                      <input
+                        ref={fileInputRef}
+                        id="file-upload"
+                        name="file-upload"
+                        type="file"
+                        className="sr-only"
+                        onChange={handleFileChange}
+                      />
                     </div>
                   </div>
                   <Box mt={4}>
@@ -188,7 +197,7 @@ const PaperUpload = () => {
                       focusBorderColor="teal.500"
                       pr="4.5rem"
                       placeholder="Insert link from the web"
-                      onChange={handleChange}
+                      onChange={handleChangeFromWebLinkInput}
                     />
                     <InputRightElement width="4.5rem">
                       <IconButton
