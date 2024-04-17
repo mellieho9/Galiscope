@@ -11,3 +11,7 @@ export type CreateFolderParams = {
   name: string;
   user_id: string;
 };
+
+export type UpdateFolderParams = {
+  name?: string;
+}

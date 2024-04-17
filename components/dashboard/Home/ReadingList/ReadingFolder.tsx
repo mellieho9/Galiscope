@@ -3,22 +3,16 @@ import {
   AccordionButton,
   AccordionItem,
   AccordionPanel,
-  Box,
   Circle,
   Heading,
 } from "@chakra-ui/react";
 import { FolderMinusIcon, FolderPlusIcon } from "@heroicons/react/24/solid";
 import { ReadingFolderItem } from "./ReadingFolderItem";
-
-interface ReadingItem {
-  paperTitle: string;
-  folder: string;
-  paperUrl: string;
-}
+import { Document } from "@/types/document.types";
 
 type ReadingFolderProps = {
   folder: string;
-  incompleteReadList: ReadingItem[];
+  incompleteReadList: Document[];
 };
 
 export function ReadingFolder({
@@ -54,12 +48,12 @@ export function ReadingFolder({
                 </AccordionButton>
               </h2>
               <AccordionPanel pb={4}>
-                {incompleteReadList.map((item, index) => {
+                {incompleteReadList.map((doc) => {
                   return (
                     <ReadingFolderItem
-                      key={index}
-                      paperTitle={item.paperTitle}
-                      paperUrl={item.paperUrl}
+                      folderId={doc.folder_id}
+                      paperTitle={doc.title}
+                      paperUrl={doc.filepath}
                     />
                   );
                 })}
