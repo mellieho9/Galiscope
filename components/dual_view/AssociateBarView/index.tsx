@@ -1,15 +1,10 @@
 import {
   Box,
-  Flex,
-  Grid,
-  GridItem,
   Heading,
-  Image,
-  Wrap,
   WrapItem,
 } from '@chakra-ui/react';
-import diagram from '../../../app/diagram.svg';
 import { BookmarkIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import { DiagramGrid } from './DiagramGrid';
 
 interface AssociateBarViewProps {
   paperTitle: string;
@@ -19,15 +14,14 @@ export const AssociateBarView: React.FC<AssociateBarViewProps> = ({
   paperTitle,
 }) => {
   return (
-    <div className="w-full p-14 pb-8 min-h-screen bg-gray-50">
-      {/* Heading  */}
+    <div className="w-full py-20 px-14 min-h-screen bg-white">
       <Heading className="mb-10" fontSize="3xl" color="teal">
         {paperTitle}
       </Heading>
       <Heading className="mb-3" fontSize="lg">
         Sections read
       </Heading>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between ml-2 mb-7">
         <WrapItem>
           <BookmarkIcon className="h-7 w-7 mr-2" fill="none" stroke="teal" />
           <div>Evaluation</div>
@@ -44,6 +38,7 @@ export const AssociateBarView: React.FC<AssociateBarViewProps> = ({
           <ChevronDownIcon className="h-6 w-6" color="gray" />
         </WrapItem>
       </div>
+      <DiagramGrid />
     </div>
   );
 };
