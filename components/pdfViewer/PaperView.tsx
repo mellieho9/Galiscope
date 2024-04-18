@@ -1,7 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { NormalizedTextSelection } from "react-pdf-selection";
+import { NormalizedTextSelection, SelectionType } from "react-pdf-selection";
 import { Spinner } from "@chakra-ui/react";
 
 const PdfViewer = dynamic(
@@ -11,6 +11,7 @@ const PdfViewer = dynamic(
 
 interface PdfScrollingComponentProps {
   currentPageNumber: number;
+  totalPageNumber: number;
   setCurrentPageNumber: (pageNumber: number) => void;
   setTotalPageNumber: (pageNumber: number) => void;
 }
@@ -19,31 +20,66 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
   currentPageNumber,
   setCurrentPageNumber,
   setTotalPageNumber,
+  totalPageNumber,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1.2);
-  const [selection, setSelection] = useState<
-    NormalizedTextSelection | undefined
-  >();
-  const [areaSelectionActive, setAreaSelectionActive] = useState(false);
+  // TODO: AFTER THE USER PRESS THE CONFIRM BUTTON IN THE PARENT COMPONENT, SEND SELECTION TO THE BACKEND
+  const [selection, setSelection] = useState<SelectionType | undefined>();
   const paperUrl = "https://arxiv.org/pdf/1708.08021.pdf";
 
   const [pageYOffsets, setPageYOffsets] = useState<number[]>([]);
+  const [selected, setSelected] = useState<SelectionType | undefined>(
+    undefined
+  );
 
   const setAndLogSelection = useCallback(
     (highlightTip?: NormalizedTextSelection) => {
       console.log(highlightTip);
       console.log(highlightTip?.text);
       console.log(highlightTip?.position);
-      setSelection(highlightTip);
+
+      if (
+        highlightTip &&
+        highlightTip.text !== undefined &&
+        highlightTip.position !== undefined
+      ) {
+        const pageNumber: number = highlightTip.position.pageNumber;
+        const selectionRects = highlightTip.position.normalized;
+        const newSelection: SelectionType = {
+          text: highlightTip.text,
+          position: { pageNumber, ...selectionRects },
+        };
+        setSelection(newSelection);
+        console.log("you have selected", newSelection);
+      }
     },
     []
   );
 
-  const enableAreaSelection = useCallback(
-    () => areaSelectionActive,
-    [areaSelectionActive]
-  );
+  const handleClick = () => {
+    if (!selected) {
+      setSelected(selection);
+
+      // Assuming the container and each page have a consistent height and the selection data is correct
+      const pdfViewerContainer = document.getElementById(
+        "pdf-viewer-container"
+      );
+      if (pdfViewerContainer && selection) {
+        // Calculate the top offset of the selected text relative to the entire container
+
+        pdfViewerContainer.scrollTo({
+          top:
+            pdfViewerContainer.scrollHeight *
+            ((selection.position.pageNumber - 1) / totalPageNumber +
+              selection.position.boundingRect.top / totalPageNumber / 100),
+          behavior: "smooth",
+        });
+      }
+    } else {
+      setSelected(undefined);
+    }
+  };
 
   const handleScroll = () => {
     const container = containerRef.current;
@@ -51,7 +87,6 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
 
     const scrollTop = container.scrollTop;
     let accumulatedOffset = 0;
-    console.log(pageYOffsets);
 
     for (let i = 0; i < pageYOffsets.length; i++) {
       accumulatedOffset += pageYOffsets[i];
@@ -105,7 +140,7 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
         <PdfViewer
           url={paperUrl}
           scale={scale}
-          enableAreaSelection={enableAreaSelection}
+          selections={selected ? [selected] : []}
           onTextSelection={setAndLogSelection}
           onLoad={(dim) => {
             adjustScaleToFit;
@@ -116,6 +151,9 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
           }}
           overscanCount={0}
         />
+        <button className="bg-sky-500/100" onClick={handleClick}>
+          Select text
+        </button>
       </div>
     </div>
   );

@@ -41,11 +41,12 @@ export default function RootLayout({
         </span>
       </div>
       <div className="flex flex-row justify-center w-full bg-gray-50">
-        <div className="w-1/2">
+        <div className="w-2/3">
           <PaperView
             currentPageNumber={currentPageNumber}
             setCurrentPageNumber={setCurrentPageNumber}
             setTotalPageNumber={setTotalPageNumber}
+            totalPageNumber={totalPageNumber}
           />
         </div>
       </div>
