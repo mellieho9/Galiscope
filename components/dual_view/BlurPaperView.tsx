@@ -3,14 +3,11 @@ import {
   Box,
   Heading,
   Image,
-  Modal,
-  ModalContent,
-  useDisclosure,
 } from '@chakra-ui/react';
 import blurred_paper from '../../app/blurred_paper.png';
 import paper from '../../app/paper.png';
 import { CursorArrowRaysIcon } from '@heroicons/react/24/solid';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function BlurPaperView() {
   const [blockOpen, setBlockOpen] = useState(true);
@@ -24,10 +21,10 @@ export function BlurPaperView() {
   return (
     <div className="max-h-screen w-full overflow-y-auto">
       <div style={{ width: '100%', boxShadow: 'none' }}>
-        <Image src={displayPaper.src} width="100%" height="100%" />
+        <Image className="brightness-75 bg-cover" src={displayPaper.src} width="100%" height="100%" />
         {blockOpen && (
           <div className="absolute inset-0 flex items-center justify-center w-1/2">
-            <Box bg="white" p={6} borderRadius="xl" onClick={readPaper}>
+            <Box boxShadow={"md"} bg="white" p={6} borderRadius="xl" onClick={readPaper}>
               <CursorArrowRaysIcon
                 className="h-6 w-full my-3 mx-1 text-center"
                 fill="teal"

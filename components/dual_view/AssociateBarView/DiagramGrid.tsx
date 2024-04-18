@@ -1,5 +1,4 @@
 import { ReadingCard } from '@/components/ReadingCard';
-import { Grid, GridItem } from '@chakra-ui/react';
 
 export const DiagramGrid = () => {
   const cards = [
@@ -35,16 +34,14 @@ export const DiagramGrid = () => {
     },
   ];
   return (
-    <Grid templateColumns="repeat(3, 1fr)" className="ml-7">
+    <div className="flex flex-wrap gap-1/4">
       {cards.map((card) => (
-        <GridItem>
           <ReadingCard
             paperTitle={card.paperTitle}
             folder={card.folder}
             lastUpdatedTime={card.lastUpdatedTime}
           />
-        </GridItem>
       ))}
-    </Grid>
+    </div>
   );
 };

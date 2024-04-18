@@ -18,7 +18,7 @@ export const ReadingCard: React.FC<ReadingCardProps> = ({
       borderWidth="1px"
       borderRadius="lg"
     >
-      <Image src={diagram.src} width="full" height="150px" />
+      <Image src={diagram.src} width="150px" height="150px" />
       <div className="p-3 space-y-1 border-t border-gray-200 bg-white cursor-pointer">
         <Heading isTruncated color="gray.600" size="xs">
           {paperTitle}
