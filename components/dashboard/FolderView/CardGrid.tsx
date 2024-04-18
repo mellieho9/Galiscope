@@ -8,8 +8,18 @@ import {
 import { mockReadFolder } from "@/utils/mock";
 import { FilterDropdown } from "./FilterDropdown";
 import { useState } from "react";
+import { useGetFolderById } from "@/hooks/folder.hooks";
+import { useGetDocumentsByFolderId } from "@/hooks/document.hooks";
+import { format } from "timeago.js";
 
-export function CardGrid() {
+interface CardGridProps {
+  folderId: string;
+}
+
+export function CardGrid({ folderId }: CardGridProps) {
+  const { data: folder } = useGetFolderById(folderId);
+  const { data: documents = [] } = useGetDocumentsByFolderId(folderId);
+
   const [groupBy, setGroupBy] = useState("default");
 
   const handleGroupByChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -17,7 +27,7 @@ export function CardGrid() {
     console.log(groupBy);
   };
 
-  return (
+  return folder ? (
     <Box className="w-full space-y-4">
       <div className="flex flex-row justify-between items-center">
         <Heading size="sm" color="gray.800">
@@ -29,20 +39,20 @@ export function CardGrid() {
         {/* Displaying recently read items */}
         <AddCard />
         {/* Displaying folder complete and incomplete items */}
-        {mockReadFolder.map((item, index) =>
-          item.folder && item.lastUpdatedTime
+        {documents.map((doc) =>
+          doc.status === "read"
             ? groupBy !== "incomplete" && (
                 <FolderCompleteCard
-                  key={index}
-                  paperTitle={item.paperTitle}
-                  lastUpdatedTime={item.lastUpdatedTime}
+                  key={doc.id}
+                  paperTitle={doc.title}
+                  lastUpdatedTime={format(doc.updated_at)}
                 />
               )
             : groupBy !== "complete" && (
-                <IncompleteCard key={index} paperTitle={item.paperTitle} />
+                <IncompleteCard key={doc.id} paperTitle={doc.title} />
               )
         )}
       </Box>
     </Box>
-  );
+  ) : null;
 }
