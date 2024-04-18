@@ -1,9 +1,11 @@
+"use client";
+
 import { ReadingCard } from "@/components/ReadingCard";
 import { useCurrentUser } from "@/contexts/UserContextProvider";
 import { useGetDocumentsByUserId } from "@/hooks/document.hooks";
 import { Heading } from "@chakra-ui/react";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
-import { Key, useMemo } from "react";
+import { useMemo } from "react";
 
 export function RecentlyRead() {
   const { data: user } = useCurrentUser() ?? {};
