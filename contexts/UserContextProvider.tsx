@@ -1,4 +1,3 @@
-"use client";
 import { User } from "@/types/user.types";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import axios from "axios";
