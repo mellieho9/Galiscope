@@ -64,3 +64,27 @@ export const mockRecentlyRead = [
     lastUpdatedTime: "10 days ago"
   }
 ]
+
+export const mockReadFolder = [
+  {
+    paperTitle: "LongVLM: Efficient Long Video Understanding via Large Language Models"
+  },
+  {
+    paperTitle: "World Model on Million-Length Video And Language With Blockwise RingAttention"
+  },
+  {
+    paperTitle: 'Cross-modal Visual and Textural Summarization of Videos',
+    folder: "Video captioning",
+    lastUpdatedTime: "10 days ago"
+  },
+  {
+    paperTitle: 'Cross-modal Visual and Textural Summarization of Videos',
+    folder: "Video captioning",
+    lastUpdatedTime: "10 days ago"
+  },
+  {
+    paperTitle: 'Cross-modal Visual and Textural Summarization of Videos',
+    folder: "Video captioning",
+    lastUpdatedTime: "10 days ago"
+  }
+]

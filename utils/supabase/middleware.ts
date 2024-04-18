@@ -64,7 +64,7 @@ export const updateSession = async (request: NextRequest) => {
   const res = await supabase.auth.getUser();
   if (!res.data.user) {
     console.log("No user found");
-    response = NextResponse.redirect(`${origin}/`);
+    response = NextResponse.redirect(`${origin}/auth`);
   }
 
   return response;
