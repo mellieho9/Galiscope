@@ -4,7 +4,6 @@ import {
   ChevronUpIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
-import { InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
 
 // Define the type for the selections state
 type SelectionsType = {
@@ -13,6 +12,8 @@ type SelectionsType = {
 
 const DropdownMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [inputValue, setInputValue] = useState<string>("");
+
   const toggleDropdown = () => setIsOpen(!isOpen);
   const dropdownRef = useRef<HTMLDivElement>(null); // Use generic type for DOM element reference
   const [selections, setSelections] = useState<SelectionsType>({
@@ -20,6 +21,22 @@ const DropdownMenu: React.FC = () => {
     VideoQA: false,
     "Video summarization": false,
   });
+
+  const handleAddSelection = (newSelection: string) => {
+    if (!selections[newSelection]) {
+      setSelections((prevSelections) => ({
+        ...prevSelections,
+        [newSelection]: false,
+      }));
+    }
+  };
+
+  function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Enter" && inputValue.trim()) {
+      handleAddSelection(inputValue);
+      setInputValue("");
+    }
+  }
 
   useEffect(() => {
     // Define the event handler with the correct type
@@ -54,13 +71,13 @@ const DropdownMenu: React.FC = () => {
       <button
         aria-expanded={isOpen}
         onClick={toggleDropdown}
-        className="text-black w-full px-4 py-2 text-left bg-white border border-black rounded-lg shadow flex items-center justify-between focus:outline-none focus:ring-2 ring-black focus:border-transparent"
+        className="text-gray-500 w-full px-4 py-2 text-left bg-white border border-gray-500 rounded-lg shadow flex items-center justify-between focus:outline-none focus:ring-2 ring-gray-500 focus:border-transparent"
       >
         Select a folder that you want
         {isOpen ? (
-          <ChevronUpIcon className="w-6 h-6" />
+          <ChevronUpIcon className="w-4 h-4" />
         ) : (
-          <ChevronDownIcon className="w-6 h-6" />
+          <ChevronDownIcon className="w-4 h-4" />
         )}
       </button>
       {isOpen && (
@@ -71,28 +88,36 @@ const DropdownMenu: React.FC = () => {
                 <li
                   role="menuitem"
                   key={folderName}
-                  className="flex items-center hover:bg-gray-200 cursor-pointer"
+                  className="flex items-center p-1 rounded-md hover:bg-gray-50 cursor-pointer"
                 >
                   <input
                     type="checkbox"
                     id={folderName}
                     name={folderName}
                     onChange={handleCheckboxChange}
-                    className="form-checkbox h-4 w-4"
+                    className="form-checkbox  h-4 w-4"
                     onClick={(e) => e.stopPropagation()} // Stop propagation to prevent li's onClick when clicking the checkbox directly
                   />
-                  <label htmlFor={folderName} className="ml-2 block text-black">
+                  <label
+                    htmlFor={folderName}
+                    className="ml-2 block text-gray-800"
+                  >
                     {folderName}
                   </label>
                 </li>
               ))}
             </ul>
-            <InputGroup color="black">
-              <InputLeftElement pointerEvents="none">
-                <PlusIcon className="h-5 w-5" />
-              </InputLeftElement>
-              <Input placeholder="Add a new folder" />
-            </InputGroup>
+            <div className="flex flex-row items-center mt-2 py-2 cursor-pointer">
+              <PlusIcon className="w-4 h-4 mr-4 text-teal" />
+              <input
+                type="text"
+                placeholder="Add new folder"
+                className="text-sm text-gray-800 font-normal bg-transparent border-none focus:outline-none"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+            </div>
           </div>
         </div>
       )}

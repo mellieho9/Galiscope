@@ -133,13 +133,13 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
             <>
               <ModalBody pb={6}>
                 <div className="flex flex-col gap-7">
-                  <div className="border mt-5 border-black rounded-lg p-2">
+                  <div className="border mt-5 border-gray-500 rounded-lg p-2">
                     <div className="flex flex-row items-center justify-between">
                       <p className="text-black">{pdf.name}</p>
                       <IconButton
                         aria-label="Call Segun"
                         size="xs"
-                        icon={<XMarkIcon />}
+                        icon={<XMarkIcon className="text-gray-500 w-4 h-4" />}
                         variant="ghost"
                         onClick={() => setPdf(null)}
                       />
@@ -152,7 +152,12 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
                 <CustomButton width="20%" mr={3} onClick={onClose}>
                   Read now
                 </CustomButton>
-                <Button variant="outline" borderRadius={"lg"} border="1px">
+                <Button
+                  variant="outline"
+                  color="gray.500"
+                  borderRadius={"lg"}
+                  border="1px"
+                >
                   Read later
                 </Button>
               </ModalFooter>
@@ -161,7 +166,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
             <ModalBody pb={6}>
               <>
                 <div
-                  className={`bg-gray-200 mt-2 flex justify-center rounded-lg border ${
+                  className={`bg-gray-200 mt-2 flex justify-center rounded-lg border hover:bg-gray-200 ${
                     dragging
                       ? "bg-gray-200 border-2"
                       : "border-dashed bg-gray-50"
@@ -205,7 +210,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
                       aria-label="Upload link"
                       h="1.75rem"
                       onClick={fetchPdfPaper}
-                      icon={<ArrowUpOnSquareIcon className="w-6 h-6" />}
+                      icon={<ArrowUpOnSquareIcon className="w-4 h-4" />}
                     />
                   </InputRightElement>
                 </InputGroup>
