@@ -21,6 +21,7 @@
   }
 }
 
+
 @layer base {
   * {
     @apply border-foreground/20;
