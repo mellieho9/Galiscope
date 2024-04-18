@@ -1,18 +1,14 @@
-import { User } from '@/types/user.types';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { createContext, useContext } from 'react';
+"use client";
+import { User } from "@/types/user.types";
+import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { createContext, useContext } from "react";
 
 const UserContext = createContext<UseQueryResult<User, unknown> | null>(null);
 
 const useCurrentUser = () => useContext(UserContext);
 
-const UserProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-
+const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useQuery({
     queryKey: ["get-current-user"],
     queryFn: async () => {
@@ -21,11 +17,7 @@ const UserProvider = ({
     },
   });
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export { UserProvider, useCurrentUser };
