@@ -1,18 +1,28 @@
 import {
   Box,
+  Center,
   Heading,
   WrapItem,
 } from '@chakra-ui/react';
-import { BookmarkIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
+import { BookmarkIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/solid';
 import { DiagramGrid } from './DiagramGrid';
+import { useState } from 'react';
 
 interface AssociateBarViewProps {
   paperTitle: string;
 }
 
+export interface CardProps {
+  paperTitle: string;
+  folder: string;
+  lastUpdatedTime: string;
+}
+
 export const AssociateBarView: React.FC<AssociateBarViewProps> = ({
   paperTitle,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(true)
+
   return (
     <div className="w-full py-20 px-14 min-h-screen bg-white">
       <Heading className="mb-10" fontSize="3xl" color="teal">
@@ -23,22 +33,19 @@ export const AssociateBarView: React.FC<AssociateBarViewProps> = ({
       </Heading>
       <div className="flex items-center justify-between ml-2 mb-7">
         <WrapItem>
-          <BookmarkIcon className="h-7 w-7 mr-2" fill="none" stroke="teal" />
+          <BookmarkIcon className="h-6 w-6 mr-2" fill="none" stroke="teal" />
           <div>Evaluation</div>
         </WrapItem>
         <WrapItem>
-          <Box
-            className="h-7 w-7 mr-2 text-center rounded-full"
-            border="2xl"
-            bgColor="teal"
-            color="white"
-          >
+          <Center className="rounded-full mr-1" w='25px' h='25px' bg='teal' color='white'>
             6
+          </Center>
+          <Box className='cursor-pointer' onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? <ChevronUpIcon className="h-5 w-5" color="gray" /> : <ChevronDownIcon className="h-5 w-5" color="gray"/>}
           </Box>
-          <ChevronDownIcon className="h-6 w-6" color="gray" />
         </WrapItem>
       </div>
-      <DiagramGrid />
+      {isExpanded && <DiagramGrid />}
     </div>
   );
 };
