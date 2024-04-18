@@ -33,7 +33,7 @@ export function CardGrid() {
       </div>
       <Box display="flex" flexWrap="wrap" gap="2">
         {/* Displaying recently read items */}
-        <div handleClick={handleClick}>
+        <div onClick={handleClick}>
           <AddCard />
         </div>
         {showUpload && <PaperUpload />}
