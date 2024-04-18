@@ -9,6 +9,7 @@ const colors = {
   babyLime: '#F7FFF5', 
   black: "#1F2937",
   white: "#ffffff",
+  sunshine: "#FFE1A8",
   gray: { 
     700: '#374151',
     500: '#6B7280',
@@ -16,6 +17,7 @@ const colors = {
     100: '#F3F4F6',
     50: '#F9FAFB',
   },
+
 };
 
 export const theme = extendTheme({

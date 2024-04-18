@@ -19,10 +19,11 @@ export function FilterDropdown({ onChange }: FilterDropdownProps) {
         variant="outline"
         size="sm"
         onChange={onChange}
-        icon={<ChevronDownIcon className="w-5 h-5 text-gray-500" />} 
+        icon={<ChevronDownIcon className="w-5 h-5 text-gray-500" />}
       >
         <option value="default">default</option>
-        <option value="folder">folder</option>
+        <option value="incomplete">incomplete</option>
+        <option value="complete">complete</option>
       </Select>
     </div>
   );

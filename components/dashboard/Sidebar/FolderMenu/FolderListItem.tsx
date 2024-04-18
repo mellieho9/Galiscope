@@ -18,7 +18,7 @@ const FolderListItem: React.FC<FolderListItemProps> = ({
   const { data: documents = [] } = useGetDocumentsByFolderId(folder.id);
 
   const numIncompleteReads = useMemo(() => {
-    return documents.filter((doc) => doc.status === "unread").length;
+    return documents.filter((doc: { status: string; }) => doc.status === "unread").length;
   }, [documents]);
 
   return (
