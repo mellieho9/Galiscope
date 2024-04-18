@@ -8,9 +8,15 @@ import {
 import { mockReadFolder } from "@/utils/mock";
 import { FilterDropdown } from "./FilterDropdown";
 import { useState } from "react";
+import PaperUpload from "@/components/modals/PaperUpload";
 
 export function CardGrid() {
+  const [showUpload, setShowUpload] = useState(false);
   const [groupBy, setGroupBy] = useState("default");
+
+  const handleClick = () => {
+    setShowUpload(true);
+  };
 
   const handleGroupByChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGroupBy(event.target.value);
@@ -27,7 +33,8 @@ export function CardGrid() {
       </div>
       <Box display="flex" flexWrap="wrap" gap="2">
         {/* Displaying recently read items */}
-        <AddCard />
+        <AddCard handleClick={handleClick} />
+        {showUpload && <PaperUpload />}
         {/* Displaying folder complete and incomplete items */}
         {mockReadFolder.map((item, index) =>
           item.folder && item.lastUpdatedTime
