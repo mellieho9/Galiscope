@@ -7,7 +7,6 @@ import {
   Input,
   IconButton,
   Button,
-  useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -20,15 +19,18 @@ import {
   ArrowUpOnSquareIcon,
   CloudArrowUpIcon,
   XMarkIcon,
-  ChevronDownIcon,
 } from "@heroicons/react/24/outline";
 import DropdownMenu from "@/components/modals/DropDownMenu";
 
 import CustomButton from "@/components/Button";
 import { PDFDocument } from "pdf-lib";
 
-const PaperUpload = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+interface PaperUploadProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
   const [pdf, setPdf] = useState<File | null>(null); // State to store the file name
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -116,107 +118,103 @@ const PaperUpload = () => {
   };
 
   return (
-    <>
-      <Button onClick={onOpen}>Open Modal</Button>
+    <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <ModalOverlay
+        bg="blackAlpha.300"
+        backdropFilter="blur(10px) hue-rotate(90deg)"
+      />
+      <ModalContent maxW="50vw">
+        <Flex direction="column">
+          <ModalHeader textAlign="center" color="teal" fontSize="xl">
+            Upload the paper you want to read
+          </ModalHeader>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay
-          bg="blackAlpha.300"
-          backdropFilter="blur(10px) hue-rotate(90deg)"
-        />
-        <ModalContent maxW="50vw">
-          <Flex direction="column">
-            <ModalHeader textAlign="center" color="teal" fontSize="xl">
-              Upload the paper you want to read
-            </ModalHeader>
-
-            {pdf ? (
-              <>
-                <ModalBody pb={6}>
-                  <div className="flex flex-col gap-7">
-                    <div className="border mt-5 border-black rounded-lg p-2">
-                      <div className="flex flex-row items-center justify-between">
-                        <p className="text-black">{pdf.name}</p>
-                        <IconButton
-                          aria-label="Call Segun"
-                          size="xs"
-                          icon={<XMarkIcon />}
-                          variant="ghost"
-                          onClick={() => setPdf(null)}
-                        />
-                      </div>
-                    </div>
-                    <DropdownMenu />
-                  </div>
-                </ModalBody>
-                <ModalFooter>
-                  <CustomButton width="20%" mr={3} onClick={onClose}>
-                    Read now
-                  </CustomButton>
-                  <Button variant="outline" borderRadius={"lg"} border="1px">
-                    Read later
-                  </Button>
-                </ModalFooter>
-              </>
-            ) : (
+          {pdf ? (
+            <>
               <ModalBody pb={6}>
-                <>
-                  <div
-                    className={`bg-gray-200 mt-2 flex justify-center rounded-lg border ${
-                      dragging
-                        ? "bg-gray-200 border-2"
-                        : "border-dashed bg-gray-50"
-                    } px-6 py-10 cursor-pointer`}
-                    onClick={handlePanelClick}
-                    onDragEnter={handleDragIn}
-                    onDragLeave={handleDragOut}
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                  >
-                    <div className="flex flex-col items-center">
-                      <CloudArrowUpIcon className="w-10 h-10 text-gray-600" />
-                      <p className="mt-4 text-sm leading-6 text-gray-600">
-                        Upload a file or drag and drop
-                      </p>
-                      <input
-                        ref={fileInputRef}
-                        id="file-upload"
-                        name="file-upload"
-                        type="file"
-                        className="sr-only"
-                        onChange={handleFileChange}
+                <div className="flex flex-col gap-7">
+                  <div className="border mt-5 border-black rounded-lg p-2">
+                    <div className="flex flex-row items-center justify-between">
+                      <p className="text-black">{pdf.name}</p>
+                      <IconButton
+                        aria-label="Call Segun"
+                        size="xs"
+                        icon={<XMarkIcon />}
+                        variant="ghost"
+                        onClick={() => setPdf(null)}
                       />
                     </div>
                   </div>
-                  <Box mt={4}>
-                    <p className="text-gray-500 uppercase font-semibold">or</p>
-                  </Box>
-
-                  <InputGroup size="md" mt={4}>
-                    <Input
-                      color="black"
-                      focusBorderColor="teal.500"
-                      pr="4.5rem"
-                      placeholder="Insert link from the web"
-                      onChange={handleChangeFromWebLinkInput}
-                    />
-                    <InputRightElement width="4.5rem">
-                      <IconButton
-                        variant="ghost"
-                        aria-label="Upload link"
-                        h="1.75rem"
-                        onClick={fetchPdfPaper}
-                        icon={<ArrowUpOnSquareIcon className="w-6 h-6" />}
-                      />
-                    </InputRightElement>
-                  </InputGroup>
-                </>
+                  <DropdownMenu />
+                </div>
               </ModalBody>
-            )}
-          </Flex>
-        </ModalContent>
-      </Modal>
-    </>
+              <ModalFooter>
+                <CustomButton width="20%" mr={3} onClick={onClose}>
+                  Read now
+                </CustomButton>
+                <Button variant="outline" borderRadius={"lg"} border="1px">
+                  Read later
+                </Button>
+              </ModalFooter>
+            </>
+          ) : (
+            <ModalBody pb={6}>
+              <>
+                <div
+                  className={`bg-gray-200 mt-2 flex justify-center rounded-lg border ${
+                    dragging
+                      ? "bg-gray-200 border-2"
+                      : "border-dashed bg-gray-50"
+                  } px-6 py-10 cursor-pointer`}
+                  onClick={handlePanelClick}
+                  onDragEnter={handleDragIn}
+                  onDragLeave={handleDragOut}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                >
+                  <div className="flex flex-col items-center">
+                    <CloudArrowUpIcon className="w-10 h-10 text-gray-600" />
+                    <p className="mt-4 text-sm leading-6 text-gray-600">
+                      Upload a file or drag and drop
+                    </p>
+                    <input
+                      ref={fileInputRef}
+                      id="file-upload"
+                      name="file-upload"
+                      type="file"
+                      className="sr-only"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                </div>
+                <Box mt={4}>
+                  <p className="text-gray-500 uppercase font-semibold">or</p>
+                </Box>
+
+                <InputGroup size="md" mt={4}>
+                  <Input
+                    color="black"
+                    focusBorderColor="teal.500"
+                    pr="4.5rem"
+                    placeholder="Insert link from the web"
+                    onChange={handleChangeFromWebLinkInput}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <IconButton
+                      variant="ghost"
+                      aria-label="Upload link"
+                      h="1.75rem"
+                      onClick={fetchPdfPaper}
+                      icon={<ArrowUpOnSquareIcon className="w-6 h-6" />}
+                    />
+                  </InputRightElement>
+                </InputGroup>
+              </>
+            </ModalBody>
+          )}
+        </Flex>
+      </ModalContent>
+    </Modal>
   );
 };
 

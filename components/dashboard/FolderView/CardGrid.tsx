@@ -14,8 +14,12 @@ export function CardGrid() {
   const [showUpload, setShowUpload] = useState(false);
   const [groupBy, setGroupBy] = useState("default");
 
-  const handleClick = () => {
+  const handleOpenUpload = () => {
     setShowUpload(true);
+  };
+
+  const handleCloseUpload = () => {
+    setShowUpload(false);
   };
 
   const handleGroupByChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -33,10 +37,12 @@ export function CardGrid() {
       </div>
       <Box display="flex" flexWrap="wrap" gap="2">
         {/* Displaying recently read items */}
-        <div onClick={handleClick}>
+        <div onClick={handleOpenUpload}>
           <AddCard />
         </div>
-        {showUpload && <PaperUpload />}
+        {showUpload && (
+          <PaperUpload isOpen={showUpload} onClose={handleCloseUpload} />
+        )}
         {/* Displaying folder complete and incomplete items */}
         {mockReadFolder.map((item, index) =>
           item.folder && item.lastUpdatedTime
