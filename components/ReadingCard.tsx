@@ -88,14 +88,10 @@ export const IncompleteCard: React.FC<Pick<ReadingCardProps, "paperTitle">> = ({
     </Heading>
   </BaseCard>
 );
-type AddCardProps = {
-  handleClick: () => void;
-};
 
-export const AddCard: React.FC<AddCardProps> = ({ handleClick }) => (
+export const AddCard: React.FC = () => (
   <div
     className={`transition ease-in-out delay-150 hover:border rounded-lg hover:bg-gray-100 hover:border-gray-500`}
-    onClick={handleClick}
   >
     <Box
       display="flex"

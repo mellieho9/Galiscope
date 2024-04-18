@@ -33,7 +33,9 @@ export function CardGrid() {
       </div>
       <Box display="flex" flexWrap="wrap" gap="2">
         {/* Displaying recently read items */}
-        <AddCard handleClick={handleClick} />
+        <div handleClick={handleClick}>
+          <AddCard />
+        </div>
         {showUpload && <PaperUpload />}
         {/* Displaying folder complete and incomplete items */}
         {mockReadFolder.map((item, index) =>
