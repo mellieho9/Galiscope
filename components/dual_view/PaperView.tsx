@@ -1,38 +1,67 @@
-'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import dynamic from 'next/dynamic';
+"use client";
+import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import {
   NormalizedSelection,
   SelectionType,
   PageDimensions,
-} from 'react-pdf-selection';
-import { Spinner, Button } from '@chakra-ui/react';
+  NormalizedTextSelection,
+  NormalizedAreaSelection,
+} from "react-pdf-selection";
+import { Spinner, Button } from "@chakra-ui/react";
 
 const PdfViewer = dynamic(
-  () => import('react-pdf-selection').then((mod) => mod.PdfViewer),
+  () => import("react-pdf-selection").then((mod) => mod.PdfViewer),
   { ssr: false }
 );
 
 export function PaperView() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1.2);
-  const [selection, setSelection] = useState<
-    NormalizedSelection | undefined
-  >();
-  const [areaSelectionActive, setAreaSelectionActive] = useState(
-    false
-  );
+  const [selection, setSelection] = useState<NormalizedSelection | undefined>();
+  const [areaSelectionActive, setAreaSelectionActive] = useState(false);
   const [selected, setSelected] = useState<SelectionType | undefined>(
     undefined
   );
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [numPage, setNumPage] = useState<number>(1);
-  const paperUrl = 'https://arxiv.org/pdf/1708.08021.pdf';
+  const paperUrl = "https://arxiv.org/pdf/1706.03762.pdf";
+
+  const [pageHeights, setPageHeights] = useState<number[]>([]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const container = containerRef.current;
+      if (container) {
+        const scrollTop = container.scrollTop;
+        let accumulatedHeight = 0;
+
+        for (let i = 0; i < pageHeights.length; i++) {
+          accumulatedHeight += pageHeights[i];
+          if (scrollTop < accumulatedHeight) {
+            setCurrentPage(i + 1);
+            break;
+          }
+        }
+      }
+    };
+
+    // Attach scroll event listener
+    const container = containerRef.current;
+    container?.addEventListener("scroll", handleScroll);
+
+    // Clean up function to remove event listener
+    return () => {
+      container?.removeEventListener("scroll", handleScroll);
+    };
+  }, [pageHeights]); // Dependency array includes pageHeights to update the listener when pageHeights change
 
   const handleClick = () => {
     if (!selected) {
       setSelected(mockSelection);
       const pdfViewwerContainer = document.getElementById(
-        'pdf-viewer-container'
+        "pdf-viewer-container"
       );
       console.log(pdfViewwerContainer);
       pdfViewwerContainer?.scrollTo({
@@ -40,31 +69,31 @@ export function PaperView() {
           pdfViewwerContainer.scrollHeight *
           ((mockSelection.position.pageNumber - 1) / numPage +
             mockSelection.position.boundingRect.top / numPage / 100),
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     } else {
       setSelected(undefined);
     }
   };
 
-  const setAndLogSelection = useCallback(
-    (highlightTip?: NormalizedSelection) => {
-      console.log(
-        highlightTip
-          ? `New ${
-              'image' in highlightTip ? 'area' : 'text'
-            } selection`
-          : 'Reset selection',
-        highlightTip?.position
-      );
+  const onAreaSelection = useCallback(
+    (highlightTip?: NormalizedAreaSelection) => {
+      console.log(highlightTip?.image);
       setSelection(highlightTip);
     },
-    []
+    [setSelection]
+  );
+
+  const onTextSelection = useCallback(
+    (highlightTip?: NormalizedTextSelection) => {
+      console.log(highlightTip?.text);
+      setSelection(highlightTip);
+    },
+    [setSelection]
   );
 
   const mockSelection: SelectionType = {
-    text:
-      ' At the same time, we do not focus on reflection and legacy patterns that appear in a relatively small fraction (that is also usually stable and well-tested). Today, tools like Babel convert modern JavaScript to (the more low-level) ES5 executed on browsers. Flow focuses on analyzing the source, instead of the target, of such translations (unlike many previous efforts that address ES5, or the even more low-level, and therefore harder, ES3).',
+    text: " At the same time, we do not focus on reflection and legacy patterns that appear in a relatively small fraction (that is also usually stable and well-tested). Today, tools like Babel convert modern JavaScript to (the more low-level) ES5 executed on browsers. Flow focuses on analyzing the source, instead of the target, of such translations (unlike many previous efforts that address ES5, or the even more low-level, and therefore harder, ES3).",
     position: {
       pageNumber: 2,
       boundingRect: {
@@ -114,9 +143,10 @@ export function PaperView() {
     },
   };
 
-  const enableAreaSelection = useCallback(() => areaSelectionActive, [
-    areaSelectionActive,
-  ]);
+  const enableAreaSelection = useCallback(
+    () => areaSelectionActive,
+    [areaSelectionActive]
+  );
 
   const adjustScaleToFit = useCallback(() => {
     if (containerRef.current) {
@@ -127,31 +157,54 @@ export function PaperView() {
   }, []);
 
   useEffect(() => {
-    window.addEventListener('resize', adjustScaleToFit);
+    window.addEventListener("resize", adjustScaleToFit);
     adjustScaleToFit(); // Initial scale adjustment on mount
 
     return () => {
-      window.removeEventListener('resize', adjustScaleToFit);
+      window.removeEventListener("resize", adjustScaleToFit);
     };
   }, [adjustScaleToFit]);
+
+  const handleScroll = () => {
+    const container = containerRef.current;
+    const scrollTop = container.scrollTop;
+    const pageHeights = []; // This should be the array of heights of each page
+
+    let accumulatedHeight = 0;
+    for (let i = 0; i < pageHeights.length; i++) {
+      accumulatedHeight += pageHeights[i];
+      if (scrollTop < accumulatedHeight) {
+        setCurrentPage(i + 1);
+        break;
+      }
+    }
+  };
 
   return (
     <div
       id="pdf-viewer-container"
       ref={containerRef}
-      className="max-h-screen w-full overflow-y-auto"
+      className="max-h-screen w-full overflow-y-scroll"
+      onScroll={handleScroll}
     >
-      <div style={{ width: '100%', boxShadow: 'none' }}>
+      <div style={{ width: "100%", boxShadow: "none" }}>
         <PdfViewer
           url={paperUrl}
           scale={scale}
+          textSelectionColor="rgba(255, 222, 100, 0.3)"
           enableAreaSelection={enableAreaSelection}
           selections={selected ? [selected] : []}
-          onTextSelection={setAndLogSelection}
-          onAreaSelection={setAndLogSelection}
-          onLoad={(dim) => {
+          onTextSelection={onTextSelection}
+          onAreaSelection={onAreaSelection}
+          onLoad={(dimensions: PageDimensions) => {
+            console.log(dimensions);
             adjustScaleToFit;
-            setNumPage(dim.size);
+            setNumPage(dimensions.size);
+          }}
+          onPageDimensions={({ pageDimensions, pageYOffsets }) => {
+            console.log("i am resized!");
+            console.log(pageDimensions);
+            console.log(pageYOffsets);
           }}
           overscanCount={2}
         />
