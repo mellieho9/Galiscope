@@ -81,16 +81,14 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
       }
       const data = await response.blob();
 
-      console.log('PDF loaded:', data);
-
       const arrayBuffer = await data.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
       const pdfTitle = pdf.getTitle() || 'document.pdf';
-      console.log(pdfTitle);
+
       const file = new File([data], pdfTitle, {
         type: 'application/pdf',
       });
-      console.log('PDF file:', file);
+
       setPdf(file);
     } catch (error) {
       // TODO: handle error (show notification, etc.)
