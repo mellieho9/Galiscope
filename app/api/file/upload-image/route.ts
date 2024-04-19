@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: response.error }, { status: 500 });
     }
 
-    return NextResponse.json({ filepath }, { status: 200 });
+    return NextResponse.json({ filepath: `diagram-images/${filepath}` }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
