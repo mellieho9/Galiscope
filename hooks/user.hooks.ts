@@ -1,7 +1,7 @@
 import { User } from "@/types/user.types";
 import { UseMutationOptions, UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { UpdateUserParams } from '../types/user.types';
+import api from "@/utils/axios/axios";
 
 export const getUserById = (
   id: string,
@@ -9,7 +9,7 @@ export const getUserById = (
 ) => useQuery({
   queryKey: ["get-user-by-id", id],
   queryFn: async () => {
-    const { data } = await axios.get<User>(`api/user/${id}`);
+    const { data } = await api.get<User>(`api/user/${id}`);
     return data;
   },
   ...options,
@@ -21,7 +21,7 @@ export const getUserByAuthId = (
 ) => useQuery({
   queryKey: ["get-user-by-auth-id", authId],
   queryFn: async () => {
-    const { data } = await axios.get<User>("api/user", { params: { authId } });
+    const { data } = await api.get<User>("api/user", { params: { authId } });
     return data;
   },
   ...options,
@@ -33,7 +33,7 @@ export const updateUser = (
 ) => useMutation({
   mutationKey: ["update-user"],
   mutationFn: async (values: UpdateUserParams) => {
-    const { data } = await axios.put<User>(`api/user/${id}`, values);
+    const { data } = await api.put<User>(`api/user/${id}`, values);
     return data;
   },
   ...options,

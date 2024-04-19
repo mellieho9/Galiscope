@@ -15,13 +15,15 @@ import {
 import CustomButton from "@/components/Button";
 import { DiagramTypeCard } from "@/components/modals/DiagramTypeCard";
 
+const diagramLinkMap = {
+  "Sequence Diagram": "/diagram.svg",
+  "Flowchart": "/diagram.svg",
+  "ER Diagram": "/diagram.svg",
+};
+
 const DiagramType = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const diagramLinkMap = {
-    "Sequence Diagram": "/diagram.svg",
-    Flowchart: "/diagram.svg",
-    "ER Diagram": "/diagram.svg",
-  };
+
   return (
     <>
       <Button onClick={onOpen}>Open Modal</Button>
