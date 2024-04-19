@@ -11,12 +11,15 @@ import { useState } from "react";
 import { useGetFolderById } from "@/hooks/folder.hooks";
 import { useGetDocumentsByFolderId } from "@/hooks/document.hooks";
 import { format } from "timeago.js";
+import PaperUpload from "@/components/modals/PaperUpload";
 
 interface CardGridProps {
   folderId: string;
 }
 
 export function CardGrid({ folderId }: CardGridProps) {
+  const [showUpload, setShowUpload] = useState(false);
+
   const { data: folder } = useGetFolderById(folderId);
   const { data: documents = [] } = useGetDocumentsByFolderId(folderId);
 
