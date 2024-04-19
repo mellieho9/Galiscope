@@ -26,6 +26,25 @@ export const FolderHeading: React.FC<HeadingProps> = ({
     folderId
   );
 
+  const incompleteRead = useMemo(() => {
+    if (!documents) return 0;
+    return documents.filter(
+      (doc: { status: string }) => doc.status === 'unread'
+    ).length;
+  }, [documents]);
+
+  const completeRead = useMemo(() => {
+    if (!documents) return 0;
+    return documents.filter(
+      (doc: { status: string }) => doc.status === 'read'
+    ).length;
+  }, [documents]);
+
+  const progress = useMemo(() => {
+    if (incompleteRead + completeRead === 0) return 0;
+    return (completeRead / (incompleteRead + completeRead)) * 100;
+  }, [incompleteRead, completeRead]);
+
   if (!folder) {
     return (
       <div className="flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
@@ -39,22 +58,6 @@ export const FolderHeading: React.FC<HeadingProps> = ({
       </div>
     );
   }
-
-  const incompleteRead = useMemo(() => {
-    return documents.filter(
-      (doc: { status: string }) => doc.status === 'unread'
-    ).length;
-  }, [documents]);
-
-  const completeRead = useMemo(() => {
-    return documents.filter(
-      (doc: { status: string }) => doc.status === 'read'
-    ).length;
-  }, [documents]);
-
-  const progress = useMemo(() => {
-    return (completeRead / (incompleteRead + completeRead)) * 100;
-  }, [incompleteRead, completeRead]);
 
   return (
     <div className="w-full flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
