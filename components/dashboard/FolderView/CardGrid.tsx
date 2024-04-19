@@ -22,6 +22,14 @@ export function CardGrid({ folderId }: CardGridProps) {
 
   const [groupBy, setGroupBy] = useState("default");
 
+  const handleOpenUpload = () => {
+    setShowUpload(true);
+  };
+
+  const handleCloseUpload = () => {
+    setShowUpload(false);
+  };
+
   const handleGroupByChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGroupBy(event.target.value);
     console.log(groupBy);
@@ -37,7 +45,12 @@ export function CardGrid({ folderId }: CardGridProps) {
       </div>
       <Box display="flex" flexWrap="wrap" gap="2">
         {/* Displaying recently read items */}
-        <AddCard />
+        <div onClick={handleOpenUpload}>
+          <AddCard />
+        </div>
+        {showUpload && (
+          <PaperUpload isOpen={showUpload} onClose={handleCloseUpload} />
+        )}
         {/* Displaying folder complete and incomplete items */}
         {documents.map((doc) =>
           doc.status === "read"
