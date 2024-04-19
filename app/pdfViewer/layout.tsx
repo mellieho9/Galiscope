@@ -18,7 +18,7 @@ export default function RootLayout({
     <>
       <div className="sticky top-0 flex flex-row p-4 justify-between w-full bg-teal">
         <button className="flex hover:bg-sky-700 items-center">
-          <ArrowLeftIcon className="w-6 h-6 mr-2" />
+          <ArrowLeftIcon className="w-4 h-4 mr-2" />
           <span className="text-xs">Back</span>
         </button>
 
@@ -27,12 +27,12 @@ export default function RootLayout({
         </span>
 
         <div className="flex">
-          <button className="flex hover:text-black hover:bg-sky-700 items-center mr-3">
-            <ArrowUturnLeftIcon className="w-6 h-6 mr-2" />
-            <span className="text-xs">Reset</span>
+          <button className="flex hover:opacity-75 items-center mr-3">
+            <ArrowUturnLeftIcon className="w-4 h-4 mr-2" />
+            <span className="text-xs">Cancel</span>
           </button>
-          <button className="flex items-center rounded-full outline hover:text-black hover:bg-sky-700 outline-offset-2">
-            <CheckIcon className="w-6 h-6 mr-2" />
+          <button className="flex items-center rounded-full outline hover:opacity-75 outline-offset-2">
+            <CheckIcon className="w-4 h-4 mr-2" />
             <span className="text-xs">Confirm</span>
           </button>
         </div>

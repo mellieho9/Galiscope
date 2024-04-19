@@ -149,7 +149,7 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
           onPageDimensions={(obj) => {
             setPageYOffsets(obj.pageYOffsets);
           }}
-          overscanCount={0}
+          overscanCount={2}
         />
         <button className="bg-sky-500/100" onClick={handleClick}>
           Select text
