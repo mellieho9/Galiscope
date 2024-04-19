@@ -4,6 +4,7 @@ import {
   CircularProgress,
   CircularProgressLabel,
   Heading,
+  Spinner,
   Text,
 } from '@chakra-ui/react';
 import { ProgressLabel } from './ProgressLabel';
@@ -21,8 +22,8 @@ export const FolderHeading: React.FC<HeadingProps> = ({
   folderId,
 }) => {
   const router = useRouter();
-  const { data: folder } = useGetFolderById(folderId);
-  const { data: documents = [] } = useGetDocumentsByFolderId(
+  const { data: folder, isLoading: folderLoading } = useGetFolderById(folderId);
+  const { data: documents = [], isLoading: documentsLoading } = useGetDocumentsByFolderId(
     folderId
   );
 
@@ -44,6 +45,14 @@ export const FolderHeading: React.FC<HeadingProps> = ({
     if (incompleteRead + completeRead === 0) return 0;
     return (completeRead / (incompleteRead + completeRead)) * 100;
   }, [incompleteRead, completeRead]);
+
+  if (folderLoading || documentsLoading) {
+    return (
+      <div className="flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
+        <Spinner />
+      </div>
+    );
+  }
 
   if (!folder) {
     return (

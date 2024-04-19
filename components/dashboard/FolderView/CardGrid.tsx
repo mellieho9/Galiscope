@@ -5,7 +5,6 @@ import {
   FolderCompleteCard,
   IncompleteCard,
 } from "@/components/ReadingCard";
-import { mockReadFolder } from "@/utils/mock";
 import { FilterDropdown } from "./FilterDropdown";
 import { useState } from "react";
 import { useGetFolderById } from "@/hooks/folder.hooks";
@@ -61,7 +60,7 @@ export function CardGrid({ folderId }: CardGridProps) {
                 <FolderCompleteCard
                   key={doc.id}
                   paperTitle={doc.title}
-                  lastUpdatedTime={format(doc.updated_at)}
+                  lastUpdatedTime={doc.updated_at}
                 />
               )
             : groupBy !== "complete" && (
