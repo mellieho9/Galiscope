@@ -54,10 +54,10 @@ export const FolderHeading: React.FC<HeadingProps> = ({ folderId }) => {
     return (
       <div className="w-full flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
         <h1 className="text-xl font-bold">Folder not found</h1>
-        <Text fontSize="sm" mb={8}>
+        <Text fontSize="sm" mb={6}>
           Oops! The folder you are looking for does not exist.
         </Text>
-        <CustomButton onClick={() => router.push("/dashboard")}>
+        <CustomButton size="3xs" onClick={() => router.push("/dashboard")}>
           Go Home
         </CustomButton>
       </div>
