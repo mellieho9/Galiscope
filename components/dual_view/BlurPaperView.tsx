@@ -1,40 +1,29 @@
-'use client';
-import {
-  Box,
-  Heading,
-  Image,
-} from '@chakra-ui/react';
-import blurred_paper from '../../app/blurred_paper.png';
-import paper from '../../app/paper.png';
-import { CursorArrowRaysIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+"use client";
+import { Box, Heading, Image } from "@chakra-ui/react";
+import paper from "../../app/paper.png";
+import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
+import { useState } from "react";
 
-export function BlurPaperView() {
-  const [blockOpen, setBlockOpen] = useState(true);
-  const [displayPaper, setDisplayPaper] = useState(blurred_paper);
-
-  const readPaper = () => {
-    setBlockOpen(false);
-    setDisplayPaper(paper);
-  };
-  
+export function BlurPaperView() { 
   return (
     <div className="max-h-screen w-full overflow-y-auto">
-      <div style={{ width: '100%', boxShadow: 'none' }}>
-        <Image className="brightness-75 bg-cover" src={displayPaper.src} width="100%" height="100%" />
-        {blockOpen && (
-          <div className="absolute inset-0 flex items-center justify-center w-1/2">
-            <Box boxShadow={"md"} bg="white" p={6} borderRadius="xl" onClick={readPaper}>
-              <CursorArrowRaysIcon
-                className="h-6 w-full my-3 mx-1 text-center"
-                fill="teal"
-              />
-              <Heading color="teal" size="sm" className="mb-5 text-center">
-                Click here to continue reading the paper
-              </Heading>
-            </Box>
-          </div>
-        )}
+      <div style={{ width: "100%", boxShadow: "none" }}>
+        <Image
+          className="brightness-75 blur-sm bg-cover"
+          src={paper.src}
+          objectFit="cover"
+        />
+        <div className="absolute inset-0 flex items-center justify-center w-1/2">
+          <Box boxShadow={"md"} bg="white" p={6} borderRadius="xl">
+            <CursorArrowRaysIcon
+              className="h-6 w-full my-3 mx-1 text-center"
+              fill="teal"
+            />
+            <Heading color="teal" size="sm" className="mb-5 text-center">
+              Click here to continue reading the paper
+            </Heading>
+          </Box>
+        </div>
       </div>
     </div>
   );

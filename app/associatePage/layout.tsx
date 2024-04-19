@@ -1,7 +1,7 @@
 'use client';
 
 import { AssociateBarView } from "@/components/dual_view/AssociateBarView";
-import { BackButton } from "@/components/dual_view/BackButton";
+import { BackButton } from "@/components/BackButton";
 import { BlurPaperView } from "@/components/dual_view/BlurPaperView";
 
 export default function RootLayout({
