@@ -206,7 +206,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
                   />
                   <InputRightElement width="4.5rem">
                     <IconButton
-                      variant="ghost"
+                      variant="solid"
                       aria-label="Upload link"
                       h="1.75rem"
                       onClick={fetchPdfPaper}
