@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
   const { text } = await request.json()
-  const response = createTextSummary(text)
+  const response = await createTextSummary(text)
 
   if (!response) {
     return NextResponse.json({ error: 'Failed to summarize text' }, { status: 400 });
