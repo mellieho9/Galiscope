@@ -13,7 +13,5 @@ export const createUMLCode = async (input: string) => {
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_UML_KEY || '');
   const history = diagram_history
 
-  console.log('history', history)
-
   return await sendQuestion({ input, genAI, history })
 };

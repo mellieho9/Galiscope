@@ -21,20 +21,5 @@ export const sendQuestion = async ({
   const result = await chat.sendMessage(input);
   const response = result?.response?.text();
 
-  // add user input to chat history
-  // history.push({
-  //   role: 'user',
-  //   parts: [{ text: input }],
-  // });
-
-
-  // add gemini's response to chat history
-  // history.push({
-  //   role: 'model',
-  //   parts: [{ text: response }],
-  // });
-
-  console.log('added', history)
-
   return response;
 };

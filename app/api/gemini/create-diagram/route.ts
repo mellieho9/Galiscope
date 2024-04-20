@@ -7,16 +7,15 @@ export async function POST(request: NextRequest) {
 
   const input = `Type: ${diagramType}. Text: ${text}`
 
-  console.log(input)
+  // console.log(input)
   const umlCode = await createUMLCode(input)
-
-  console.log('umlCode:' + umlCode)
+  // console.log('umlCode:' + umlCode)
 
   if (!umlCode) {
     return NextResponse.json({ error: 'Failed to create diagram' }, { status: 400 });
   }
 
-  const diagram = await axios.post('https://googleai-plantuml.fly.dev', { input: umlCode }, { responseType: 'arraybuffer' })
+  const diagram = await axios.post(process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || '', { input: umlCode }, { responseType: 'arraybuffer' })
 
   return new NextResponse(diagram.data, {
     headers: {
