@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import { NormalizedTextSelection, SelectionType } from "react-pdf-selection";
 import { Spinner } from "@chakra-ui/react";
@@ -12,20 +12,22 @@ const PdfViewer = dynamic(
 interface PdfScrollingComponentProps {
   currentPageNumber: number;
   totalPageNumber: number;
+  selection?: SelectionType;
   setCurrentPageNumber: (pageNumber: number) => void;
   setTotalPageNumber: (pageNumber: number) => void;
+  setSelection: (selection: SelectionType | undefined) => void;
 }
 
 const PaperView: React.FC<PdfScrollingComponentProps> = ({
   currentPageNumber,
+  totalPageNumber,
+  selection,
   setCurrentPageNumber,
   setTotalPageNumber,
-  totalPageNumber,
+  setSelection,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1.2);
-  // TODO: AFTER THE USER PRESS THE CONFIRM BUTTON IN THE PARENT COMPONENT, SEND SELECTION TO THE BACKEND
-  const [selection, setSelection] = useState<SelectionType | undefined>();
   const paperUrl = "https://arxiv.org/pdf/1708.08021.pdf";
 
   const [pageYOffsets, setPageYOffsets] = useState<number[]>([]);
@@ -35,10 +37,6 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
 
   const setAndLogSelection = useCallback(
     (highlightTip?: NormalizedTextSelection) => {
-      console.log(highlightTip);
-      console.log(highlightTip?.text);
-      console.log(highlightTip?.position);
-
       if (
         highlightTip &&
         highlightTip.text !== undefined &&
@@ -51,7 +49,6 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
           position: { pageNumber, ...selectionRects },
         };
         setSelection(newSelection);
-        console.log("you have selected", newSelection);
       }
     },
     []
@@ -136,25 +133,24 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
       ref={containerRef}
       className="max-h-screen w-full overflow-y-auto"
     >
-      <div style={{ width: "100%", boxShadow: "none" }}>
-        <PdfViewer
-          url={paperUrl}
-          scale={scale}
-          selections={selected ? [selected] : []}
-          onTextSelection={setAndLogSelection}
-          onLoad={(dim) => {
-            adjustScaleToFit;
-            setTotalPageNumber(dim.size);
-          }}
-          onPageDimensions={(obj) => {
-            setPageYOffsets(obj.pageYOffsets);
-          }}
-          overscanCount={2}
-        />
-        <button className="bg-sky-500/100" onClick={handleClick}>
-          Select text
-        </button>
-      </div>
+      <PdfViewer
+        url={paperUrl}
+        scale={scale}
+        selections={selected ? [selected] : []}
+        onTextSelection={setAndLogSelection}
+        onLoad={(dim) => {
+          adjustScaleToFit;
+          setTotalPageNumber(dim.size);
+        }}
+        onPageDimensions={(obj) => {
+          setPageYOffsets(obj.pageYOffsets);
+        }}
+        overscanCount={2}
+        textSelectionColor={"rgba(248,255,0, 0.7)"}
+      />
+      <button className="bg-sky-500/100" onClick={handleClick}>
+        Select text
+      </button>
     </div>
   );
 };
