@@ -10,12 +10,6 @@ export const sendQuestion = async ({
   genAI,
   history,
 }: CreateGeminiPrompt) => {
-  // add user input to chat history
-  history.push({
-    role: 'user',
-    parts: [{ text: input }],
-  });
-
   const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
   const chat = model.startChat({
@@ -27,11 +21,20 @@ export const sendQuestion = async ({
   const result = await chat.sendMessage(input);
   const response = result?.response?.text();
 
+  // add user input to chat history
+  // history.push({
+  //   role: 'user',
+  //   parts: [{ text: input }],
+  // });
+
+
   // add gemini's response to chat history
-  history.push({
-    role: 'model',
-    parts: [{ text: response }],
-  });
+  // history.push({
+  //   role: 'model',
+  //   parts: [{ text: response }],
+  // });
+
+  console.log('added', history)
 
   return response;
 };
