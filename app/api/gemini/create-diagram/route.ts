@@ -1,15 +1,26 @@
 import { createTextSummary, createUMLCode } from './../../../../services/gemini/gemini.service';
 import { NextRequest, NextResponse } from "next/server";
+import axios from 'axios';
 
 export async function POST(request: NextRequest) {
-  const { diagram, text } = await request.json()
+  const { diagramType, text } = await request.json()
 
-  const input = `Type: ${diagram}. Text: ${text}`
-  const response = createUMLCode(input)
+  const input = `Type: ${diagramType}. Text: ${text}`
 
-  if (!response) {
+  console.log(input)
+  const umlCode = await createUMLCode(input)
+
+  console.log('umlCode:' + umlCode)
+
+  if (!umlCode) {
     return NextResponse.json({ error: 'Failed to create diagram' }, { status: 400 });
   }
 
-  return NextResponse.json(response, { status: 201 });
+  const diagram = await axios.post('https://googleai-plantuml.fly.dev', { input: umlCode }, { responseType: 'arraybuffer' })
+
+  return new NextResponse(diagram.data, {
+    headers: {
+      'Content-Type': 'image/png'
+    }
+  });
 }
