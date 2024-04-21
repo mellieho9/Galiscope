@@ -1,9 +1,9 @@
-import classDiagram from "public/diagrams/class diagram.svg"
-import flowChart from "public/diagrams/flow chart.svg"
-import mindMap from "public/diagrams/mind map.svg"
-import quadrantDiagram from "public/diagrams/quadrant diagram.svg"
-import sequenceDiagram from "public/diagrams/sequence diagram.svg"
-import stateDiagram from "public/diagrams/state diagram.svg"
+import classDiagram from "/diagrams/class diagram.svg"
+import flowChart from "/diagrams/flow chart.svg"
+import mindMap from "/diagrams/mind map.svg"
+import quadrantDiagram from "/diagrams/quadrant diagram.svg"
+import sequenceDiagram from "/diagrams/sequence diagram.svg"
+import stateDiagram from "/diagrams/state diagram.svg"
 
 export const truncateString = (str: string, num: number) => {
   if (str.length <= num) {
