@@ -57,14 +57,10 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
   const handleClick = () => {
     if (!selected) {
       setSelected(selection);
-
-      // Assuming the container and each page have a consistent height and the selection data is correct
       const pdfViewerContainer = document.getElementById(
         "pdf-viewer-container"
       );
       if (pdfViewerContainer && selection) {
-        // Calculate the top offset of the selected text relative to the entire container
-
         pdfViewerContainer.scrollTo({
           top:
             pdfViewerContainer.scrollHeight *
@@ -87,11 +83,9 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
 
     for (let i = 0; i < pageYOffsets.length; i++) {
       accumulatedOffset += pageYOffsets[i];
-      for (let i = 0; i < pageYOffsets.length; i++) {
-        if (scrollTop < pageYOffsets[i]) {
-          setCurrentPageNumber(i + 1);
-          break;
-        }
+      if (scrollTop < accumulatedOffset) {
+        setCurrentPageNumber(i + 1);
+        return;
       }
     }
   };
@@ -101,26 +95,24 @@ const PaperView: React.FC<PdfScrollingComponentProps> = ({
     if (container) {
       container.addEventListener("scroll", handleScroll);
     }
-
-    // Cleanup the event listener
     return () => {
       if (container) {
         container.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [pageYOffsets]); // Only re-run if pageYOffsets changes
+  }, [pageYOffsets]);
 
   const adjustScaleToFit = useCallback(() => {
     if (containerRef.current) {
       const containerWidth = containerRef.current.clientWidth;
-      const newScale = containerWidth / 650; // Assuming 800 is the natural width of the PDF you might want to display
+      const newScale = containerWidth / 650;
       setScale(newScale);
     }
   }, []);
 
   useEffect(() => {
     window.addEventListener("resize", adjustScaleToFit);
-    adjustScaleToFit(); // Initial scale adjustment on mount
+    adjustScaleToFit();
 
     return () => {
       window.removeEventListener("resize", adjustScaleToFit);
