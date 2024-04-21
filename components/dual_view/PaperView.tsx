@@ -167,8 +167,11 @@ export function PaperView() {
 
   const handleScroll = () => {
     const container = containerRef.current;
+    if (!container) {
+      return;
+    }
     const scrollTop = container.scrollTop;
-    const pageHeights = []; // This should be the array of heights of each page
+    const pageHeights: string | any[] = []; // This should be the array of heights of each page
 
     let accumulatedHeight = 0;
     for (let i = 0; i < pageHeights.length; i++) {
