@@ -1,4 +1,5 @@
 import { User } from "@/types/user.types";
+import api from "@/utils/axios/axios";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { createContext, useContext } from "react";
@@ -11,7 +12,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const value = useQuery({
     queryKey: ["get-current-user"],
     queryFn: async () => {
-      const { data } = await axios.get<User>("api/user/current");
+      const { data } = await api.get<User>("api/user/current");
       return data;
     },
   });

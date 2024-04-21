@@ -48,7 +48,6 @@ export function FolderMenu() {
             <FolderListItem
               key={folder.id}
               folder={folder}
-              redirectTo={() => console.log("Redirect to folder")} // Example functionality
               handleDeleteFolder={() => deleteFolder(folder.id)}
             />
           ))

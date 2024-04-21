@@ -4,7 +4,6 @@ import { useGetFolderById } from "@/hooks/folder.hooks";
 import { format } from "timeago.js";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import { data } from "autoprefixer";
 
 interface ReadingCardProps {
   paperTitle: string;

@@ -1,30 +1,56 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ChevronDownIcon,
   ChevronUpIcon,
   PlusIcon,
-} from "@heroicons/react/24/outline";
-import { InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
+} from '@heroicons/react/24/outline';
+import { useCurrentUser } from '@/contexts/UserContextProvider';
+import {
+  useCreateFolder,
+  useGetFoldersByUserId,
+} from '@/hooks/folder.hooks';
 
-// Define the type for the selections state
-type SelectionsType = {
-  [key: string]: boolean;
-};
+interface DropdownMenuProps {
+  selectedFolderId: string;
+  setSelectedFolderId: (folderId: string) => void;
+}
 
-const DropdownMenu: React.FC = () => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({
+  selectedFolderId,
+  setSelectedFolderId,
+}: DropdownMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const dropdownRef = useRef<HTMLDivElement>(null); // Use generic type for DOM element reference
-  const [selections, setSelections] = useState<SelectionsType>({
-    "Food insecurity": false,
-    VideoQA: false,
-    "Video summarization": false,
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const { data: user } = useCurrentUser() ?? {};
+  const { data: folders = [], refetch } = useGetFoldersByUserId(
+    user?.id ?? ''
+  );
+
+  const { mutate: createFolder } = useCreateFolder({
+    onSuccess: () => refetch(),
   });
 
+  const toggleDropdown = () => setIsOpen(!isOpen);
+  const dropdownRef = useRef<HTMLDivElement>(null); // Use generic type for DOM element reference
+
+  const handleAddFolder = (folderName: string) => {
+    if (user?.id) {
+      createFolder({ name: folderName, user_id: user.id });
+    }
+  };
+
+  function handleKeyDown(
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) {
+    if (event.key === 'Enter' && inputValue.trim()) {
+      handleAddFolder(inputValue);
+      setInputValue('');
+    }
+  }
+
   useEffect(() => {
-    // Define the event handler with the correct type
     const handleClickOutside = (event: MouseEvent) => {
-      // Check if dropdownRef.current exists and does not contain the event target
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
@@ -33,66 +59,76 @@ const DropdownMenu: React.FC = () => {
       }
     };
 
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
-    // Cleanup function to remove the event listener
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []); // Empty dependency array ensures this effect runs only once after the initial render
+  }, []);
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    setSelections((prevSelections) => ({
-      ...prevSelections,
-      [name]: !prevSelections[name],
-    }));
-  };
+  const handleCheckboxChange = (folderId: string) => {
+    if (folderId === selectedFolderId) {
+      return () => setSelectedFolderId('');
+    } else {
+      return () => setSelectedFolderId(folderId);
+    }
+  }
+
   return (
     <div className="relative" ref={dropdownRef}>
       <button
         aria-expanded={isOpen}
         onClick={toggleDropdown}
-        className="text-black w-full px-4 py-2 text-left bg-white border border-black rounded-lg shadow flex items-center justify-between focus:outline-none focus:ring-2 ring-black focus:border-transparent"
+        className="text-gray-500 w-full px-4 py-2 text-left bg-white border border-gray-500 rounded-lg shadow flex items-center justify-between focus:outline-none focus:ring-2 ring-gray-500 focus:border-transparent"
       >
-        Select a folder that you want
+        {selectedFolderId ? (
+          folders.find((folder) => folder.id === selectedFolderId)?.name
+        ) : ("Select a folder that you want")}
         {isOpen ? (
-          <ChevronUpIcon className="w-6 h-6" />
+          <ChevronUpIcon className="w-4 h-4" />
         ) : (
-          <ChevronDownIcon className="w-6 h-6" />
+          <ChevronDownIcon className="w-4 h-4" />
         )}
       </button>
       {isOpen && (
         <div className="absolute bg-white border border-black rounded-lg shadow w-full z-10">
           <div className="flex flex-col p-3 mb-5 gap-3">
             <ul role="menu">
-              {Object.keys(selections).map((folderName) => (
+              {folders.map((folder) => (
                 <li
                   role="menuitem"
-                  key={folderName}
-                  className="flex items-center hover:bg-gray-200 cursor-pointer"
+                  key={folder.id}
+                  className="flex items-center p-1 rounded-md hover:bg-gray-50 cursor-pointer"
                 >
                   <input
                     type="checkbox"
-                    id={folderName}
-                    name={folderName}
-                    onChange={handleCheckboxChange}
-                    className="form-checkbox h-4 w-4"
+                    id={folder.name}
+                    name={folder.name}
+                    checked={folder.id === selectedFolderId}
+                    onChange={handleCheckboxChange(folder.id)}
+                    className="form-checkbox  h-4 w-4"
                     onClick={(e) => e.stopPropagation()} // Stop propagation to prevent li's onClick when clicking the checkbox directly
                   />
-                  <label htmlFor={folderName} className="ml-2 block text-black">
-                    {folderName}
+                  <label
+                    htmlFor={folder.name}
+                    className="ml-2 block text-gray-800"
+                  >
+                    {folder.name}
                   </label>
                 </li>
               ))}
             </ul>
-            <InputGroup color="black">
-              <InputLeftElement pointerEvents="none">
-                <PlusIcon className="h-5 w-5" />
-              </InputLeftElement>
-              <Input placeholder="Add a new folder" />
-            </InputGroup>
+            <div className="flex flex-row items-center mt-2 py-2 cursor-pointer">
+              <PlusIcon className="w-4 h-4 mr-4 text-teal" />
+              <input
+                type="text"
+                placeholder="Add new folder"
+                className="text-sm text-gray-800 font-normal bg-transparent border-none focus:outline-none"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+            </div>
           </div>
         </div>
       )}
