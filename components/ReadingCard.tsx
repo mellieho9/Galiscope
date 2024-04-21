@@ -16,11 +16,10 @@ const BaseCard: React.FC<
   ReadingCardProps & { borderColor: string; children: React.ReactNode }
 > = ({ borderColor, children }) => (
   <div
-    className={`transition ease-in-out delay-150 hover:border rounded-lg hover:border-${borderColor}`}
+    className={`transition ease-in-out delay-150 border border-gray-200 rounded-lg hover:border-${borderColor}`}
   >
     <Box
       overflow="hidden"
-      borderWidth="1px"
       borderRadius="lg"
       width="200px"
       height="200px"
@@ -90,14 +89,13 @@ export const IncompleteCard: React.FC<Pick<ReadingCardProps, "paperTitle">> = ({
 
 export const AddCard: React.FC = () => (
   <div
-    className={`transition ease-in-out delay-150 hover:border rounded-lg hover:bg-gray-100 hover:border-gray-500`}
+    className={`transition ease-in-out delay-150 border border-gray-200 rounded-lg hover:bg-gray-100 hover:border-gray-500`}
   >
     <Box
       display="flex"
       alignItems="center"
       justifyContent="center"
       overflow="hidden"
-      borderWidth="1px"
       borderRadius="lg"
       width="200px"
       height="200px"
