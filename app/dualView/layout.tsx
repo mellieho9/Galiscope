@@ -1,4 +1,4 @@
-import { BackButton } from "@/components/dual_view/BackButton";
+import { BackButton } from "@/components/BackButton";
 import { DiagramView } from "@/components/dual_view/DiagramView";
 import { PaperView } from "@/components/dual_view/PaperView";
 
