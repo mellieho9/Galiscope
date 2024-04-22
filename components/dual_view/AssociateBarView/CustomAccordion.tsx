@@ -16,10 +16,11 @@ import {
     BookmarkIcon
   } from "@heroicons/react/24/outline";
 import { DiagramCard } from "@/components/DiagramCard";
+import { UMLDiagram } from "@/types/uml-diagram";
 
 interface CustomAccordionProps {
   sectionTitle: string;
-  diagrams: { title: string; location: string }[];
+  diagrams: UMLDiagram[];
 }
 
 export const CustomAccordion: React.FC<CustomAccordionProps> = ({
@@ -64,11 +65,10 @@ export const CustomAccordion: React.FC<CustomAccordionProps> = ({
               </h2>
               <AccordionPanel py={4}>
                 <div className="flex flex-wrap gap-2">
-                  {diagrams.map((card, index) => (
+                  {diagrams.map((diagram) => (
                     <DiagramCard
-                      key={index}
-                      title={card.title}
-                      location={card.location}
+                      key={diagram.id}
+                      diagram={diagram}
                     />
                   ))}
                 </div>
