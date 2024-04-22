@@ -52,9 +52,9 @@ export const AssociateBarView: React.FC<AssociateBarViewProps> = ({
         {document.title}
       </Heading>
       <Heading className="mb-3" fontSize="md" color="black">
-        Sections read
+        Diagrams generated
       </Heading>
-      <CustomAccordion sectionTitle="Evaluation" diagrams={diagrams} />
+      <CustomAccordion sectionTitle="Diagrams" diagrams={diagrams} />
     </div>
   );
 };

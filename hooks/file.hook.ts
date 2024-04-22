@@ -1,3 +1,4 @@
+import { getSignedUrl } from "@/services/storage.service";
 import api from "@/utils/axios/axios";
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 
@@ -30,3 +31,14 @@ export const useUploadImageFile = (
   },
   ...options,
 });
+
+export const useGetSignedUrl = async (
+  filepath: string
+) => {
+  const bucket = filepath.substring(0, filepath.indexOf('/'));
+  const path = filepath.substring(filepath.indexOf('/') + 1);
+
+  const signedUrl = await getSignedUrl({ bucket, path });
+
+  return signedUrl;
+}
