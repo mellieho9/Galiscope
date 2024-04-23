@@ -52,7 +52,7 @@ export const DiagramCard: React.FC<DiagramCardProps> = ({
         flexDirection="column"
       >
         <Image
-          src={signedUrl} // TODO: replace with real diagram url
+          src={signedUrl}
           width="full"
           height="65%"
           objectFit="fill"
