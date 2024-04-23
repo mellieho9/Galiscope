@@ -9,11 +9,21 @@ import {
 import { ActionButton } from "@/components/pdfViewer/ActionButton";
 import { BackButton } from "@/components/pdfViewer/BackButton";
 
-const PaperViewPanel = () => {
-  const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [totalPageNumber, setTotalPageNumber] = useState(0);
-  //TODO: AFTER THE USER PRESS THE CONFIRM BUTTON IN THE PARENT COMPONENT, SEND SELECTION TO THE BACKEND
-  const [selection, setSelection] = useState<SelectionType | undefined>();
+interface PaperViewPanelProps {
+  currentPageNumber: number;
+  totalPageNumber: number;
+  setSelection: (selection: SelectionType | undefined) => void;
+  selection: SelectionType | undefined;
+}
+
+const PaperViewPanel = ({
+  currentPageNumber,
+  totalPageNumber,
+  setSelection,
+  selection
+}: PaperViewPanelProps) => {
+  console.log("Panel view");
+
   return (
     <>
       <div className="items-center sticky top-0 flex flex-row p-4 justify-between w-full bg-teal">
@@ -42,16 +52,6 @@ const PaperViewPanel = () => {
         <span>
           {currentPageNumber} out of {totalPageNumber}
         </span>
-      </div>
-      <div className="w-2/3">
-        <PaperView
-          currentPageNumber={currentPageNumber}
-          setCurrentPageNumber={setCurrentPageNumber}
-          setTotalPageNumber={setTotalPageNumber}
-          totalPageNumber={totalPageNumber}
-          selection={selection}
-          setSelection={setSelection}
-        />
       </div>
     </>
   );
