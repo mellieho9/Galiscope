@@ -1,13 +1,11 @@
-import PaperView from "@/components/pdfViewer/PaperView";
-import { useState } from "react";
 import { SelectionType } from "react-pdf-selection";
 import {
-  ArrowLeftIcon,
   ArrowUturnLeftIcon,
   CheckIcon,
 } from "@heroicons/react/24/outline";
 import { ActionButton } from "@/components/pdfViewer/ActionButton";
 import { BackButton } from "@/components/pdfViewer/BackButton";
+import { useRouter } from "next/navigation";
 
 interface PaperViewPanelProps {
   currentPageNumber: number;
@@ -22,7 +20,20 @@ const PaperViewPanel = ({
   setSelection,
   selection
 }: PaperViewPanelProps) => {
-  console.log("Panel view");
+  const router = useRouter();
+
+  const handleConfirm = () => {
+    if (!selection) {
+      alert("Please select a text first");
+      return;
+    }
+    // TODO: create new diagram and navigate to dual view of that diagram
+    setSelection(undefined);
+  }
+
+  const handleCancel = () => {
+    setSelection(undefined);
+  }
 
   return (
     <>
@@ -36,15 +47,13 @@ const PaperViewPanel = ({
         <div className="flex flex-row space-x-1">
           <ActionButton
             isOutlined={false}
-            onClick={() => setSelection(undefined)}
+            onClick={handleCancel}
             text={"Cancel"}
             icon={<ArrowUturnLeftIcon />}
           />
           <ActionButton
             isOutlined={true}
-            onClick={() => {
-              !selection && alert("Please select a text first");
-            }}
+            onClick={handleConfirm}
             text={"Confirm"}
             icon={<CheckIcon />}
           />

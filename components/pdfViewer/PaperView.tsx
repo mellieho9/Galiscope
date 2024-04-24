@@ -1,18 +1,16 @@
 'use client';
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  CSSProperties,
-} from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import {
   NormalizedTextSelection,
   SelectionType,
 } from 'react-pdf-selection';
-import { Spinner } from '@chakra-ui/react';
 import PaperViewPanel from './PaperViewPanel';
+import { useGetDocumentById } from '@/hooks/document.hooks';
+import { useGetSignedUrl } from '@/hooks/file.hook';
+import CustomButton from '../Button';
+import { useRouter } from 'next/navigation';
+import { Spinner } from '@chakra-ui/react';
 
 const PdfViewer = dynamic(
   () => import('react-pdf-selection').then((mod) => mod.PdfViewer),
@@ -20,19 +18,30 @@ const PdfViewer = dynamic(
 );
 
 const PaperView = ({ documentId }: { documentId: string }) => {
+  const router = useRouter();
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1.2);
-  const paperUrl = 'https://arxiv.org/pdf/1708.08021.pdf';
-
   const [pageYOffsets, setPageYOffsets] = useState<number[]>([]);
-  const [selected, setSelected] = useState<SelectionType | undefined>(
-    undefined
-  );
+
+  const { data: paper, isLoading } = useGetDocumentById(documentId);
+  const [paperUrl, setPaperUrl] = useState<string>('');
+
+  useEffect(() => {
+    const getSignedUrl = async () => {
+      if (paper) {
+        const signedUrl = await useGetSignedUrl(paper.filepath);
+        setPaperUrl(signedUrl);
+      }
+    };
+    getSignedUrl();
+  }, [paper]);
 
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [totalPageNumber, setTotalPageNumber] = useState(0);
-  //TODO: AFTER THE USER PRESS THE CONFIRM BUTTON IN THE PARENT COMPONENT, SEND SELECTION TO THE BACKEND
-  const [selection, setSelection] = useState<SelectionType | undefined>();
+  const [selection, setSelection] = useState<
+    SelectionType | undefined
+  >();
 
   const setAndLogSelection = useCallback(
     (highlightTip?: NormalizedTextSelection) => {
@@ -47,33 +56,34 @@ const PaperView = ({ documentId }: { documentId: string }) => {
           text: highlightTip.text,
           position: { pageNumber, ...selectionRects },
         };
+        console.log(newSelection);
         setSelection(newSelection);
       }
     },
     []
   );
 
-  const handleClick = () => {
-    if (!selected) {
-      setSelected(selection);
-      const pdfViewerContainer = document.getElementById(
-        'pdf-viewer-container'
-      );
-      if (pdfViewerContainer && selection) {
-        pdfViewerContainer.scrollTo({
-          top:
-            pdfViewerContainer.scrollHeight *
-            ((selection.position.pageNumber - 1) / totalPageNumber +
-              selection.position.boundingRect.top /
-                totalPageNumber /
-                100),
-          behavior: 'smooth',
-        });
-      }
-    } else {
-      setSelected(undefined);
-    }
-  };
+  // const handleClick = () => {
+  //   if (!selected) {
+  //     setSelected(selection);
+  //     const pdfViewerContainer = document.getElementById(
+  //       'pdf-viewer-container'
+  //     );
+  //     if (pdfViewerContainer && selection) {
+  //       pdfViewerContainer.scrollTo({
+  //         top:
+  //           pdfViewerContainer.scrollHeight *
+  //           ((selection.position.pageNumber - 1) / totalPageNumber +
+  //             selection.position.boundingRect.top /
+  //               totalPageNumber /
+  //               100),
+  //         behavior: 'smooth',
+  //       });
+  //     }
+  //   } else {
+  //     setSelected(undefined);
+  //   }
+  // };
 
   const handleScroll = () => {
     const container = containerRef.current;
@@ -120,6 +130,34 @@ const PaperView = ({ documentId }: { documentId: string }) => {
     };
   }, [adjustScaleToFit]);
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!paper) {
+    return (
+      <div className="w-full h-screen flex bg-gray-50 text-gray-500 items-center justify-center p-10">
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="text-9xl font-bold mb-6">404</h1>
+          <h1 className="text-md font-bold">Paper not found</h1>
+          <p className="text-sm mb-6">
+            Oops! The paper you are looking for does not exist.
+          </p>
+          <CustomButton
+            width={'2xs'}
+            onClick={() => router.push('/dashboard')}
+          >
+            Go Home
+          </CustomButton>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full flex flex-col items-center overflow-y-hidden overscroll-none">
       <PaperViewPanel
@@ -136,7 +174,6 @@ const PaperView = ({ documentId }: { documentId: string }) => {
         <PdfViewer
           url={paperUrl}
           scale={scale}
-          selections={selected ? [selected] : []}
           onTextSelection={setAndLogSelection}
           onLoad={(dim) => {
             adjustScaleToFit;
@@ -148,9 +185,6 @@ const PaperView = ({ documentId }: { documentId: string }) => {
           overscanCount={2}
           textSelectionColor={'rgba(248,255,0, 0.7)'}
         />
-        <button className="bg-sky-500/100" onClick={handleClick}>
-          Select text
-        </button>
       </div>
     </div>
   );

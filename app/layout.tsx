@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={fonts.inter.variable}>
       <body className="bg-background text-foreground">
-        <main className="min-h-screen flex flex-col items-center">
+        <main className="min-h-screen flex flex-col items-center bg-gray-50">
           <Providers>
           {children}
           </Providers>
