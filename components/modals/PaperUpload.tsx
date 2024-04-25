@@ -146,11 +146,12 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
     newDocument: CreateDocumentParams
   ) => {
     createDocument(newDocument, {
-      onSuccess: async () => {
+      onSuccess: async (data) => {
         await queryClient.refetchQueries({
           queryKey: ['get-documents-by-folder-id', selectedFolderId],
         });
         onClose();
+        router.push(`/pdfViewer/${data.id}`);
         setPdf(null);
       },
       onError: (error) => {
@@ -182,7 +183,6 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
           },
         }
       );
-      router.push(`/pdfViewer/${selectedFolderId}`);
     }
   };
 
