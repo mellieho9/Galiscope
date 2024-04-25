@@ -1,28 +1,41 @@
-"use client"
-import { useState } from "react";
+"use client";
+import React, { useState, useRef } from "react";
 import {
-  HStack,
-  VStack,
-  Text,
-  IconButton,
-  Button,
-  Box,
-  Flex,
-} from "@chakra-ui/react";
-import { ArrowDownTrayIcon, CheckCircleIcon, PencilIcon, SpeakerWaveIcon } from "@heroicons/react/24/solid";
+  ChatBubbleOvalLeftIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/solid";
 import { ModalItem } from "./ModalItem";
+import { Chatbot } from "../Chatbot";
+import { ExportOptions } from "../ExportOptions";
 
 export const BottomModal = () => {
-  const [showExportOptions, setShowExportOptions] = useState(false);
-  const toggleExportOptions = () => setShowExportOptions(!showExportOptions);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null); // New state to track selected item
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  const handleItemClick = (itemName: string) => {
+    setSelectedItem(selectedItem === itemName ? null : itemName);
+  };
 
   return (
-    <div className="flex flex-row py-1 px-5 rounded-full shadow bg-teal space-x-2">
-        <ModalItem title={"Explain"} icon={<SpeakerWaveIcon />} />
-        <ModalItem title={"Edit"} icon={<PencilIcon />} />
-        <ModalItem title={"Export"} icon={<ArrowDownTrayIcon />} />
-        <ModalItem title={"Save"} icon={<CheckCircleIcon />} />
+    <div className="flex items-center flex-row py-1 px-5 rounded-full shadow bg-teal space-x-2">
+      <ModalItem
+        title={"Chat"}
+        icon={<ChatBubbleOvalLeftIcon />}
+        onClick={() => handleItemClick("Chat")}
+        selected={selectedItem === "Chat"} // Pass selected prop
+      />
+      <ExportOptions />
+      <ModalItem
+        title={"Save"}
+        icon={<CheckCircleIcon />}
+        onClick={() => handleItemClick("Save")}
+        selected={selectedItem === "Save"} // Pass selected prop
+      />
+      <Chatbot
+        isOpen={selectedItem === "Chat"}
+        onClose={() => setSelectedItem(null)}
+        btnRef={btnRef}
+      />
     </div>
   );
 };
-
