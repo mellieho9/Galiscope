@@ -161,6 +161,7 @@ const PaperView = ({ documentId }: { documentId: string }) => {
   return (
     <div className="w-full flex flex-col items-center overflow-y-hidden overscroll-none">
       <PaperViewPanel
+        documentId={documentId}
         currentPageNumber={currentPageNumber}
         totalPageNumber={totalPageNumber}
         setSelection={setSelection}

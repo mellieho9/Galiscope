@@ -8,6 +8,7 @@ import { BackButton } from "@/components/pdfViewer/BackButton";
 import { useRouter } from "next/navigation";
 
 interface PaperViewPanelProps {
+  documentId: string;
   currentPageNumber: number;
   totalPageNumber: number;
   setSelection: (selection: SelectionType | undefined) => void;
@@ -15,6 +16,7 @@ interface PaperViewPanelProps {
 }
 
 const PaperViewPanel = ({
+  documentId,
   currentPageNumber,
   totalPageNumber,
   setSelection,
@@ -28,6 +30,7 @@ const PaperViewPanel = ({
       return;
     }
     // TODO: create new diagram and navigate to dual view of that diagram
+    router.push(`/dualView/${documentId}`)
     setSelection(undefined);
   }
 
