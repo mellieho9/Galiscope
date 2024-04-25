@@ -29,6 +29,7 @@ import { useCreateDocument } from '@/hooks/document.hooks';
 import { useUploadDocumentFile } from '@/hooks/file.hook';
 import { useQueryClient } from '@tanstack/react-query';
 import { CreateDocumentParams } from '@/types/document.types';
+import { useRouter } from 'next/navigation';
 
 interface PaperUploadProps {
   isOpen: boolean;
@@ -39,9 +40,8 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [selectedFolderId, setSelectedFolderId] = useState<string>(
-    ''
-  );
+  const router = useRouter();
+  const [selectedFolderId, setSelectedFolderId] = useState<string>('');
   const [pdf, setPdf] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -146,11 +146,12 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
     newDocument: CreateDocumentParams
   ) => {
     createDocument(newDocument, {
-      onSuccess: async () => {
+      onSuccess: async (data) => {
         await queryClient.refetchQueries({
           queryKey: ['get-documents-by-folder-id', selectedFolderId],
         });
         onClose();
+        router.push(`/pdfViewer/${data.id}`);
         setPdf(null);
       },
       onError: (error) => {
@@ -182,7 +183,6 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
           },
         }
       );
-      // TODO: redirect to the document page
     }
   };
 

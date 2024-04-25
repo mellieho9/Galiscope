@@ -1,6 +1,6 @@
 "use client";
 import { Box, Heading, Image } from "@chakra-ui/react";
-import paper from "../../app/paper.png";
+import paper from "../../public/paper.png"
 import { CursorArrowRaysIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ export function BlurPaperView() {
     <div className="min-h-screen w-full overflow-y-auto">
         <div style={{ width: "100%", boxShadow: "none" }}>
           <Image
-            className="brightness-75 blur-sm bg-cover"
+            className="brightness-75 blur-sm bg-cover w-full"
             src={paper.src}
             objectFit="fill"
           />
