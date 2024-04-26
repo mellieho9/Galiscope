@@ -1,4 +1,4 @@
-import { CreateUMLDiagramParams, UMLDiagram } from "@/types/uml-diagram";
+import { CreateUMLDiagramParams, UMLDiagram } from "@/types/uml-diagram.types";
 import api from "@/utils/axios/axios";
 import { UseMutationOptions, UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
 

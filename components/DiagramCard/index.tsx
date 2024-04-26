@@ -1,7 +1,7 @@
 import { Box, Heading, Image, Text } from '@chakra-ui/react';
 import svg from '../../app/diagram.svg';
 import { CardAction } from './CardAction';
-import { UMLDiagram } from '@/types/uml-diagram';
+import { UMLDiagram } from '@/types/uml-diagram.types';
 import { useGetSignedUrl } from '@/hooks/file.hook';
 import { useEffect, useState } from 'react';
 import { useDeleteUml } from '@/hooks/uml.hooks';

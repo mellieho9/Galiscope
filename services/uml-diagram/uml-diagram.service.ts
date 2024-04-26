@@ -1,4 +1,4 @@
-import { CreateUMLDiagramParams } from "@/types/uml-diagram";
+import { CreateUMLDiagramParams } from "@/types/uml-diagram.types";
 import DbService from "../db.service";
 
 const UMLDiagramService = new DbService("uml_diagram");

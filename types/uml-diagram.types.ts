@@ -7,6 +7,7 @@ export type UMLDiagram = {
   summary: string;
   original_text: SelectionType;
   document_id: string;
+  chat_history_id: string;
   filepath: string;
   is_deleted: boolean;
   created_on: Date;
@@ -19,5 +20,6 @@ export type CreateUMLDiagramParams = {
   summary: string;
   original_text: SelectionType;
   document_id: string;
+  chat_history_id: string;
   filepath: string;
 };
