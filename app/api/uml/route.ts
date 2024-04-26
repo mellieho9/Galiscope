@@ -19,8 +19,10 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, uml_code, summary, original_text, document_id, filepath } = await request.json();
-    const response = await umlDiagramService.createUMLDiagram({ name, uml_code, summary, original_text, document_id, filepath });
+    const { name, uml_code, summary, original_text, document_id, chat_history_id, filepath } = await request.json();
+    const response = await umlDiagramService.createUMLDiagram(
+      { name, uml_code, summary, original_text, document_id, chat_history_id, filepath }
+    );
 
     if (!response) {
       return NextResponse.json({ error: "Failed to create UML diagram" }, { status: 400 });
