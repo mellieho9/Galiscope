@@ -22,6 +22,7 @@ const getUMLDiagramsByDocumentId = async (documentId: string) => {
 
 const createUMLDiagram = async ({
   name,
+  type,
   uml_code,
   summary,
   original_text,
@@ -30,6 +31,7 @@ const createUMLDiagram = async ({
 }: CreateUMLDiagramParams) => {
   const response = await UMLDiagramService.create({
     name,
+    type,
     uml_code,
     summary,
     original_text,
