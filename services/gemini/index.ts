@@ -1,4 +1,4 @@
-import { CreateGeminiPrompt } from '@/types/gemini-prompt.types';
+import { CreateGeminiPrompt } from '@/types/gemini.types';
 import {
   MODEL_NAME,
   generationConfig,

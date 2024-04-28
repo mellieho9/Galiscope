@@ -5,3 +5,8 @@ export type CreateGeminiPrompt = {
   genAI: GoogleGenerativeAI;
   history: Content[];
 }
+
+export type GeminiMessage = {
+  input: string,
+  history: Content[]
+}
