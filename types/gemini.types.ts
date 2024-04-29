@@ -10,3 +10,8 @@ export type GeminiMessage = {
   input: string,
   history: Content[]
 }
+
+export type GeminiHistory = {
+  currentHistory: Content[],
+  history: Content[]
+}
