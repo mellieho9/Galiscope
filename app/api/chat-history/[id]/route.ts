@@ -6,7 +6,7 @@ export async function GET(request: NextRequest, { params: { id } }: { params: { 
     const response = await chatHistoryService.getChatHistoryById(id)
 
     if (!response) {
-      return NextResponse.json({ error: 'UML diagram not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Chat history not found' }, { status: 404 });
     }
 
     return NextResponse.json(response, { status: 200 });
@@ -21,7 +21,7 @@ export async function PUT(request: NextRequest, { params: { id } }: { params: { 
     const response = await chatHistoryService.updateChatHistory({ id, ...body });
 
     if (!response) {
-      return NextResponse.json({ error: 'Failed to update UML diagram' }, { status: 400 });
+      return NextResponse.json({ error: 'Failed to update chat history' }, { status: 400 });
     }
 
     return NextResponse.json(response, { status: 200 });
@@ -35,7 +35,7 @@ export async function DELETE(request: NextRequest, { params: { id } }: { params:
     const response = await chatHistoryService.deleteChatHistory(id);
 
     if (!response) {
-      return NextResponse.json({ error: 'Failed to delete UML diagram' }, { status: 400 });
+      return NextResponse.json({ error: 'Failed to delete chat history' }, { status: 400 });
     }
 
     return NextResponse.json(response, { status: 200 });

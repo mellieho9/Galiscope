@@ -1,56 +1,27 @@
-import {
-  createTextSummary,
-  createUMLCode,
-} from "./../../../../services/gemini/gemini.service";
-import { NextRequest, NextResponse } from "next/server";
-import axios from "axios";
-import { getTextFromImage } from "@/services/tesseract/tesseract.service";
+import { NextRequest, NextResponse } from 'next/server';
+import { Content } from '@google/generative-ai';
+import { diagram_history } from '@/utils/gemini/finetune';
+import { generateDiagramHelper } from './helper';
 
 export async function POST(request: NextRequest) {
   const { diagramType, text } = await request.json();
 
   let input = `Type: ${diagramType}. Text: ${text}`;
+  let history: Content[] = diagram_history;
+  let generateTime = 0;
+  
+  let { textImgArr, length, diagram } = await generateDiagramHelper({ input, history})
 
-  // console.log(input)
-  const umlCode = await createUMLCode(input);
-  // console.log('umlCode:' + umlCode)
-
-  if (!umlCode) {
-    return NextResponse.json(
-      { error: "Failed to create diagram" },
-      { status: 400 }
-    );
-  }
-
-  let diagram = await axios.post(
-    process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || "",
-    { input: umlCode },
-    { responseType: "arraybuffer" }
-  );
-
-  let textImg = ''
-  let textArr: string[] = [];
-  let length = 0
-  let generateTime = 0
-
-  do {
-    textImg = await getTextFromImage(diagram.data)
-    textArr = textImg.split('\n')
-    length = textArr.length
-    generateTime = 0
-  }
-  while (length >= 4 && textArr[length - 2] == "Syntax Error?" && generateTime < 3) {
-    input = `Type: ${diagramType}. Text: ${textImg}`
-    diagram = await axios.post(
-      process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || "",
-      { input: umlCode },
-      { responseType: "arraybuffer" }
-    );
+  while (length >= 2 && textImgArr[length - 2].trim() == 'Syntax Error?' && generateTime < 3) {
+    input = `Syntax error at ${textImgArr[length - 3]}`;    
+    // console.log(textImgArr, input);
+    ({ textImgArr, length, diagram } = await generateDiagramHelper({ input, history }));
+    generateTime += 1;
   }
 
   return new NextResponse(diagram.data, {
     headers: {
-      "Content-Type": "image/png",
+      'Content-Type': 'image/png',
     },
   });
 }

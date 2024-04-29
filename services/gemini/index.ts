@@ -4,6 +4,7 @@ import {
   generationConfig,
   safetySettings,
 } from '@/utils/gemini/finetune';
+import chatHistoryService from '../chat-history/chat-history.service';
 
 export const sendQuestion = async ({
   input,
@@ -21,5 +22,7 @@ export const sendQuestion = async ({
   const result = await chat.sendMessage(input);
   const response = result?.response?.text();
 
+  chatHistoryService.updateChatHistory(history)
+  
   return response;
 };
