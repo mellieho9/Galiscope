@@ -1,4 +1,4 @@
-import { SelectionType } from "react-pdf-selection";
+import { SelectionType, TextSelectionType } from "react-pdf-selection";
 import {
   ArrowUturnLeftIcon,
   CheckIcon,
@@ -6,6 +6,11 @@ import {
 import { ActionButton } from "@/components/pdfViewer/ActionButton";
 import { BackButton } from "@/components/pdfViewer/BackButton";
 import { useRouter } from "next/navigation";
+import { useCreateUml } from "@/hooks/uml.hooks";
+import DiagramType from "../modals/DiagramType";
+import { useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
+import { useRecommendDiagrams, useSummarizeText } from "@/hooks/gemini.hooks";
 
 interface PaperViewPanelProps {
   documentId: string;
@@ -23,15 +28,39 @@ const PaperViewPanel = ({
   selection
 }: PaperViewPanelProps) => {
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [recommendedDiagrams, setRecommendedDiagrams] = useState<string[]>([]);
+  const [summary, setSummary] = useState<string>("");
 
-  const handleConfirm = () => {
+  const { mutate: summarizeTest } = useSummarizeText();
+  const { mutate: recommendDiagrams } = useRecommendDiagrams();
+  const { mutate: createUmlDiagram } = useCreateUml();
+
+  const handleConfirm = async () => {
     if (!selection) {
       alert("Please select a text first");
       return;
     }
     // TODO: create new diagram and navigate to dual view of that diagram
-    router.push(`/dualView/${documentId}`)
-    setSelection(undefined);
+    console.log(selection);
+    const selectionAsText = selection as TextSelectionType;
+    await summarizeTest({ text: selectionAsText.text }, {
+      onSuccess: (data) => {
+        setSummary(data);
+      },
+      onError: (error) => {
+        console.log("error", error);
+      },
+    });
+
+    await recommendDiagrams({ text: selectionAsText.text }, {
+      onSuccess: (data) => {
+        setRecommendedDiagrams(data);
+      },
+      onError: (error) => {
+        console.log("error", error);
+      },
+    });
   }
 
   const handleCancel = () => {
@@ -64,6 +93,16 @@ const PaperViewPanel = ({
         <span>
           {currentPageNumber} out of {totalPageNumber}
         </span>
+
+        <DiagramType
+          documentId={documentId}
+          selection={selection as TextSelectionType}
+          summary={summary}
+          recommendedDiagrams={recommendedDiagrams}
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onClose={onClose}
+        />
       </div>
     </>
   );

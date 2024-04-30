@@ -56,7 +56,6 @@ const PaperView = ({ documentId }: { documentId: string }) => {
           text: highlightTip.text,
           position: { pageNumber, ...selectionRects },
         };
-        console.log(newSelection);
         setSelection(newSelection);
       }
     },

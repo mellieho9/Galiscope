@@ -12,13 +12,34 @@ export const truncateString = (str: string, num: number) => {
   return str.slice(0, num) + "...";
 }
 
+export const base64ToFile = (base64Data: string, filename: string): File => {
+  // Extract the base64 data from the data URL
+  const base64ContentArray = base64Data.split(",");
+  const mimeType = base64ContentArray[0].match(/[^:\s*]\w+\/[\w-+\d.]+(?=[;| ])/)?.[0];
 
+  // Decode base64 string
+  const byteCharacters = atob(base64ContentArray[1]);
 
-export const diagramDictionary = {
-  "classDiagram": classDiagram.src,
-  "flowChart":flowChart.src,
-  "mindMap":mindMap.src,
-  "quadrantDiagram":quadrantDiagram.src,
-  "sequenceDiagram":sequenceDiagram.src,
-  "stateDiagram":stateDiagram.src
+  // Create an array buffer and view to handle the binary data
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+
+  const byteArray = new Uint8Array(byteNumbers);
+
+  // Convert to Blob
+  const blob = new Blob([byteArray], { type: mimeType });
+
+  // Create and return the File object
+  return new File([blob], filename, { type: mimeType });
+}
+
+export const diagramDictionary: Record<string, any> = {
+  "Class Diagram": classDiagram.src,
+  "Flow Chart":flowChart.src,
+  "Mind Map":mindMap.src,
+  "Quadrant Diagram":quadrantDiagram.src,
+  "Sequence Diagram":sequenceDiagram.src,
+  "State Diagram":stateDiagram.src
 };

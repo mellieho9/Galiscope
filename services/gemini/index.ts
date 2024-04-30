@@ -23,6 +23,6 @@ export const sendQuestion = async ({
   const response = result?.response?.text();
 
   chatHistoryService.updateChatHistory(history)
-  
+
   return response;
 };
