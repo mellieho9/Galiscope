@@ -1,4 +1,4 @@
-import { CreateDocumentParams, Document, UpdateDocumentParams } from "@/types/document.types";
+import { CreateDocumentParams, Document, UpdateDocumentByIdParams, UpdateDocumentParams } from "@/types/document.types";
 import api from "@/utils/axios/axios";
 import { UseMutationOptions, UseQueryOptions, useMutation, useQuery } from "@tanstack/react-query";
 
@@ -56,6 +56,17 @@ export const useUpdateDocument = (
   mutationKey: ["update-document"],
   mutationFn: async (values: UpdateDocumentParams) => {
     const { data } = await api.put<Document>(`api/document/${id}`, values);
+    return data;
+  },
+  ...options,
+});
+
+export const useUpdateDocumentById = (
+  options?: UseMutationOptions<Document, Error, UpdateDocumentByIdParams>
+) => useMutation({
+  mutationKey: ["update-document-by-id"],
+  mutationFn: async (values: UpdateDocumentByIdParams) => {
+    const { data } = await api.put<Document>(`api/document/${values.id}`, values);
     return data;
   },
   ...options,
