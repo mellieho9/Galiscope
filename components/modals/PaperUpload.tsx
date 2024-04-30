@@ -143,7 +143,8 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
   };
 
   const handleCreateDocument = (
-    newDocument: CreateDocumentParams
+    newDocument: CreateDocumentParams,
+    redirect: boolean = true
   ) => {
     createDocument(newDocument, {
       onSuccess: async (data) => {
@@ -151,7 +152,9 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
           queryKey: ['get-documents-by-folder-id', selectedFolderId],
         });
         onClose();
-        router.push(`/pdfViewer/${data.id}`);
+        if (redirect) {
+          router.push(`/pdfViewer/${data.id}`);
+        }
         setPdf(null);
       },
       onError: (error) => {
@@ -175,12 +178,37 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
               filepath,
               user_id: user.id,
               folder_id: selectedFolderId,
-            });
+            }, true);
           },
           onError: (error) => {
             // TODO: handle error (show notification, etc.)
             console.error('Error uploading document:', error);
           },
+        }
+      );
+    }
+  };
+
+  const handleReadLater = async () => {
+    if (pdf && user?.id) {
+      // Upload the document and retrieve the filepath
+      uploadDocumentFile(
+        { user_id: user.id, file: pdf },
+        {
+          onSuccess: (data) => {
+            const { filepath } = data;
+            // Create the document
+            handleCreateDocument({
+              title: pdf.name,
+              filepath,
+              user_id: user.id,
+              folder_id: selectedFolderId,
+            }, false);
+          },
+          onError: (error) => {
+            // TODO: handle error (show notification, etc.)
+            console.error('Error uploading document:', error);
+          }
         }
       );
     }
@@ -236,6 +264,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                   color="gray.500"
                   borderRadius={'lg'}
                   border="1px"
+                  onClick={handleReadLater}
                   isDisabled={uploadingDocumentFile || creatingDocument}
                 >
                   Read later
