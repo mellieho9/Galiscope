@@ -39,7 +39,7 @@ export function DiagramView({ umlDiagramId }: DiagramViewProps) {
       {/* diagonal divider  */}
       <Image boxSize="w-full" src={imageUrl} alt="Diagram" />
       {/* modal  */}
-      <BottomModal umlDiagram={umlDiagram} />
+      <BottomModal umlDiagram={umlDiagram} imageUrl={imageUrl} />
     </div>
   );
 }

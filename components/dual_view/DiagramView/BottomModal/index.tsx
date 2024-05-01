@@ -11,10 +11,12 @@ import { UMLDiagram } from '@/types/uml-diagram.types';
 
 interface BottomModalProps {
   umlDiagram: UMLDiagram | undefined;
+  imageUrl: string;
 }
 
 export const BottomModal = ({
   umlDiagram,
+  imageUrl,
 }: BottomModalProps) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(
     null
@@ -37,7 +39,7 @@ export const BottomModal = ({
         onClick={() => handleItemClick('Chat')}
         selected={selectedItem === 'Chat'} // Pass selected prop
       />
-      <ExportOptions />
+      <ExportOptions imageUrl={imageUrl} />
       <ModalItem
         title={'Save'}
         icon={<CheckCircleIcon />}
