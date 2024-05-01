@@ -8,9 +8,6 @@ import { ModalItem } from './ModalItem';
 import { Chatbot } from '../Chatbot';
 import { ExportOptions } from '../ExportOptions';
 import { UMLDiagram } from '@/types/uml-diagram.types';
-import { useGetChatHistoryById, useUpdateChatHistory } from '@/hooks/chat-history.hooks';
-import { updateChatHistory } from '../../../../services/chat-history/chat-history.service';
-import { QueryClient } from '@tanstack/react-query';
 
 interface BottomModalProps {
   umlDiagram: UMLDiagram | undefined;

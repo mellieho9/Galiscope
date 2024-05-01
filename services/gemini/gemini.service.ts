@@ -11,7 +11,6 @@ export const createTextSummary = async (input: string) => {
   );
   const textSummary = await sendQuestion({ input, genAI, history });
 
-
   if (!textSummary) {
     return NextResponse.json(
       { error: 'Failed to summarize text.' },

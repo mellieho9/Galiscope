@@ -7,8 +7,9 @@ import {
 import React, { useEffect, useRef } from 'react';
 import { Message } from './Message';
 import { Chatbox } from './Chatbox';
-import { ChatHistory } from '@/types/chat-history.types';
-import { useGetChatHistoryById, useUpdateChatHistory } from '@/hooks/chat-history.hooks';
+import {
+  useGetChatHistoryById,
+} from '@/hooks/chat-history.hooks';
 import { UMLDiagram } from '@/types/uml-diagram.types';
 
 interface ChatbotProps {
@@ -25,21 +26,20 @@ export const Chatbot: React.FC<ChatbotProps> = ({
   btnRef,
 }) => {
   const chatBoxRef = useRef<HTMLDivElement>(null);
-  const { data: chatHistory, refetch } = useGetChatHistoryById(umlDiagram.chat_history_id);
-
-  const { mutate: updateChatHistory } = useUpdateChatHistory(
-    umlDiagram.chat_history_id,
-    {
-      onSuccess: () => refetch(),
-    }
+  const [messagePending, setMessagePending] = React.useState<boolean>(false);
+  const { data: chatHistory, refetch } = useGetChatHistoryById(
+    umlDiagram.chat_history_id
   );
 
-useEffect(() => {
-  if (chatBoxRef.current) {
-    const scrollHeight = chatBoxRef.current.scrollHeight;
-    chatBoxRef.current.scrollTo({ top: scrollHeight, behavior: "smooth" });
-  }
-}, [chatHistory]);
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      const scrollHeight = chatBoxRef.current.scrollHeight;
+      chatBoxRef.current.scrollTo({
+        top: scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [chatHistory, messagePending]);
 
   if (!chatHistory) {
     return null;
@@ -56,10 +56,13 @@ useEffect(() => {
       <DrawerOverlay />
 
       <DrawerContent>
-        <div ref={chatBoxRef} className="w-full h-9/10 bg-gray-50 p-6 py-4 overflow-y-scroll">
+        <div
+          ref={chatBoxRef}
+          className="w-full h-9/10 bg-gray-50 p-6 py-4 overflow-y-scroll"
+        >
           {/* messages  */}
           <div className="flex flex-col overflow-auto space-y-2">
-            {chatHistory.history.map((message, index) => {
+            {chatHistory.history.slice(2).map((message, index) => {
               console.log('message', message);
               return (
                 <Message
@@ -69,9 +72,16 @@ useEffect(() => {
                 />
               );
             })}
+            {messagePending && (
+              <Message user="Galiscope" message="..." isPending={true} />
+            )}
             <div className="absolute bottom-0 left-0 w-full h-40 pointer-events-none bg-gradient-to-t from-gray-50 to-transparent"></div>
           </div>
-          <Chatbox />
+          <Chatbox
+            setMessagePending={setMessagePending}
+            chatHistory={chatHistory}
+            refetch={refetch}
+          />
           {/* chat box  */}
         </div>
       </DrawerContent>

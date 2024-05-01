@@ -1,4 +1,5 @@
 import api from "@/utils/axios/axios";
+import { Content } from "@google/generative-ai";
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 
 export const useSummarizeText = (
@@ -29,6 +30,17 @@ export const useGenerateDiagram = (
   mutationKey: ["generate-diagram"],
   mutationFn: async ({ diagramType, text }: { diagramType: string, text: string }) => {
     const { data } = await api.post<{ image: string, umlCode: string }>("api/gemini/create-diagram", { diagramType, text });
+    return data;
+  },
+  ...options,
+});
+
+export const useSendMessage = (
+  options?: UseMutationOptions<{ geminiResponse: string }, Error, { input: string, history: Content[] }>
+) => useMutation({
+  mutationKey: ["send-message"],
+  mutationFn: async ({ input, history }: { input: string, history: Content[] }) => {
+    const { data } = await api.post<{ geminiResponse: string }>("api/gemini/send-message", { input, history });
     return data;
   },
   ...options,
