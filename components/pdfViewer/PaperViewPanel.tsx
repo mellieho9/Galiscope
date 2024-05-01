@@ -27,22 +27,20 @@ const PaperViewPanel = ({
   setSelection,
   selection
 }: PaperViewPanelProps) => {
-  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [recommendedDiagrams, setRecommendedDiagrams] = useState<string[]>([]);
   const [summary, setSummary] = useState<string>("");
 
   const { mutate: summarizeTest } = useSummarizeText();
   const { mutate: recommendDiagrams } = useRecommendDiagrams();
-  const { mutate: createUmlDiagram } = useCreateUml();
 
   const handleConfirm = async () => {
     if (!selection) {
+      // TODO: Change this to use Chakra Toast
       alert("Please select a text first");
       return;
     }
-    // TODO: create new diagram and navigate to dual view of that diagram
-    console.log(selection);
+
     const selectionAsText = selection as TextSelectionType;
     await summarizeTest({ text: selectionAsText.text }, {
       onSuccess: (data) => {

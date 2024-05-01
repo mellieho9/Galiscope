@@ -151,7 +151,6 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
         await queryClient.refetchQueries({
           queryKey: ['get-documents-by-folder-id', selectedFolderId],
         });
-        onClose();
         if (redirect) {
           router.push(`/pdfViewer/${data.id}`);
         }

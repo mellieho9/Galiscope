@@ -74,8 +74,10 @@ const DiagramType = ({
     }
   }, [summary, recommendedDiagrams]);
 
+  // TODO: refactor this
   const handleSubmit = async () => {
     if (!selectedType || !name || !selection) {
+      // TODO: change this to use Chakra Toast
       alert('Please select a diagram type and give it a name.');
       return;
     }
@@ -114,8 +116,8 @@ const DiagramType = ({
                   { history: chatHistory },
                   {
                     onSuccess: async (data) => {
-                      console.log('chat history', data.history);
                       const { id } = data;
+                      console.log('chat history id', id);
                       await createUmlDiagram(
                         {
                           name,
@@ -129,7 +131,7 @@ const DiagramType = ({
                         },
                         {
                           onSuccess: (data) => {
-                            router.push(`/dual-view/${data.id}`);
+                            router.push(`/dualView/${data.id}`);
                           },
                           onError: (error) => {
                             // TODO: handle error

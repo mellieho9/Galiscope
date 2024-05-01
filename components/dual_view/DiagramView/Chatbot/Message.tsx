@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Avatar, Text, Box } from "@chakra-ui/react";
 import logo from "../../../../public/logo.svg";
+import { useCurrentUser } from "@/contexts/UserContextProvider";
 
 interface MessageProps {
   user: string;
@@ -13,6 +14,8 @@ export const Message: React.FC<MessageProps> = ({
   message,
   children,
 }) => {
+  const { data: userData } = useCurrentUser() ?? {};
+
   const sender = user === "Galiscope" ? "Galiscope" : "You";
   const imageSrc = user === "Galiscope" ? logo.src : null;
 
@@ -41,7 +44,7 @@ export const Message: React.FC<MessageProps> = ({
         bg={sender == "Galiscope" ? "gray.200" : "teal"}
         size="sm"
         src={imageSrc}
-        name={user}
+        name={userData?.name ?? "You"}
       />
       <div className="flex flex-col">
         <h1 className="text-gray-800 text-sm font-semibold">{sender}</h1>

@@ -27,6 +27,7 @@ const createUMLDiagram = async ({
   summary,
   original_text,
   document_id,
+  chat_history_id,
   filepath,
 }: CreateUMLDiagramParams) => {
   const response = await UMLDiagramService.create({
@@ -36,6 +37,7 @@ const createUMLDiagram = async ({
     summary,
     original_text,
     document_id,
+    chat_history_id,
     filepath,
   });
 
