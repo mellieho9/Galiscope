@@ -79,7 +79,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
       <button
         aria-expanded={isOpen}
         onClick={toggleDropdown}
-        className="text-gray-500 w-full px-4 py-2 text-left bg-white border border-gray-500 rounded-lg shadow flex items-center justify-between focus:outline-none focus:ring-2 ring-gray-500 focus:border-transparent"
+        className="text-gray-500 w-full px-4 py-2 text-left bg-white border border-gray-500 rounded-lg shadow flex items-center justify-between focus:outline-none focus:ring-1 ring-gray-500 focus:border-transparent"
       >
         {selectedFolderId ? (
           folders.find((folder) => folder.id === selectedFolderId)?.name
@@ -91,8 +91,8 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
         )}
       </button>
       {isOpen && (
-        <div className="absolute bg-white border border-black rounded-lg shadow w-full z-10">
-          <div className="flex flex-col p-3 mb-5 gap-3">
+        <div className="absolute bg-white border border-gray-500 rounded-lg shadow w-full z-10">
+          <div className="flex flex-col p-2 gap-2">
             <ul role="menu">
               {folders.map((folder) => (
                 <li
@@ -106,7 +106,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
                     name={folder.name}
                     checked={folder.id === selectedFolderId}
                     onChange={handleCheckboxChange(folder.id)}
-                    className="form-checkbox  h-4 w-4"
+                    className="form-checkbox  h-4 w-4 accent-teal"
                     onClick={(e) => e.stopPropagation()} // Stop propagation to prevent li's onClick when clicking the checkbox directly
                   />
                   <label
@@ -118,7 +118,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
                 </li>
               ))}
             </ul>
-            <div className="flex flex-row items-center mt-2 py-2 cursor-pointer">
+            <div className="flex flex-row items-center py-2 cursor-pointer">
               <PlusIcon className="w-4 h-4 mr-4 text-teal" />
               <input
                 type="text"

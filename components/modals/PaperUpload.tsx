@@ -1,5 +1,5 @@
-'use client';
-import React, { useState, useRef, useMemo } from 'react';
+"use client";
+import React, { useState, useRef, useMemo } from "react";
 import {
   Box,
   InputGroup,
@@ -14,54 +14,48 @@ import {
   ModalBody,
   ModalFooter,
   Flex,
-} from '@chakra-ui/react';
+} from "@chakra-ui/react";
 import {
   ArrowUpOnSquareIcon,
   CloudArrowUpIcon,
   XMarkIcon,
-} from '@heroicons/react/24/outline';
-import DropdownMenu from '@/components/modals/DropDownMenu';
+} from "@heroicons/react/24/outline";
+import DropdownMenu from "@/components/modals/DropDownMenu";
 
-import CustomButton from '@/components/Button';
-import { PDFDocument } from 'pdf-lib';
-import { useCurrentUser } from '@/contexts/UserContextProvider';
-import { useCreateDocument } from '@/hooks/document.hooks';
-import { useUploadDocumentFile } from '@/hooks/file.hook';
-import { useQueryClient } from '@tanstack/react-query';
-import { CreateDocumentParams } from '@/types/document.types';
-import { useRouter } from 'next/navigation';
+import CustomButton from "@/components/Button";
+import { PDFDocument } from "pdf-lib";
+import { useCurrentUser } from "@/contexts/UserContextProvider";
+import { useCreateDocument } from "@/hooks/document.hooks";
+import { useUploadDocumentFile } from "@/hooks/file.hook";
+import { useQueryClient } from "@tanstack/react-query";
+import { CreateDocumentParams } from "@/types/document.types";
+import { useRouter } from "next/navigation";
+import ReadLaterModal from "./ReadLaterModal";
 
 interface PaperUploadProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const PaperUpload: React.FC<PaperUploadProps> = ({
-  isOpen,
-  onClose,
-}) => {
+const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
-  const [selectedFolderId, setSelectedFolderId] = useState<string>('');
+  const [selectedFolderId, setSelectedFolderId] = useState<string>("");
   const [pdf, setPdf] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const queryClient = useQueryClient();
 
   const { data: user } = useCurrentUser() ?? {};
-  const {
-    mutate: createDocument,
-    isPending: creatingDocument,
-  } = useCreateDocument();
-  const {
-    mutate: uploadDocumentFile,
-    isPending: uploadingDocumentFile,
-  } = useUploadDocumentFile();
+  const { mutate: createDocument, isPending: creatingDocument } =
+    useCreateDocument();
+  const { mutate: uploadDocumentFile, isPending: uploadingDocumentFile } =
+    useUploadDocumentFile();
 
   const handlePanelClick = () => {
     fileInputRef.current?.click();
   };
 
-  const [paperPdfLink, setPaperPdfLink] = React.useState('');
+  const [paperPdfLink, setPaperPdfLink] = React.useState("");
   const handleChangeFromWebLinkInput = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -83,16 +77,16 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
 
       const arrayBuffer = await data.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
-      const pdfTitle = pdf.getTitle() || 'document.pdf';
+      const pdfTitle = pdf.getTitle() || "document.pdf";
 
       const file = new File([data], pdfTitle, {
-        type: 'application/pdf',
+        type: "application/pdf",
       });
 
       setPdf(file);
     } catch (error) {
       // TODO: handle error (show notification, etc.)
-      console.error('Error fetching PDF:', error);
+      console.error("Error fetching PDF:", error);
     } finally {
       setIsLoading(false);
     }
@@ -131,9 +125,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
     }
   };
 
-  const handleFileChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       const file = files[0];
@@ -142,13 +134,11 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
     }
   };
 
-  const handleCreateDocument = (
-    newDocument: CreateDocumentParams
-  ) => {
+  const handleCreateDocument = (newDocument: CreateDocumentParams) => {
     createDocument(newDocument, {
       onSuccess: async (data) => {
         await queryClient.refetchQueries({
-          queryKey: ['get-documents-by-folder-id', selectedFolderId],
+          queryKey: ["get-documents-by-folder-id", selectedFolderId],
         });
         onClose();
         router.push(`/pdfViewer/${data.id}`);
@@ -156,7 +146,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
       },
       onError: (error) => {
         // TODO: handle error (show notification, etc.)
-        console.error('Error creating document:', error);
+        console.error("Error creating document:", error);
       },
     });
   };
@@ -179,13 +169,20 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
           },
           onError: (error) => {
             // TODO: handle error (show notification, etc.)
-            console.error('Error uploading document:', error);
+            console.error("Error uploading document:", error);
           },
         }
       );
     }
   };
 
+  const [isReadLaterModalOpen, setReadLaterModalOpen] = useState(false);
+  const handleOpenReadLaterModal = () => {
+    setReadLaterModalOpen(true);
+  };
+  const handleCloseReadLaterModal = () => {
+    setReadLaterModalOpen(false);
+  };
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay
@@ -208,9 +205,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                       <IconButton
                         aria-label="Call Segun"
                         size="xs"
-                        icon={
-                          <XMarkIcon className="text-gray-500 w-4 h-4" />
-                        }
+                        icon={<XMarkIcon className="text-gray-500 w-4 h-4" />}
                         variant="ghost"
                         onClick={() => setPdf(null)}
                       />
@@ -223,23 +218,31 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                 </div>
               </ModalBody>
               <ModalFooter>
-                <CustomButton
-                  width="20%"
+                <Button
+                  bgColor="teal"
+                  color="white"
+                  variant="solid"
                   mr={3}
+                  borderRadius={"lg"}
                   isDisabled={uploadingDocumentFile || creatingDocument}
                   onClick={handleReadNow}
                 >
                   Read now
-                </CustomButton>
+                </Button>
                 <Button
                   variant="outline"
                   color="gray.500"
-                  borderRadius={'lg'}
+                  borderRadius={"lg"}
                   border="1px"
                   isDisabled={uploadingDocumentFile || creatingDocument}
+                  onClick={handleOpenReadLaterModal}
                 >
                   Read later
                 </Button>
+                <ReadLaterModal
+                  isOpen={isReadLaterModalOpen}
+                  onClose={handleCloseReadLaterModal}
+                />
               </ModalFooter>
             </>
           ) : (
@@ -248,8 +251,8 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                 <div
                   className={`bg-gray-200 mt-2 flex justify-center rounded-lg border hover:bg-gray-200 ${
                     dragging
-                      ? 'bg-gray-200 border-2'
-                      : 'border-dashed bg-gray-50'
+                      ? "bg-gray-200 border-2"
+                      : "border-dashed bg-gray-50"
                   } px-6 py-10 cursor-pointer`}
                   onClick={handlePanelClick}
                   onDragEnter={handleDragIn}
@@ -290,9 +293,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                       aria-label="Upload link"
                       h="1.75rem"
                       onClick={fetchPdfPaper}
-                      icon={
-                        <ArrowUpOnSquareIcon className="w-4 h-4" />
-                      }
+                      icon={<ArrowUpOnSquareIcon className="w-4 h-4" />}
                     />
                   </InputRightElement>
                 </InputGroup>
