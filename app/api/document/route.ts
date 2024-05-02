@@ -26,8 +26,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { title, user_id, folder_id, filepath } = await request.json();
-    const response = await documentService.createDocument({ title, user_id, folder_id, filepath });
+    const { title, user_id, folder_id, filepath, deadline } = await request.json();
+    const response = await documentService.createDocument({ title, user_id, folder_id, filepath, deadline });
 
     if (!response) {
       return NextResponse.json({ error: "Failed to create document" }, { status: 400 });
