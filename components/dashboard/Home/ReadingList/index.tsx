@@ -49,6 +49,7 @@ export function ReadingList() {
                   key={folder.id}
                   folder={folder.name}
                   incompleteReadList={incompleteReads}
+            
                 />
               );
             })
@@ -58,7 +59,7 @@ export function ReadingList() {
                 key={doc.id}
                 folderId={doc.folder_id}
                 paperTitle={doc.title}
-                paperUrl={doc.filepath}
+                paperDeadline={doc.deadline}
               />
             ))
           )}

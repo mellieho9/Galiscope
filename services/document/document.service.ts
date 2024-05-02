@@ -32,14 +32,16 @@ const createDocument = async ({
   title,
   user_id,
   folder_id,
-  filepath
+  filepath,
+  deadline,
 }: CreateDocumentParams) => {
   const response =  await documentService.create({
     title,
     user_id,
     folder_id: folder_id,
     filepath,
-    is_deleted: false
+    is_deleted: false,
+    deadline,
   });
 
   return response?.data?.[0];

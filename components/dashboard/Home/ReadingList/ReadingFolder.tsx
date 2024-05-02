@@ -54,7 +54,7 @@ export function ReadingFolder({
                       key={doc.id}
                       folderId={doc.folder_id}
                       paperTitle={doc.title}
-                      paperUrl={doc.filepath}
+                      paperDeadline={doc.deadline}
                     />
                   );
                 })}

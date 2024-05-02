@@ -1,14 +1,16 @@
-import { Box, Heading, Image, Text } from '@chakra-ui/react';
-import blurredImage from '../public/blurred_paper.png';
-import { useGetFolderById } from '@/hooks/folder.hooks';
-import { format } from 'timeago.js';
-import { PlusIcon } from '@heroicons/react/24/solid';
-import React from 'react';
+import { Box, Heading, Image, Text } from "@chakra-ui/react";
+import blurredImage from "../public/blurred_paper.png";
+import { useGetFolderById } from "@/hooks/folder.hooks";
+import { format } from "timeago.js";
+import { PlusIcon } from "@heroicons/react/24/solid";
+import React from "react";
+import { differenceInCalendarDays, parseISO } from "date-fns";
 
 interface ReadingCardProps {
   paperTitle: string;
   lastUpdatedTime?: string | number | Date;
   folderId: string;
+  deadline?: Date;
   onClick?: () => void;
 }
 
@@ -104,21 +106,30 @@ export const FolderCompleteCard: React.FC<ReadingCardProps> = ({
 export const IncompleteCard: React.FC<ReadingCardProps> = ({
   paperTitle,
   folderId,
+  deadline,
   onClick,
   ...props
-}) => (
-  <BaseCard
-    folderId={folderId}
-    paperTitle={paperTitle}
-    onClick={onClick}
-    borderColor="orange"
-    {...props}
-  >
-    <Heading isTruncated color="gray.600" size="xs">
-      {paperTitle}
-    </Heading>
-  </BaseCard>
-);
+}) => {
+  const today = new Date();
+  const daysUntilDeadline = differenceInCalendarDays(deadline!, today);
+
+  return (
+    <BaseCard
+      folderId={folderId}
+      paperTitle={paperTitle}
+      onClick={onClick}
+      borderColor="orange"
+      {...props}
+    >
+      <div className="flex flex-row items-center text-orange justify-between text-xs">
+        <Heading isTruncated color="gray.600" size="xs">
+          {paperTitle}
+        </Heading>
+        {deadline && <p>{daysUntilDeadline}d left</p>}
+      </div>
+    </BaseCard>
+  );
+};
 
 export const AddCard: React.FC = () => (
   <div
