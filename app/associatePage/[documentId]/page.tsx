@@ -10,7 +10,7 @@ export default function DocumentPage({
     <div className="w-full flex flex-row z-0">
       {/* blur paper view */}
       <div className="w-1/2">
-        <BlurPaperView />
+        <BlurPaperView documentId={documentId} />
       </div>
       <div className="w-1/2">
         <AssociateBarView documentId={documentId} />

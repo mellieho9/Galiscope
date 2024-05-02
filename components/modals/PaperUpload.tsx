@@ -30,6 +30,7 @@ import { useUploadDocumentFile } from '@/hooks/file.hook';
 import { useQueryClient } from '@tanstack/react-query';
 import { CreateDocumentParams } from '@/types/document.types';
 import { useRouter } from 'next/navigation';
+import api from '@/utils/axios/axios';
 
 interface PaperUploadProps {
   isOpen: boolean;
@@ -74,16 +75,14 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
   const fetchPdfPaper = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(paperPdfLink);
-      if (!response.ok) {
-        // TODO: handle error (show notification, etc.)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.blob();
+      const { data: response } = await api.post('/api/fetch-pdf', { url: paperPdfLink }, {
+        responseType: 'blob',
+      });
 
+      const data = new Blob([response], { type: 'application/pdf' });
       const arrayBuffer = await data.arrayBuffer();
       const pdf = await PDFDocument.load(arrayBuffer);
-      const pdfTitle = pdf.getTitle() || 'document.pdf';
+      const pdfTitle = pdf.getTitle() || paperPdfLink.split('/').pop() || 'document.pdf';
 
       const file = new File([data], pdfTitle, {
         type: 'application/pdf',
@@ -143,16 +142,17 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
   };
 
   const handleCreateDocument = (
-    newDocument: CreateDocumentParams
+    newDocument: CreateDocumentParams,
+    redirect: boolean = true
   ) => {
     createDocument(newDocument, {
       onSuccess: async (data) => {
         await queryClient.refetchQueries({
           queryKey: ['get-documents-by-folder-id', selectedFolderId],
         });
-        onClose();
-        router.push(`/pdfViewer/${data.id}`);
-        setPdf(null);
+        if (redirect) {
+          router.push(`/pdfViewer/${data.id}`);
+        }
       },
       onError: (error) => {
         // TODO: handle error (show notification, etc.)
@@ -175,12 +175,39 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
               filepath,
               user_id: user.id,
               folder_id: selectedFolderId,
-            });
+            }, true);
+          },
+          onError: (error: any) => {
+            // TODO: handle error (show notification, etc.)
+            if (error.response?.data?.error?.statusCode === '409') {
+              alert('A document with the same name already exists in this folder. Please rename or choose a different document.');
+            }
+          },
+        }
+      );
+    }
+  };
+
+  const handleReadLater = async () => {
+    if (pdf && user?.id) {
+      // Upload the document and retrieve the filepath
+      uploadDocumentFile(
+        { user_id: user.id, file: pdf },
+        {
+          onSuccess: (data) => {
+            const { filepath } = data;
+            // Create the document
+            handleCreateDocument({
+              title: pdf.name,
+              filepath,
+              user_id: user.id,
+              folder_id: selectedFolderId,
+            }, false);
           },
           onError: (error) => {
             // TODO: handle error (show notification, etc.)
             console.error('Error uploading document:', error);
-          },
+          }
         }
       );
     }
@@ -204,7 +231,14 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                 <div className="flex flex-col gap-7">
                   <div className="border mt-5 border-gray-500 rounded-lg p-2">
                     <div className="flex flex-row items-center justify-between">
-                      <p className="text-black">{pdf.name}</p>
+                      <Input
+                        className="text-black"
+                        value={pdf.name}
+                        onChange={(e) => {
+                          const newName = e.target.value;
+                          setPdf(new File([pdf], newName, { type: pdf.type }));
+                        }}
+                      />
                       <IconButton
                         aria-label="Call Segun"
                         size="xs"
@@ -236,6 +270,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                   color="gray.500"
                   borderRadius={'lg'}
                   border="1px"
+                  onClick={handleReadLater}
                   isDisabled={uploadingDocumentFile || creatingDocument}
                 >
                   Read later
@@ -289,6 +324,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({
                       variant="solid"
                       aria-label="Upload link"
                       h="1.75rem"
+                      disabled={isLoading}
                       onClick={fetchPdfPaper}
                       icon={
                         <ArrowUpOnSquareIcon className="w-4 h-4" />

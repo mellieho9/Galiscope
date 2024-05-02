@@ -51,6 +51,7 @@ export function ReadingFolder({
                 {incompleteReadList.map((doc) => {
                   return (
                     <ReadingFolderItem
+                      key={doc.id}
                       folderId={doc.folder_id}
                       paperTitle={doc.title}
                       paperUrl={doc.filepath}

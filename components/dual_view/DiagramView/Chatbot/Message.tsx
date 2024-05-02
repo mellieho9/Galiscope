@@ -1,18 +1,23 @@
 import { ReactNode } from "react";
-import { Avatar, Text, Box } from "@chakra-ui/react";
+import { Avatar, Box, Skeleton } from "@chakra-ui/react";
 import logo from "../../../../public/logo.svg";
+import { useCurrentUser } from "@/contexts/UserContextProvider";
 
 interface MessageProps {
   user: string;
   message: string;
+  isPending?: boolean;
   children?: ReactNode;
 }
 
 export const Message: React.FC<MessageProps> = ({
   user,
   message,
+  isPending,
   children,
 }) => {
+  const { data: userData } = useCurrentUser() ?? {};
+
   const sender = user === "Galiscope" ? "Galiscope" : "You";
   const imageSrc = user === "Galiscope" ? logo.src : null;
 
@@ -41,11 +46,12 @@ export const Message: React.FC<MessageProps> = ({
         bg={sender == "Galiscope" ? "gray.200" : "teal"}
         size="sm"
         src={imageSrc}
-        name={user}
+        name={userData?.name ?? "You"}
       />
-      <div className="flex flex-col">
+      <div className="w-full flex flex-col">
         <h1 className="text-gray-800 text-sm font-semibold">{sender}</h1>
-        <Box className="space-y-2">{formatMessage(message)}</Box>
+        {isPending && <Skeleton className="w-full" color="gray.500" height={1} />}
+        {!isPending && <Box className="space-y-2">{formatMessage(message)}</Box>}
         {children}
       </div>
     </div>

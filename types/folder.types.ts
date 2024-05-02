@@ -3,8 +3,8 @@ export type Folder = {
   name: string;
   user_id: string;
   is_deleted: boolean;
-  created_on: Date;
-  updated_on: Date;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export type CreateFolderParams = {
