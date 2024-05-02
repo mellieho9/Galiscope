@@ -1,5 +1,5 @@
 'use client';
-import { Image } from '@chakra-ui/react';
+import { Image, Spinner } from '@chakra-ui/react';
 import diagram from '../../../app/diagram.svg';
 import { TopModal } from './TopModal';
 import { BottomModal } from './BottomModal';
@@ -18,7 +18,6 @@ export function DiagramView({ umlDiagramId }: DiagramViewProps) {
   } = useGetUmlById(umlDiagramId);
 
   const [imageUrl, setImageUrl] = useState<string>('');
-  const name = useMemo(() => umlDiagram?.name ?? '', [umlDiagram]);
 
   useEffect(() => {
     const getSignedUrl = async () => {
@@ -30,11 +29,19 @@ export function DiagramView({ umlDiagramId }: DiagramViewProps) {
     getSignedUrl();
   }, [umlDiagram]);
 
+  if (loadingUmlDiagram) {
+    return (
+      <div className="flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full p-5 pb-8 min-h-screen justify-between flex flex-col justify-center items-center bg-gray-50">
       {/* name  */}
       <div className="w-full flex justify-end">
-        <TopModal name={name} />
+        <TopModal name={umlDiagram?.name ?? ''} />
       </div>
       {/* diagonal divider  */}
       <Image boxSize="w-full" src={imageUrl} alt="Diagram" />
