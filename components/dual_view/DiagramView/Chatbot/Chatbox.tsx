@@ -31,6 +31,12 @@ export const Chatbox = ({ setMessagePending, chatHistory, refetch }: ChatboxProp
     setMessagePending(updatingChatHistory || sendingMessage);
   }, [updatingChatHistory, sendingMessage]);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  }
+
   const handleSendMessage = async () => {
     const history = chatHistory.history;
     const userMessage: Content = {
@@ -87,6 +93,7 @@ export const Chatbox = ({ setMessagePending, chatHistory, refetch }: ChatboxProp
           className="border-0 text-xs focus:ring-0 text-gray-500"
           focusBorderColor="teal.main"
           onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <InputRightElement>
           <button
