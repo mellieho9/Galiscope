@@ -3,10 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const response = await chatHistoryService.createChatHistory()
+    const { history } = await request.json();
+    const response = await chatHistoryService.createChatHistory({ history });
 
     if (!response) {
-      return NextResponse.json({ error: 'Can not create chat history' }, { status: 404 });
+      return NextResponse.json({ error: 'Failed to create chat history' }, { status: 404 });
     }
 
     return NextResponse.json(response, { status: 200 });

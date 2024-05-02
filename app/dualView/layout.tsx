@@ -12,16 +12,7 @@ export default function RootLayout({
       <span className="absolute top-5 left-6 z-50">
         <BackButton />
       </span>
-      <div className="w-full flex flex-row z-0">
-        {/* paper view */}
-        <div className="w-1/2">
-          <PaperView />
-        </div>
-        {/* diagram view */}
-        <div className="w-1/2">
-          <DiagramView />
-        </div>
-      </div>
+      {children}
     </div>
   );
 }

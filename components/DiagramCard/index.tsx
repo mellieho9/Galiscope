@@ -6,6 +6,7 @@ import { useGetSignedUrl } from '@/hooks/file.hook';
 import { useEffect, useState } from 'react';
 import { useDeleteUml } from '@/hooks/uml.hooks';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 interface DiagramCardProps {
   diagram: UMLDiagram;
@@ -14,6 +15,7 @@ interface DiagramCardProps {
 export const DiagramCard: React.FC<DiagramCardProps> = ({
   diagram
 }) => {
+  const router = useRouter();
   const [signedUrl, setSignedUrl] = useState<string>('');
 
   const queryClient = useQueryClient();
@@ -41,8 +43,15 @@ export const DiagramCard: React.FC<DiagramCardProps> = ({
     deleteDiagram(diagram.id);
   }
 
+  const handleClick = () => {
+    router.push(`/dualView/${diagram.id}`);
+  }
+
   return (
-    <div className="transition ease-in-out delay-150 border border-gray-200 bg-gray-50 rounded-lg hover:border-teal">
+    <div
+      className="transition ease-in-out delay-150 border border-gray-200 bg-gray-50 rounded-lg hover:border-teal"
+      onClick={handleClick}
+    >
       <Box
         overflow="hidden"
         borderRadius="lg"

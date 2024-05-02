@@ -8,26 +8,44 @@ import {
   NormalizedTextSelection,
   NormalizedAreaSelection,
 } from "react-pdf-selection";
-import { Spinner, Button } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
+import { useGetUmlById } from "@/hooks/uml.hooks";
+import { useGetDocumentById } from "@/hooks/document.hooks";
+import { useGetSignedUrl } from "@/hooks/file.hook";
 
 const PdfViewer = dynamic(
   () => import("react-pdf-selection").then((mod) => mod.PdfViewer),
   { ssr: false }
 );
 
-export function PaperView() {
+interface PaperViewProps {
+  umlDiagramId: string;
+}
+
+export function PaperView({ umlDiagramId }: PaperViewProps) {
+  const { data: umlDiagram, isLoading: loadingUmlDiagram  } = useGetUmlById(umlDiagramId);
+  const { data: paper, isLoading: loadingPaper } = useGetDocumentById(umlDiagram?.document_id ?? "");
+  const [paperUrl, setPaperUrl] = useState<string>('');
+
+  useEffect(() => {
+    const getSignedUrl = async () => {
+      if (paper) {
+        const signedUrl = await useGetSignedUrl(paper.filepath);
+        setPaperUrl(signedUrl);
+      }
+    };
+    getSignedUrl();
+  }, [paper]);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1.2);
   const [selection, setSelection] = useState<NormalizedSelection | undefined>();
-  const [areaSelectionActive, setAreaSelectionActive] = useState(false);
   const [selected, setSelected] = useState<SelectionType | undefined>(
     undefined
   );
+
   const [currentPage, setCurrentPage] = useState(1);
-
   const [numPage, setNumPage] = useState<number>(1);
-  const paperUrl = "https://arxiv.org/pdf/1706.03762.pdf";
-
   const [pageHeights, setPageHeights] = useState<number[]>([]);
 
   useEffect(() => {
@@ -63,7 +81,6 @@ export function PaperView() {
       const pdfViewwerContainer = document.getElementById(
         "pdf-viewer-container"
       );
-      console.log(pdfViewwerContainer);
       pdfViewwerContainer?.scrollTo({
         top:
           pdfViewwerContainer.scrollHeight *
@@ -143,11 +160,6 @@ export function PaperView() {
     },
   };
 
-  const enableAreaSelection = useCallback(
-    () => areaSelectionActive,
-    [areaSelectionActive]
-  );
-
   const adjustScaleToFit = useCallback(() => {
     if (containerRef.current) {
       const containerWidth = containerRef.current.clientWidth;
@@ -183,6 +195,14 @@ export function PaperView() {
     }
   };
 
+  if (loadingUmlDiagram || loadingPaper) {
+    return (
+      <div className="flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
     <div
       id="pdf-viewer-container"
@@ -195,23 +215,17 @@ export function PaperView() {
           url={paperUrl}
           scale={scale}
           textSelectionColor="rgba(255, 222, 100, 0.3)"
-          enableAreaSelection={enableAreaSelection}
           selections={selected ? [selected] : []}
           onTextSelection={onTextSelection}
           onAreaSelection={onAreaSelection}
           onLoad={(dimensions: PageDimensions) => {
-            console.log(dimensions);
             adjustScaleToFit;
             setNumPage(dimensions.size);
           }}
           onPageDimensions={({ pageDimensions, pageYOffsets }) => {
-            console.log("i am resized!");
-            console.log(pageDimensions);
-            console.log(pageYOffsets);
           }}
           overscanCount={2}
         />
-        <Button onClick={handleClick}>Select text</Button>
       </div>
     </div>
   );

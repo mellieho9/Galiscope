@@ -11,8 +11,8 @@ export type UMLDiagram = {
   chat_history_id: string;
   filepath: string;
   is_deleted: boolean;
-  created_on: Date;
-  updated_on: Date;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export type CreateUMLDiagramParams = {

@@ -8,19 +8,23 @@ import {
 import { FilterDropdown } from "./FilterDropdown";
 import { useState } from "react";
 import { useGetFolderById } from "@/hooks/folder.hooks";
-import { useGetDocumentsByFolderId } from "@/hooks/document.hooks";
+import { useGetDocumentsByFolderId, useUpdateDocument, useUpdateDocumentById } from "@/hooks/document.hooks";
 import { format } from "timeago.js";
 import PaperUpload from "@/components/modals/PaperUpload";
+import { useRouter } from "next/navigation";
 
 interface CardGridProps {
   folderId: string;
 }
 
 export function CardGrid({ folderId }: CardGridProps) {
+  const router = useRouter();
   const [showUpload, setShowUpload] = useState(false);
 
   const { data: folder } = useGetFolderById(folderId);
   const { data: documents = [] } = useGetDocumentsByFolderId(folderId);
+
+  const { mutate: updateDocumentById } = useUpdateDocumentById();
 
   const [groupBy, setGroupBy] = useState("default");
 
@@ -34,7 +38,6 @@ export function CardGrid({ folderId }: CardGridProps) {
 
   const handleGroupByChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setGroupBy(event.target.value);
-    console.log(groupBy);
   };
 
   return folder ? (
@@ -59,12 +62,27 @@ export function CardGrid({ folderId }: CardGridProps) {
             ? groupBy !== "incomplete" && (
                 <FolderCompleteCard
                   key={doc.id}
+                  folderId={folderId}
                   paperTitle={doc.title}
                   lastUpdatedTime={doc.updated_at}
+                  onClick={async () => {
+                    router.push(`/associatePage/${doc.id}`);
+                  }}
                 />
               )
             : groupBy !== "complete" && (
-                <IncompleteCard key={doc.id} paperTitle={doc.title} />
+                <IncompleteCard
+                  key={doc.id}
+                  folderId={folderId}
+                  paperTitle={doc.title}
+                  onClick={async () => {
+                    await updateDocumentById({
+                      id: doc.id,
+                      status: "read",
+                    });
+                    router.push(`/associatePage/${doc.id}`);
+                  }}
+                />
               )
         )}
       </Box>

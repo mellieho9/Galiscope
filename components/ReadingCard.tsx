@@ -1,54 +1,68 @@
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import blurredImage from "../public/blurred_paper.png";
-import { useGetFolderById } from "@/hooks/folder.hooks";
-import { format } from "timeago.js";
-import { PlusIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import { Box, Heading, Image, Text } from '@chakra-ui/react';
+import blurredImage from '../public/blurred_paper.png';
+import { useGetFolderById } from '@/hooks/folder.hooks';
+import { format } from 'timeago.js';
+import { PlusIcon } from '@heroicons/react/24/solid';
+import React from 'react';
 
 interface ReadingCardProps {
   paperTitle: string;
   lastUpdatedTime?: string | number | Date;
   folderId: string;
+  onClick?: () => void;
 }
 
 // Base card component for reusability and consistency
 const BaseCard: React.FC<
-  ReadingCardProps & { borderColor: string; children: React.ReactNode }
-> = ({ borderColor, children }) => (
-  <div
-    className={`transition ease-in-out delay-150 border border-gray-200 rounded-lg hover:border-${borderColor}`}
-  >
-    <Box
-      overflow="hidden"
-      borderRadius="lg"
-      width="200px"
-      height="200px"
-      display="flex"
-      flexDirection="column"
+  ReadingCardProps & {
+    borderColor: string;
+    children: React.ReactNode;
+  }
+> = ({ onClick, borderColor, children }) => {
+  const hoverColor = `hover:border-${borderColor}`;
+  return (
+    <div
+      className={`transition ease-in-out delay-150 border border-gray-200 rounded-lg ${hoverColor}`}
+      onClick={onClick}
     >
-      <Image
-        src={blurredImage.src}
-        width="full"
-        height="70%"
-        objectFit="cover"
-      />
-      <div className="flex-grow p-2 space-y-1 border-t border-gray-200 bg-white cursor-pointer">
-        {children}
-      </div>
-    </Box>
-  </div>
-);
+      <Box
+        overflow="hidden"
+        borderRadius="lg"
+        width="200px"
+        height="200px"
+        display="flex"
+        flexDirection="column"
+      >
+        <Image
+          src={blurredImage.src}
+          width="full"
+          height="70%"
+          objectFit="cover"
+        />
+        <div className="flex-grow p-2 space-y-1 border-t border-gray-200 bg-white cursor-pointer">
+          {children}
+        </div>
+      </Box>
+    </div>
+  );
+};
 
 export const ReadingCard: React.FC<ReadingCardProps> = ({
   paperTitle,
   folderId,
   lastUpdatedTime,
+  onClick,
   ...props
 }) => {
   const { data: folder } = useGetFolderById(folderId);
 
   return (
-    <BaseCard folderId={folderId} paperTitle={paperTitle} borderColor="teal">
+    <BaseCard
+      folderId={folderId}
+      paperTitle={paperTitle}
+      onClick={onClick}
+      borderColor="teal"
+    >
       <Heading isTruncated color="gray.600" size="xs">
         {paperTitle}
       </Heading>
@@ -62,10 +76,20 @@ export const ReadingCard: React.FC<ReadingCardProps> = ({
   );
 };
 
-export const FolderCompleteCard: React.FC<
-  Pick<ReadingCardProps, "paperTitle" | "lastUpdatedTime">
-> = ({ paperTitle, lastUpdatedTime, ...props }) => (
-  <BaseCard folderId={""} paperTitle={paperTitle} borderColor="teal" {...props}>
+export const FolderCompleteCard: React.FC<ReadingCardProps> = ({
+  paperTitle,
+  lastUpdatedTime,
+  folderId,
+  onClick,
+  ...props
+}) => (
+  <BaseCard
+    folderId={folderId}
+    paperTitle={paperTitle}
+    borderColor="teal"
+    onClick={onClick}
+    {...props}
+  >
     <Heading isTruncated color="gray.600" size="xs">
       {paperTitle}
     </Heading>
@@ -77,10 +101,19 @@ export const FolderCompleteCard: React.FC<
   </BaseCard>
 );
 
-export const IncompleteCard: React.FC<Pick<ReadingCardProps, "paperTitle">> = ({
+export const IncompleteCard: React.FC<ReadingCardProps> = ({
   paperTitle,
+  folderId,
+  onClick,
+  ...props
 }) => (
-  <BaseCard folderId={""} paperTitle={paperTitle} borderColor="orange">
+  <BaseCard
+    folderId={folderId}
+    paperTitle={paperTitle}
+    onClick={onClick}
+    borderColor="orange"
+    {...props}
+  >
     <Heading isTruncated color="gray.600" size="xs">
       {paperTitle}
     </Heading>

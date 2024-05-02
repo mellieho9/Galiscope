@@ -7,7 +7,16 @@ export const generateDiagramHelper = async ({
   input,
   history,
 }: GeminiMessage) => {
-  const umlCode = await createUMLCode({ input, history });
+  const response = await createUMLCode({ input, history });
+
+  if (!response) {
+    return { textImg: '', updatedHistory: history, diagram: null };
+  }
+
+  const { umlCode, history: updatedHistory } = response;
+
+  console.log('UML Code:', umlCode);
+
   const diagram = await axios.post(
     process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || '',
     { input: umlCode },
@@ -15,8 +24,6 @@ export const generateDiagramHelper = async ({
   );
 
   const textImg = await getTextFromImage(diagram.data);
-  const textImgArr = textImg.split(/\n+/)
-  const length = textImgArr.length;
 
-  return { textImgArr, length, diagram };
+  return { textImg, updatedHistory, umlCode, diagram };
 };

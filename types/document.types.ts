@@ -13,10 +13,6 @@ export type Document = {
   deadline: Date;
 };
 
-export type DocumentWithFolder = Document & {
-  folder: Folder;
-};
-
 export type CreateDocumentParams = {
   title: string;
   user_id: string;
@@ -28,5 +24,10 @@ export type CreateDocumentParams = {
 export type UpdateDocumentParams = {
   title?: string;
   folder_id?: string;
+  status?: string;
   filepath?: string;
-}
+};
+
+export type UpdateDocumentByIdParams = {
+  id: string;
+} & UpdateDocumentParams;

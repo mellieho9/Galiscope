@@ -3,7 +3,7 @@ import { UseMutationOptions, UseQueryOptions, useMutation, useQuery } from "@tan
 import { UpdateUserParams } from '../types/user.types';
 import api from "@/utils/axios/axios";
 
-export const getUserById = (
+export const useGetUserById = (
   id: string,
   options?: UseQueryOptions<User, Error>
 ) => useQuery({
@@ -15,7 +15,7 @@ export const getUserById = (
   ...options,
 });
 
-export const getUserByAuthId = (
+export const useGetUserByAuthId = (
   authId: string,
   options?: UseQueryOptions<User, Error>
 ) => useQuery({
@@ -27,7 +27,7 @@ export const getUserByAuthId = (
   ...options,
 });
 
-export const updateUser = (
+export const useUpdateUser = (
   id: string,
   options?: UseMutationOptions<User, Error, UpdateUserParams>
 ) => useMutation({

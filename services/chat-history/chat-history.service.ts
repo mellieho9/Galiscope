@@ -1,15 +1,17 @@
-import { ChatHistory } from '@/types/chat-history.types';
+import { ChatHistory, CreateChatHistoryParams } from '@/types/chat-history.types';
 import DbService from '../db.service';
 import { diagram_history } from '@/utils/gemini/finetune';
 
 const chatHistoryService = new DbService<ChatHistory>('chat_history');
 
-export const createChatHistory = async () => {
+export const createChatHistory = async ({
+  history
+}: CreateChatHistoryParams) => {
   const response = await chatHistoryService.create({
-    history: diagram_history,
+    history,
   });
 
-  return response?.data?.[0]?.id;
+  return response?.data?.[0];
 };
 
 export const getChatHistoryById = async (id: string) => {
