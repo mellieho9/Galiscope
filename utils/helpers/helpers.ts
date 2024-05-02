@@ -1,4 +1,5 @@
 import flowChart from '../../public/diagrams/flow chart.svg';
+import activityDiagram from '../../public/diagrams/activity diagram.svg';
 import mindMap from '../../public/diagrams/mind map.svg';
 import sequenceDiagram from '../../public/diagrams/sequence diagram.svg';
 import stateDiagram from '../../public/diagrams/state diagram.svg';
@@ -53,8 +54,8 @@ export const download = (filename: string, content: string) => {
 export const diagramDictionary: Record<string, any> = {
   // 'Class Diagram': classDiagram.src,
   'Acitivity Diagram': flowChart.src,
-  'Flow Chart': flowChart.src,
-  'Mind Map': mindMap.src,
+  // 'Flow Chart': flowChart.src,
+  'Mind Map': activityDiagram.src,
   'Sequence Diagram': sequenceDiagram.src,
   'State Diagram': stateDiagram.src,
 };
