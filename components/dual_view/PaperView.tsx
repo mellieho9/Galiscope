@@ -87,7 +87,6 @@ export function PaperView({ umlDiagramId }: PaperViewProps) {
       'pdf-viewer-container'
     );
     if (umlDiagram && pdfViewwerContainer) {
-      console.log('In here', umlDiagram.original_text);
       pdfViewwerContainer?.scrollTo({
         top:
           pdfViewwerContainer.scrollHeight *

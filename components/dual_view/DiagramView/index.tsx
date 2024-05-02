@@ -29,9 +29,9 @@ export function DiagramView({ umlDiagramId }: DiagramViewProps) {
     getSignedUrl();
   }, [umlDiagram]);
 
-  if (loadingUmlDiagram) {
+  if (loadingUmlDiagram || !imageUrl) {
     return (
-      <div className="flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200">
+      <div className="flex flex-col items-bottom justify-start px-6 pt-10 pb-5 border-b border-gray-200 text-gray-500">
         <Spinner />
       </div>
     );

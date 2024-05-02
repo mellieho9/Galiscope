@@ -36,7 +36,6 @@ export const DiagramCard: React.FC<DiagramCardProps> = ({
       setSignedUrl(signedUrl);
     };
     getSignedUrl();
-    console.log('fetching signed url');
   }, [diagram.filepath]);
 
   const handleDeleteDiagram = () => {
