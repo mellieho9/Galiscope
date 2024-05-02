@@ -32,7 +32,6 @@ export const ReadLaterModal: React.FC<ReadLaterModalProps> = ({
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
       setCompletionDate(new Date(e.target.value));
-      router.push(route);
     } else {
       setCompletionDate(null);
     }
@@ -66,7 +65,10 @@ export const ReadLaterModal: React.FC<ReadLaterModalProps> = ({
             bgColor="teal"
             color="white"
             mr={3}
-            onClick={() => handleReadLater(completionDate!)}
+            onClick={() => {
+              handleReadLater(completionDate!);
+              router.push(route);
+            }}
           >
             Bookmark
           </Button>

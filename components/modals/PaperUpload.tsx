@@ -179,7 +179,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleReadLater = async (completionDate: Date) => {
+  const handleReadLater = async (deadline: Date) => {
     if (pdf && user?.id) {
       // Upload the document and retrieve the filepath
       uploadDocumentFile(
@@ -188,24 +188,26 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
           onSuccess: (data) => {
             const { filepath } = data;
             // Create the document
-            handleCreateDocument({
-              title: pdf.name,
-              filepath,
-              user_id: user.id,
-              folder_id: selectedFolderId,
-              deadline: completionDate,
-            }, true);
+            handleCreateDocument(
+              {
+                title: pdf.name,
+                filepath,
+                user_id: user.id,
+                folder_id: selectedFolderId,
+                deadline: deadline,
+              },
+              false
+            );
           },
-          onError: (error: any) => {
+          onError: (error) => {
             // TODO: handle error (show notification, etc.)
-            if (error.response?.data?.error?.statusCode === '409') {
-              alert('A document with the same name already exists in this folder. Please rename or choose a different document.');
-            }
+            console.error("Error uploading document:", error);
           },
         }
       );
     }
   };
+
 
   const [isReadLaterModalOpen, setReadLaterModalOpen] = useState(false);
   const handleOpenReadLaterModal = () => {
@@ -267,6 +269,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
                 </ModalBody>
                 <ModalFooter>
                   <CustomButton
+                    isLoading={uploadingDocumentFile || creatingDocument}
                     width="20%"
                     mr={3}
                     isDisabled={uploadingDocumentFile || creatingDocument}

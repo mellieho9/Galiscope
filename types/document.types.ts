@@ -26,6 +26,7 @@ export type UpdateDocumentParams = {
   folder_id?: string;
   status?: string;
   filepath?: string;
+  document?: Date;
 };
 
 export type UpdateDocumentByIdParams = {
