@@ -1,4 +1,3 @@
-import flowChart from '../../public/diagrams/flow chart.svg';
 import activityDiagram from '../../public/diagrams/activity diagram.svg';
 import mindMap from '../../public/diagrams/mind map.svg';
 import sequenceDiagram from '../../public/diagrams/sequence diagram.svg';
