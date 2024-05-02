@@ -18,8 +18,13 @@ export const sendQuestion = async ({
     history: history,
   });
 
-  const result = await chat.sendMessage(input);
-  const response = result?.response?.text();
+  const result = await chat.sendMessageStream(input);
+  let response = '';
+  for await (const chunk of result.stream) {
+    const chunkText = chunk.text();
+    console.log(chunkText);
+    response += chunkText;
+  }
 
   return response;
 };

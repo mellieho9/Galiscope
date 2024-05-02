@@ -63,7 +63,6 @@ export const Chatbot: React.FC<ChatbotProps> = ({
           {/* messages  */}
           <div className="flex flex-col overflow-auto space-y-2">
             {chatHistory.history.slice(2).map((message, index) => {
-              console.log('message', message);
               return (
                 <Message
                   key={index}

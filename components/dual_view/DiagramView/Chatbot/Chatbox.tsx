@@ -59,6 +59,20 @@ export const Chatbox = ({ setMessagePending, chatHistory, refetch }: ChatboxProp
           history: [...history, geminiResponse],
         });
       },
+      onError: async (error) => {
+        const errorMessage: Content = {
+          role: 'model',
+          parts: [
+            {
+              text: 'Sorry, I am not able to process your request. Please try again.',
+            },
+          ],
+        };
+
+        await updateChatHistory({
+          history: [...history, errorMessage],
+        });
+      },
     });
     setMessage('');
   };
