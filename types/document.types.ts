@@ -10,6 +10,7 @@ export type Document = {
   is_deleted: boolean;
   created_at: Date;
   updated_at: Date;
+  deadline: Date;
 };
 
 export type DocumentWithFolder = Document & {
@@ -21,6 +22,7 @@ export type CreateDocumentParams = {
   user_id: string;
   folder_id?: string;
   filepath: string;
+  deadline?: Date;
 };
 
 export type UpdateDocumentParams = {

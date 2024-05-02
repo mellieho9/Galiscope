@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -6,23 +7,28 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Box,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
 
 interface ReadLaterModalProps {
   isOpen: boolean;
   onClose: () => void;
+  handleReadLater: (completionDate: Date) => Promise<void>; 
 }
 
 export const ReadLaterModal: React.FC<ReadLaterModalProps> = ({
   isOpen,
+  handleReadLater,
   onClose,
 }) => {
-  const [completionDate, setCompletionDate] = useState("");
+  const [completionDate, setCompletionDate] = useState<Date | null>(null);
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value) {
+      setCompletionDate(new Date(e.target.value)); 
+    } else {
+      setCompletionDate(null); 
+    }
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -39,8 +45,10 @@ export const ReadLaterModal: React.FC<ReadLaterModalProps> = ({
             <input
               type="date"
               placeholder="Select date"
-              value={completionDate}
-              onChange={(e) => setCompletionDate(e.target.value)}
+              value={
+                completionDate ? completionDate.toISOString().split("T")[0] : ""
+              }
+              onChange={handleDateChange}
               className="w-full focus:outline-none"
             />
           </div>
@@ -50,12 +58,12 @@ export const ReadLaterModal: React.FC<ReadLaterModalProps> = ({
             bgColor="teal"
             color="white"
             mr={3}
-            onClick={() => console.log("Bookmarking for", completionDate)}
+            onClick={() => handleReadLater(completionDate!)}
           >
             Bookmark
           </Button>
           <Button variant="outline" color="gray.700" onClick={onClose}>
-            Skip
+            Back to upload
           </Button>
         </ModalFooter>
       </ModalContent>

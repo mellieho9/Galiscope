@@ -10,7 +10,7 @@ export default function Index() {
     {
       title: "Upload & Illuminate",
       description:
-        "Easily upload any research paper and highlight sections that matter to you. InsightMapper does the rest, transforming dense text into clear, understandable diagrams.",
+        "Easily upload any research paper and highlight sections that matter to you. Galiscope does the rest, transforming dense text into clear, understandable diagrams.",
     },
     {
       title: "Key Terms, Unlocked",
@@ -23,7 +23,7 @@ export default function Index() {
     {
       title: "Stay on Track",
       description:
-        "Never lose sight of unread papers. Our smart notifications gently nudge you towards your next discovery.",
+        "Never lose sight of unread papers. Our user interface gently nudges you towards your next discovery.",
     },
     {
       title: "Designed for Focus",

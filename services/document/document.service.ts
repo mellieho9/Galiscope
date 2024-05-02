@@ -45,6 +45,7 @@ const createDocument = async ({
   return response?.data?.[0];
 };
 
+
 const updateDocument = async (documentData: any) => {
   const { data } = await documentService.update({ id: documentData.id }, documentData);
 
