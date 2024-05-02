@@ -18,11 +18,14 @@ module.exports = {
         "sunshine":'#FFE1A8',
         "baby-lime": "#F7FFF5",
         "lime": "#DAFBD2",
-        
+
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
       },
+      spacing: {
+        '9/10': '90%',
+      }
     },
   },
   plugins: [],

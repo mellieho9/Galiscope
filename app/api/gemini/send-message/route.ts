@@ -1,4 +1,3 @@
-import chatHistoryService from '@/services/chat-history/chat-history.service';
 import { sendGeminiMessage } from '@/services/gemini/gemini.service';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -8,16 +7,15 @@ export async function POST(request: NextRequest) {
 
   const geminiResponse = await sendGeminiMessage({ input, history });
 
-  if (!geminiResponse) {
+  if (!geminiResponse || typeof geminiResponse !== 'string') {
     return NextResponse.json(
       { error: 'Failed to fetch Gemini response' },
       { status: 400 }
     );
   }
-  await chatHistoryService.updateChatHistory(history);
 
   return NextResponse.json(
-    { geminiResponse: geminiResponse, history: history },
+    { geminiResponse: geminiResponse },
     { status: 201 }
   );
 }

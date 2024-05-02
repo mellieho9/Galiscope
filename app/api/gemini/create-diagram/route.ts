@@ -9,19 +9,28 @@ export async function POST(request: NextRequest) {
   let input = `Type: ${diagramType}. Text: ${text}`;
   let history: Content[] = diagram_history;
   let generateTime = 0;
-  
-  let { textImgArr, length, diagram } = await generateDiagramHelper({ input, history})
 
-  while (length >= 2 && textImgArr[length - 2].trim() == 'Syntax Error?' && generateTime < 3) {
-    input = `Syntax error at ${textImgArr[length - 3]}`;    
-    // console.log(textImgArr, input);
-    ({ textImgArr, length, diagram } = await generateDiagramHelper({ input, history }));
+  let { textImg, updatedHistory, umlCode, diagram } = await generateDiagramHelper({ input, history})
+
+  while (textImg.includes('Syntax Error?') && generateTime < 3) {
+    input = `The previous diagram was not generated successfully. Here is the error message: ${textImg}.\n
+    Please try again by checking the UML code at the line that it fails, revising the syntax rule for the
+    particular diagram type, and regenerate new UML code. Return only the fixed UML code.`;
+    console.log(textImg);
+    ({ textImg, updatedHistory, umlCode, diagram } = await generateDiagramHelper({ input, history: updatedHistory }));
     generateTime += 1;
   }
 
-  return new NextResponse(diagram.data, {
+  if (diagram === null) {
+    return NextResponse.json({ error: 'Failed to generate diagram.' }, { status: 400 });
+  }
+
+  const imageBase64 = `data:image/png;base64,${Buffer.from(diagram.data).toString('base64')}`;
+
+  return new NextResponse(JSON.stringify({ image: imageBase64, umlCode }), {
+    status: 200,
     headers: {
-      'Content-Type': 'image/png',
+      'Content-Type': 'application/json',
     },
   });
 }
