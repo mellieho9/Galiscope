@@ -6,8 +6,10 @@ import { useGetDocumentsByUserId } from "@/hooks/document.hooks";
 import { Heading } from "@chakra-ui/react";
 import { ArrowRightIcon } from "@heroicons/react/24/solid";
 import { useMemo } from "react";
+import { useRouter } from 'next/navigation';
 
 export function RecentlyRead() {
+  const router = useRouter();
   const { data: user } = useCurrentUser() ?? {};
 
   const { data: documents = [] } = useGetDocumentsByUserId(user?.id ?? "");
@@ -34,13 +36,14 @@ export function RecentlyRead() {
         </a>
       </div>
       <div className="flex flex-wrap gap-2">
-        {recentlyRead.map((doc, index) => {
+        {recentlyRead.map((doc) => {
           return (
             <ReadingCard
               key={doc.id}
               paperTitle={doc.title}
               folderId={doc.folder_id ?? ""}
               lastUpdatedTime={doc.updated_at}
+              onClick={() => router.push(`/associatePage/${doc.id}`)}
             />
           );
         })}

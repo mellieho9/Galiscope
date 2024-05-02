@@ -25,7 +25,7 @@ export const CardGrid = () => {
             paperTitle={doc.title}
             folderId={doc.folder_id ?? ""}
             lastUpdatedTime={doc.updated_at}
-            onClick={() => router.push(`/app/associatePage/${doc.id}`)}
+            onClick={() => router.push(`/associatePage/${doc.id}`)}
           />
         );
       })}
