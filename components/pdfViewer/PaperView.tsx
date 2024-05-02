@@ -62,28 +62,6 @@ const PaperView = ({ documentId }: { documentId: string }) => {
     []
   );
 
-  // const handleClick = () => {
-  //   if (!selected) {
-  //     setSelected(selection);
-  //     const pdfViewerContainer = document.getElementById(
-  //       'pdf-viewer-container'
-  //     );
-  //     if (pdfViewerContainer && selection) {
-  //       pdfViewerContainer.scrollTo({
-  //         top:
-  //           pdfViewerContainer.scrollHeight *
-  //           ((selection.position.pageNumber - 1) / totalPageNumber +
-  //             selection.position.boundingRect.top /
-  //               totalPageNumber /
-  //               100),
-  //         behavior: 'smooth',
-  //       });
-  //     }
-  //   } else {
-  //     setSelected(undefined);
-  //   }
-  // };
-
   const handleScroll = () => {
     const container = containerRef.current;
     if (!container) return;
