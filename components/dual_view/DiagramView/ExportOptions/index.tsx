@@ -11,6 +11,8 @@ interface ExportOptionsProps {
 }
 
 export const ExportOptions = ({ imageUrl }: ExportOptionsProps) => {
+  // const [showExportOptions, setShowExportOptions] = useState(false);
+  // const toggleExportOptions = () => setShowExportOptions(!showExportOptions);
   const [exporting, setExporting] = useState<boolean>(false);
 
   const handleExport = async () => {
@@ -22,7 +24,8 @@ export const ExportOptions = ({ imageUrl }: ExportOptionsProps) => {
       const blob = await result.data;
       const url = URL.createObjectURL(blob);
 
-      const filename = imageUrl.split('/').pop()?.split('.')[0] ?? 'diagram.png';
+      const filename =
+        imageUrl.split('/').pop()?.split('.')[0] ?? 'diagram.png';
 
       download(filename, url);
       URL.revokeObjectURL(url);
@@ -42,6 +45,16 @@ export const ExportOptions = ({ imageUrl }: ExportOptionsProps) => {
         onClick={handleExport}
         selected={exporting}
       />
+      {/* {showExportOptions && (
+        <div className="flex text-sm  flex-col ">
+          <h1 className="text-teal font-medium">Export as...</h1>
+          <div className="flex flex-row space-x-1">
+            <ExportButton>SVG</ExportButton>
+            <ExportButton>PDF</ExportButton>
+            <ExportButton>UML</ExportButton>
+          </div>
+        </div>
+      )} */}
     </div>
   );
 };
