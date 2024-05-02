@@ -30,6 +30,7 @@ import { CreateDocumentParams } from "@/types/document.types";
 import { useRouter } from "next/navigation";
 import ReadLaterModal from "./ReadLaterModal";
 import api from '@/utils/axios/axios';
+import CustomButton from "../Button";
 
 interface PaperUploadProps {
   isOpen: boolean;
@@ -178,7 +179,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleReadLater = async () => {
+  const handleReadLater = async (completionDate: Date) => {
     if (pdf && user?.id) {
       // Upload the document and retrieve the filepath
       uploadDocumentFile(
@@ -192,12 +193,15 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
               filepath,
               user_id: user.id,
               folder_id: selectedFolderId,
-            }, false);
+              deadline: completionDate,
+            }, true);
           },
-          onError: (error) => {
+          onError: (error: any) => {
             // TODO: handle error (show notification, etc.)
-            console.error('Error uploading document:', error);
-          }
+            if (error.response?.data?.error?.statusCode === '409') {
+              alert('A document with the same name already exists in this folder. Please rename or choose a different document.');
+            }
+          },
         }
       );
     }
@@ -222,6 +226,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
             handleReadLater={handleReadLater}
             isOpen={isReadLaterModalOpen}
             onClose={handleCloseReadLaterModal}
+            selectedFolderId={selectedFolderId}
           />
         ) : (
           <Flex direction="column">
@@ -229,117 +234,117 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
               Upload the paper you want to read
             </ModalHeader>
 
-          {pdf ? (
-            <>
+            {pdf ? (
+              <>
+                <ModalBody pb={6}>
+                  <div className="flex flex-col gap-7">
+                    <div className="border mt-5 border-gray-500 rounded-lg p-2">
+                      <div className="flex flex-row items-center justify-between">
+                        <Input
+                          className="text-black"
+                          value={pdf.name}
+                          onChange={(e) => {
+                            const newName = e.target.value;
+                            setPdf(
+                              new File([pdf], newName, { type: pdf.type })
+                            );
+                          }}
+                        />
+                        <IconButton
+                          aria-label="Call Segun"
+                          size="xs"
+                          icon={<XMarkIcon className="text-gray-500 w-4 h-4" />}
+                          variant="ghost"
+                          onClick={() => setPdf(null)}
+                        />
+                      </div>
+                    </div>
+                    <DropdownMenu
+                      selectedFolderId={selectedFolderId}
+                      setSelectedFolderId={setSelectedFolderId}
+                    />
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <CustomButton
+                    width="20%"
+                    mr={3}
+                    isDisabled={uploadingDocumentFile || creatingDocument}
+                    onClick={handleReadNow}
+                  >
+                    Read now
+                  </CustomButton>
+                  <Button
+                    variant="outline"
+                    color="gray.500"
+                    borderRadius={"lg"}
+                    border="1px"
+                    onClick={handleOpenReadLaterModal}
+                    isDisabled={uploadingDocumentFile || creatingDocument}
+                  >
+                    Read later
+                  </Button>
+                </ModalFooter>
+              </>
+            ) : (
               <ModalBody pb={6}>
-                <div className="flex flex-col gap-7">
-                  <div className="border mt-5 border-gray-500 rounded-lg p-2">
-                    <div className="flex flex-row items-center justify-between">
-                      <Input
-                        className="text-black"
-                        value={pdf.name}
-                        onChange={(e) => {
-                          const newName = e.target.value;
-                          setPdf(new File([pdf], newName, { type: pdf.type }));
-                        }}
-                      />
-                      <IconButton
-                        aria-label="Call Segun"
-                        size="xs"
-                        icon={
-                          <XMarkIcon className="text-gray-500 w-4 h-4" />
-                        }
-                        variant="ghost"
-                        onClick={() => setPdf(null)}
+                <>
+                  <div
+                    className={`bg-gray-200 mt-2 flex justify-center rounded-lg border hover:bg-gray-200 ${
+                      dragging
+                        ? "bg-gray-200 border-2"
+                        : "border-dashed bg-gray-50"
+                    } px-6 py-10 cursor-pointer`}
+                    onClick={handlePanelClick}
+                    onDragEnter={handleDragIn}
+                    onDragLeave={handleDragOut}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                  >
+                    <div className="flex flex-col items-center">
+                      <CloudArrowUpIcon className="w-10 h-10 text-gray-600" />
+                      <p className="mt-4 text-sm leading-6 text-gray-600">
+                        Upload a file or drag and drop
+                      </p>
+                      <input
+                        ref={fileInputRef}
+                        id="file-upload"
+                        name="file-upload"
+                        type="file"
+                        className="sr-only"
+                        onChange={handleFileChange}
                       />
                     </div>
                   </div>
-                  <DropdownMenu
-                    selectedFolderId={selectedFolderId}
-                    setSelectedFolderId={setSelectedFolderId}
-                  />
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <CustomButton
-                  width="20%"
-                  mr={3}
-                  isDisabled={uploadingDocumentFile || creatingDocument}
-                  onClick={handleReadNow}
-                >
-                  Read now
-                </CustomButton>
-                <Button
-                  variant="outline"
-                  color="gray.500"
-                  borderRadius={'lg'}
-                  border="1px"
-                  onClick={handleReadLater}
-                  isDisabled={uploadingDocumentFile || creatingDocument}
-                >
-                  Read later
-                </Button>
-              </ModalFooter>
-            </>
-          ) : (
-            <ModalBody pb={6}>
-              <>
-                <div
-                  className={`bg-gray-200 mt-2 flex justify-center rounded-lg border hover:bg-gray-200 ${
-                    dragging
-                      ? 'bg-gray-200 border-2'
-                      : 'border-dashed bg-gray-50'
-                  } px-6 py-10 cursor-pointer`}
-                  onClick={handlePanelClick}
-                  onDragEnter={handleDragIn}
-                  onDragLeave={handleDragOut}
-                  onDragOver={handleDragOver}
-                  onDrop={handleDrop}
-                >
-                  <div className="flex flex-col items-center">
-                    <CloudArrowUpIcon className="w-10 h-10 text-gray-600" />
-                    <p className="mt-4 text-sm leading-6 text-gray-600">
-                      Upload a file or drag and drop
-                    </p>
-                    <input
-                      ref={fileInputRef}
-                      id="file-upload"
-                      name="file-upload"
-                      type="file"
-                      className="sr-only"
-                      onChange={handleFileChange}
-                    />
-                  </div>
-                </div>
-                <Box mt={4}>
-                  <p className="text-gray-500 uppercase font-semibold">or</p>
-                </Box>
+                  <Box mt={4}>
+                    <p className="text-gray-500 uppercase font-semibold">or</p>
+                  </Box>
 
-                <InputGroup size="md" mt={4}>
-                  <Input
-                    color="black"
-                    focusBorderColor="teal.500"
-                    pr="4.5rem"
-                    placeholder="Insert link from the web"
-                    onChange={handleChangeFromWebLinkInput}
-                  />
-                  <InputRightElement width="4.5rem">
-                    <IconButton
-                      variant="solid"
-                      aria-label="Upload link"
-                      h="1.75rem"
-                      disabled={isLoading}
-                      onClick={fetchPdfPaper}
-                      icon={
-                        <ArrowUpOnSquareIcon className="w-4 h-4" />
-                      }
+                  <InputGroup size="md" mt={4}>
+                    <Input
+                      color="black"
+                      focusBorderColor="teal.500"
+                      pr="4.5rem"
+                      placeholder="Insert link from the web"
+                      onChange={handleChangeFromWebLinkInput}
+                      onKeyDown={fetchPdfPaper}
                     />
-                  </InputRightElement>
-                </InputGroup>
-              </>
-            </ModalBody>
-          )}
-        </Flex>
+                    <InputRightElement width="4.5rem">
+                      <IconButton
+                        variant="solid"
+                        aria-label="Upload link"
+                        h="1.75rem"
+                        disabled={isLoading}
+                        onClick={fetchPdfPaper}
+                        icon={<ArrowUpOnSquareIcon className="w-4 h-4" />}
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                </>
+              </ModalBody>
+            )}
+          </Flex>
+        )}
       </ModalContent>
     </Modal>
   );

@@ -8,25 +8,33 @@ import {
   ModalFooter,
   Button,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 interface ReadLaterModalProps {
   isOpen: boolean;
   onClose: () => void;
-  handleReadLater: (completionDate: Date) => Promise<void>; 
+  handleReadLater: (completionDate: Date) => Promise<void>;
+  selectedFolderId: string;
 }
 
 export const ReadLaterModal: React.FC<ReadLaterModalProps> = ({
   isOpen,
   handleReadLater,
   onClose,
+  selectedFolderId,
 }) => {
   const [completionDate, setCompletionDate] = useState<Date | null>(null);
-
+  const route =
+    selectedFolderId == "" || selectedFolderId == undefined
+      ? "/dashboard"
+      : `/dashboard/${selectedFolderId}`;
+  const router = useRouter();
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value) {
-      setCompletionDate(new Date(e.target.value)); 
+      setCompletionDate(new Date(e.target.value));
+      router.push(route);
     } else {
-      setCompletionDate(null); 
+      setCompletionDate(null);
     }
   };
 
