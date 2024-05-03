@@ -111,7 +111,7 @@ export let recommend_diagrams_history: Content[] = [
     role: 'model',
     parts: [
       {
-        text: '["Flow Chart", "Mind Map", "State Diagram"]',
+        text: '["Mind Map", "State Diagram"]',
       },
     ],
   },
@@ -136,7 +136,7 @@ export let diagram_history: Content[] = [
     parts: [
       {
         text:
-          "Diagram Type: Sequence Diagram. Text: 2.1. CCTV application in education: a double-edged sword\n\nResearch on the application of CCTV to combat school violence dates back to the mid twentieth century. Since its introduction into the educational context, many schools, especially in the United States (US), have increased the use of surveillance systems such as cameras and metal detectors to reduce crime and violence. When CCTV surveillance was first adopted, its intention was to protect against intruders, but its usage has shifted to internal observation and monitoring. Currently, CCTV is a common method for controlling school crimes and violence. However, there's concern about increased classroom misconduct, prompting the need for evidence to address wrongdoings.\n\nCCTV adoption aids in storing evidence for fair misconduct evaluation, controlling behaviors, and increasing self-surveillance awareness. Additionally, it's believed to reduce labor costs and improve student supervision effectiveness. Despite these benefits, CCTV implementation poses a trade-off between security and privacy. Some scholars argue that it decreases safety perception within schools and infringes on privacy rights. Furthermore, there's a concern that it may shift focus from behavioral education to crime detection and punishment, potentially increasing crime in certain contexts.\n\nThis raises questions about whether CCTV should be installed and how it should be managed in the education sector.",
+          "Type: Sequence Diagram. Text: 2.1. CCTV application in education: a double-edged sword\n\nResearch on the application of CCTV to combat school violence dates back to the mid twentieth century. Since its introduction into the educational context, many schools, especially in the United States (US), have increased the use of surveillance systems such as cameras and metal detectors to reduce crime and violence. When CCTV surveillance was first adopted, its intention was to protect against intruders, but its usage has shifted to internal observation and monitoring. Currently, CCTV is a common method for controlling school crimes and violence. However, there's concern about increased classroom misconduct, prompting the need for evidence to address wrongdoings.\n\nCCTV adoption aids in storing evidence for fair misconduct evaluation, controlling behaviors, and increasing self-surveillance awareness. Additionally, it's believed to reduce labor costs and improve student supervision effectiveness. Despite these benefits, CCTV implementation poses a trade-off between security and privacy. Some scholars argue that it decreases safety perception within schools and infringes on privacy rights. Furthermore, there's a concern that it may shift focus from behavioral education to crime detection and punishment, potentially increasing crime in certain contexts.\n\nThis raises questions about whether CCTV should be installed and how it should be managed in the education sector.",
       },
     ],
   },
@@ -182,6 +182,32 @@ export let diagram_history: Content[] = [
           '== Low-to-Middle-Income Countries ==\n' +
           'Han_et_al. -> Students: 36% of students experience physical fighting\n' +
           'Han_et_al. -> Students: 43% of physical fighting results in serious injuries\n' +
+          '@enduml',
+      },
+    ],
+  },
+  {
+    role: 'user',
+    parts: [
+      {
+        text:
+          'Type: State Diagram. Text: This paper provides the first systematic analysis of the effects of COVID-19 on higher education. To study these effects, we surveyed 1,500 students at Arizona State University, and present quantitative evidence showing the negative effects of the pandemic on students’ outcomes and expectations. For example, we find that 13% of students have delayed graduation due to COVID-19. Expanding upon these results, we show that the effects of the pandemic are highly heterogeneous, with lower-income students 55% more likely to delay graduation compared to their higher-income counterparts. We further show that the negative economic and health impacts of COVID-19 have been significantly more pronounced for less advantaged groups, and that these are partially responsible for the underlying heterogeneity in the impacts that we document. Our results suggest that by focusing on addressing the economic and health burden imposed by COVID-19, as measured by a relatively narrow set of mitigating factors, policy makers may be able to prevent COVID-19 from widening existing achievement gaps in higher education',
+      },
+    ],
+  },
+  {
+    role: 'model',
+    parts: [
+      {
+        text:
+          '@startuml\n' +
+          '[*] --> Surveyed1500Students\n' +
+          'Surveyed1500Students --> FoundNegativeEffectsOnStudents\n' +
+          'FoundNegativeEffectsOnStudents --> ThirteenPercentDelayedGraduation\n' +
+          'ThirteenPercentDelayedGraduation --> LowerIncomeStudentsFiftyFivePercentMoreLikelyToDelayGraduation\n' +
+          'LowerIncomeStudentsFiftyFivePercentMoreLikelyToDelayGraduation --> NegativeEconomicAndHealthImpactsMorePronounced\n' +
+          'NegativeEconomicAndHealthImpactsMorePronounced --> PartiallyResponsibleForHeterogeneityInImpacts\n' +
+          'PartiallyResponsibleForHeterogeneityInImpacts --> PolicyMakersMayPreventWideningAchievementGaps\n' +
           '@enduml',
       },
     ],

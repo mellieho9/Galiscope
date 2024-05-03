@@ -15,8 +15,6 @@ export const generateDiagramHelper = async ({
 
   const { umlCode, history: updatedHistory } = response;
 
-  console.log('UML Code:', umlCode);
-
   const diagram = await axios.post(
     process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || '',
     { input: umlCode },

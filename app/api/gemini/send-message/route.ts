@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   const { input, history } = await request.json();
-  console.log(input, history);
 
   const geminiResponse = await sendGeminiMessage({ input, history });
 
