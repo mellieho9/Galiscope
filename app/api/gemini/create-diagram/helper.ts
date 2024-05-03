@@ -15,11 +15,15 @@ export const generateDiagramHelper = async ({
 
   const { umlCode, history: updatedHistory } = response;
 
+  console.log('GOT UML CODE: ', umlCode);
+  console.log('CREATING IMAGE: ');
   const diagram = await axios.post(
     process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || '',
     { input: umlCode },
     { responseType: 'arraybuffer' }
   );
+
+  console.log('DIAGRAM CREATED: ', diagram);
 
   const textImg = await getTextFromImage(diagram.data);
 
