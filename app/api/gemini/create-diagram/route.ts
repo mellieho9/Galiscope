@@ -10,7 +10,9 @@ export async function POST(request: NextRequest) {
   let history: Content[] = diagram_history;
   let generateTime = 0;
 
+  console.log("==========Generating diagram=========");
   let { textImg, updatedHistory, umlCode, diagram } = await generateDiagramHelper({ input, history})
+  console.log("==========Diagram generated=========\n", textImg, umlCode);
 
   while (textImg.includes('Syntax Error?') && generateTime < 3) {
     input = `The previous diagram was not generated successfully. Here is the error message: ${textImg}.\n
