@@ -52,7 +52,7 @@ export const download = (filename: string, content: string) => {
 
 export const diagramDictionary: Record<string, any> = {
   // 'Class Diagram': classDiagram.src,
-  'Acitivity Diagram': activityDiagram.src,
+  'Activity Diagram': activityDiagram.src,
   // 'Flow Chart': flowChart.src,
   'Mind Map': mindMap.src,
   'Sequence Diagram': sequenceDiagram.src,
