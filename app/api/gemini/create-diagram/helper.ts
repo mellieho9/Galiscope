@@ -17,15 +17,21 @@ export const generateDiagramHelper = async ({
 
   console.log('GOT UML CODE: ', umlCode);
   console.log('CREATING IMAGE: ');
-  const diagram = await axios.post(
-    process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || '',
-    { input: umlCode },
-    { responseType: 'arraybuffer' }
-  );
 
-  console.log('DIAGRAM CREATED: ', diagram);
+  try {
+    const diagram = await axios.post(
+      process.env.NEXT_PUBLIC_PLANTUML_SERVER_URL || '',
+      { input: umlCode },
+      { responseType: 'arraybuffer' }
+    );
 
-  const textImg = await getTextFromImage(diagram.data);
+    console.log('DIAGRAM CREATED: ', diagram);
 
-  return { textImg, updatedHistory, umlCode, diagram };
+    const textImg = await getTextFromImage(diagram.data);
+
+    return { textImg, updatedHistory, umlCode, diagram };
+  } catch (error) {
+    console.error('ERROR CREATING DIAGRAM: ', error);
+    return { textImg: '', updatedHistory: history, diagram: null };
+  }
 };
