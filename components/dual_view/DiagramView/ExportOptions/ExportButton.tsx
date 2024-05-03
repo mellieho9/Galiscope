@@ -1,10 +1,11 @@
 type ExportButtonProps = {
   children: React.ReactNode;
+  onClick: () => void,
 };
 
-export const ExportButton: React.FC<ExportButtonProps> = ({ children }) => {
+export const ExportButton: React.FC<ExportButtonProps> = ({ children, ...props}) => {
   return (
-    <button className="text-gray-500 hover:text-teal rounded">
+    <button {...props} className="text-gray-500 hover:text-teal rounded">
       {children}
     </button>
   );

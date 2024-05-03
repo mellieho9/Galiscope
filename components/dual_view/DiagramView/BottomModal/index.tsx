@@ -39,7 +39,7 @@ export const BottomModal = ({
         onClick={() => handleItemClick('Chat')}
         selected={selectedItem === 'Chat'} // Pass selected prop
       />
-      <ExportOptions imageUrl={imageUrl} />
+      <ExportOptions umlCode={umlDiagram.uml_code} imageUrl={imageUrl} />
       <ModalItem
         title={'Save'}
         icon={<CheckCircleIcon />}

@@ -255,7 +255,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
                     <div className="border mt-5 border-gray-500 rounded-lg p-2">
                       <div className="flex flex-row items-center justify-between">
                         <Input
-                          className="text-black"
+                          className="text-gray-800"
                           value={pdf.name}
                           onChange={(e) => {
                             const newName = e.target.value;
@@ -263,6 +263,7 @@ const PaperUpload: React.FC<PaperUploadProps> = ({ isOpen, onClose }) => {
                               new File([pdf], newName, { type: pdf.type })
                             );
                           }}
+                          focusBorderColor="teal.500"
                         />
                         <IconButton
                           aria-label="Call Segun"

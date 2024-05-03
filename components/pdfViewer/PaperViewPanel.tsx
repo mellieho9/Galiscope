@@ -30,11 +30,13 @@ const PaperViewPanel = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [recommendedDiagrams, setRecommendedDiagrams] = useState<string[]>([]);
   const [summary, setSummary] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const { mutate: summarizeTest } = useSummarizeText();
   const { mutate: recommendDiagrams } = useRecommendDiagrams();
 
   const handleConfirm = async () => {
+    setIsLoading(true);
     if (!selection) {
       // TODO: Change this to use Chakra Toast
       alert("Please select a text first");
@@ -50,7 +52,7 @@ const PaperViewPanel = ({
         console.log("error", error);
       },
     });
-
+    setIsLoading(false);
     await recommendDiagrams({ text: selectionAsText.text }, {
       onSuccess: (data) => {
         setRecommendedDiagrams(data);
@@ -82,6 +84,7 @@ const PaperViewPanel = ({
             icon={<ArrowUturnLeftIcon />}
           />
           <ActionButton
+          isLoading={isLoading}
             isOutlined={true}
             onClick={handleConfirm}
             text={"Confirm"}

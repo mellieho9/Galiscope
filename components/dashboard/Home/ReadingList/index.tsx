@@ -44,6 +44,9 @@ export function ReadingList() {
               const incompleteReads = readingList.filter(
                 (doc) => doc.folder_id === folder.id
               );
+              if (incompleteReads.length == 0){
+                return;
+              }
               return (
                 <ReadingFolder
                   key={folder.id}
