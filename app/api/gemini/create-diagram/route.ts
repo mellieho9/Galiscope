@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     input = `The previous diagram was not generated successfully. Here is the error message: ${textImg}.\n
     Please try again by checking the UML code at the line that it fails, revising the syntax rule for the
     particular diagram type, and regenerate new UML code. Return only the fixed UML code.`;
-    console.log(textImg);
+    console.log('========Syntax Error==========', textImg);
     ({ textImg, updatedHistory, umlCode, diagram } = await generateDiagramHelper({ input, history: updatedHistory }));
     generateTime += 1;
   }
