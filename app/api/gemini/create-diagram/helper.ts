@@ -27,9 +27,9 @@ export const generateDiagramHelper = async ({
 
     console.log('DIAGRAM CREATED: ', diagram);
 
-    const textImg = await getTextFromImage(diagram.data);
+    // const textImg = await getTextFromImage(diagram.data);
 
-    return { textImg, updatedHistory, umlCode, diagram };
+    return { textImg: '', updatedHistory, umlCode, diagram };
   } catch (error) {
     console.error('ERROR CREATING DIAGRAM: ', error);
     return { textImg: '', updatedHistory: history, diagram: null };
