@@ -17,6 +17,7 @@
     "autoprefixer": "10.4.17",
     "axios": "^1.6.8",
     "canvas": "^2.11.2",
+    "date-fns": "^3.6.0",
     "delayed-stream": "^1.0.0",
     "framer-motion": "^11.0.25",
     "geist": "^1.2.1",

@@ -8,7 +8,11 @@ import {
 import { FilterDropdown } from "./FilterDropdown";
 import { useState } from "react";
 import { useGetFolderById } from "@/hooks/folder.hooks";
-import { useGetDocumentsByFolderId, useUpdateDocument, useUpdateDocumentById } from "@/hooks/document.hooks";
+import {
+  useGetDocumentsByFolderId,
+  useUpdateDocument,
+  useUpdateDocumentById,
+} from "@/hooks/document.hooks";
 import { format } from "timeago.js";
 import PaperUpload from "@/components/modals/PaperUpload";
 import { useRouter } from "next/navigation";
@@ -75,6 +79,7 @@ export function CardGrid({ folderId }: CardGridProps) {
                   key={doc.id}
                   folderId={folderId}
                   paperTitle={doc.title}
+                  deadline={doc.deadline}
                   onClick={async () => {
                     await updateDocumentById({
                       id: doc.id,

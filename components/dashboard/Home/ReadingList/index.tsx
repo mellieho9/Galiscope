@@ -44,11 +44,15 @@ export function ReadingList() {
               const incompleteReads = readingList.filter(
                 (doc) => doc.folder_id === folder.id
               );
+              if (incompleteReads.length == 0){
+                return;
+              }
               return (
                 <ReadingFolder
                   key={folder.id}
                   folder={folder.name}
                   incompleteReadList={incompleteReads}
+            
                 />
               );
             })
@@ -58,7 +62,7 @@ export function ReadingList() {
                 key={doc.id}
                 folderId={doc.folder_id}
                 paperTitle={doc.title}
-                paperUrl={doc.filepath}
+                paperDeadline={doc.deadline}
               />
             ))
           )}

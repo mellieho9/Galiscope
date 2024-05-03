@@ -169,11 +169,7 @@ const DiagramType = ({
         />
         <ModalContent maxW="50vw">
           <Flex direction="column">
-            <ModalHeader
-              textAlign="center"
-              color="teal"
-              fontSize="xl"
-            >
+            <ModalHeader textAlign="center" color="teal" fontSize="xl">
               Select the diagram type for your selection
             </ModalHeader>
             <ModalBody pb={6}>
@@ -196,8 +192,8 @@ const DiagramType = ({
                     className="w-full text-gray-500"
                     value={selectedType}
                     placeholder="I want to use a different type of diagram"
-                    _placeholder={{ textAlign: 'center' }}
-                    borderRadius={'lg'}
+                    _placeholder={{ textAlign: "center" }}
+                    borderRadius={"lg"}
                     onChange={(e) => setSelectedType(e.target.value)}
                   />
                   <Input
@@ -205,8 +201,8 @@ const DiagramType = ({
                     className="w-full text-gray-500 mt-2"
                     value={name}
                     placeholder="Enter name of the diagram"
-                    _placeholder={{ textAlign: 'center' }}
-                    borderRadius={'lg'}
+                    _placeholder={{ textAlign: "center" }}
+                    borderRadius={"lg"}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </Box>
@@ -216,6 +212,12 @@ const DiagramType = ({
                     className="w-full"
                     colorScheme="teal"
                     size="lg"
+                    isLoading={
+                      generatingDiagram ||
+                      uploadingImage ||
+                      creatingChatHistory ||
+                      creatingUmlDiagram
+                    }
                     isDisabled={
                       generatingDiagram ||
                       uploadingImage ||

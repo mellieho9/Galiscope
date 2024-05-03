@@ -5,7 +5,7 @@ import { FolderMenu } from "./FolderMenu";
 
 export function Sidebar() {
   return (
-    <div className="h-screen w-1/4 border border-gray-200 text-gray-800 font-medium flex flex-col">
+    <div className="min-h-screen w-1/4 border border-gray-200 text-gray-800 font-medium flex flex-col">
       <UserProfile />
       <div className="flex flex-col p-4 space-y-1">
         <SidebarItem

@@ -26,14 +26,17 @@ export const DiagramTypeCard: React.FC<CustomCardProps> = ({
           transition: "all 0.2s ease-in-out",
         }}
         onClick={() => {
-          selectedType !== content ? setSelectedType(content) : setSelectedType("");
+          selectedType !== content
+            ? setSelectedType(content)
+            : setSelectedType("");
         }}
       >
         <CardBody pt={0} pl={0} pr={0} pb={4}>
           <Image
-            width="100%"
-            height="100%"
-            objectFit="cover"
+            width="200px"
+            height="200px"
+            objectFit="contain"
+            padding={2}
             src={imageLink}
             alt="Diagram Type"
           />
@@ -41,12 +44,6 @@ export const DiagramTypeCard: React.FC<CustomCardProps> = ({
             <Text color="gray.500">{content}</Text>
           </Box>
         </CardBody>
-        {selectedType === content && (
-          <CheckCircleIcon
-            color="teal"
-            className="absolute size-1/5	 top-0 right-0"
-          />
-        )}
       </Card>
     </>
   );
